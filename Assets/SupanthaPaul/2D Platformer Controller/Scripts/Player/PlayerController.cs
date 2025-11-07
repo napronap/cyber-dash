@@ -113,12 +113,20 @@ namespace SupanthaPaul
                     float horizontal = 0f;
                     float vertical = 0f;
 
-                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) vertical = 1f;
-                    else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) vertical = -1f;
+                    // Yatay giriş kontrolü
+                    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                        horizontal = 1f;
+                    else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                        horizontal = -1f;
 
-                    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) horizontal = 1f;
-                    else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) horizontal = -1f;
+                    // Dikey giriş kontrolü - W/AŞAĞI ok tuşları eklendi
+                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                        vertical = 1f;
+                    else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                        vertical = -1f;
 
+                    // Çapraz hareketler için her iki eksen de kontrol ediliyor
+                    // Eğer hiçbir yön tuşuna basılmazsa, karakterin baktığı yönde dash yapar
                     if (horizontal == 0 && vertical == 0)
                         horizontal = m_facingRight ? 1 : -1;
 
