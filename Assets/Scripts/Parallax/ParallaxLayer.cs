@@ -3,54 +3,54 @@ using UnityEngine.UIElements;
 
 public class ParallaxLayer : MonoBehaviour
 {
-    public float speed = 1f;
+    public float speed = 2f;   // velocidad del scroll
     public bool isActive = true;
-    public float resetPositionX = -20f;
-    public float startPositionX = 20f;
 
-    private float[] lengths;
-
-    private Transform[] sprites;
+    private Transform leftTile;
+    private Transform rightTile;
+    private float width;
 
     void Start()
     {
-        sprites = GetComponentsInChildren<Transform>();
-        var tiles = new Transform[transform.childCount];
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            tiles[i] = transform.GetChild(i);
-        }
+        // asume 2 hijos exactos
+        leftTile = transform.GetChild(0);
+        rightTile = transform.GetChild(1);
 
-        var width = tiles[0].GetComponent<SpriteRenderer>().bounds.size.x;
+        width = leftTile.GetComponent<SpriteRenderer>().bounds.size.x;
 
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            Vector3 prevPos = tiles[i - 1].position;
-            tiles[i].position = new Vector3(prevPos.x + width, prevPos.y, prevPos.z);
-        }
-
-        // for (int i = 0; i < sprites.Length; i++)
-        // {
-        //     lengths[i] = sprites[i].GetComponent<SpriteRenderer>().bounds.size.x;
-
-        // }
+        // acomodar al inicio
+        leftTile.localPosition = Vector3.zero;
+        rightTile.localPosition = new Vector3(width, 0, 0);
     }
 
     void Update()
     {
         if (!isActive) return;
 
-        foreach (var sprite in sprites)
+        float move = speed * Time.deltaTime;
+
+        leftTile.position += Vector3.left * move;
+        rightTile.position += Vector3.left * move;
+
+        // si left salió por completo a la izquierda → mandarlo a la derecha
+        if (leftTile.position.x <= -width)
         {
-            if (sprite == transform) continue;
+            leftTile.position = new Vector3(rightTile.position.x + width, leftTile.position.y, leftTile.position.z);
+            SwapTiles();
+        }
 
-            sprite.position += speed * Time.deltaTime * Vector3.left;
+        // si right salió por completo → mandarlo a la derecha de left
+        if (rightTile.position.x <= -width)
+        {
+            rightTile.position = new Vector3(leftTile.position.x + width, rightTile.position.y, rightTile.position.z);
+            SwapTiles();
+        }
+    }
 
-            if (sprite.position.x <= resetPositionX)
-            {
-                float width = sprite.GetComponent<SpriteRenderer>().bounds.size.x;
-                sprite.position = new Vector3(startPositionX + width, sprite.position.y, sprite.position.z);
-            }
-        }        
+    void SwapTiles()
+    {
+        var temp = leftTile;
+        leftTile = rightTile;
+        rightTile = temp;
     }
 }
