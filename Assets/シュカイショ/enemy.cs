@@ -1,48 +1,49 @@
 using UnityEngine;
 
 /// <summary>
-/// 2D —p‚Ìƒ‚ƒWƒ…[ƒ‹‰»‚³‚ê‚½“GƒRƒ“ƒ|[ƒlƒ“ƒg
-/// - Rigidbody2D ‚Æ Collider2D ‚ğ•K{‰»
-/// - ƒCƒ“ƒXƒyƒNƒ^‚Å’²®‰Â”\‚Èƒpƒ‰ƒ[ƒ^iHP / ˆÚ“® / ƒWƒƒƒ“ƒv / ”òs / ƒpƒgƒ[ƒ‹j
-/// - Move/Jump/TakeDamage/Heal “™‚ÌŒöŠJƒƒ\ƒbƒh‚ğ’ñ‹Ÿ
+/// 2D ï¿½pï¿½Ìƒï¿½ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Gï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
+/// - Rigidbody2D ï¿½ï¿½ Collider2D ï¿½ï¿½Kï¿½{ï¿½ï¿½
+/// - ï¿½Cï¿½ï¿½ï¿½Xï¿½yï¿½Nï¿½^ï¿½Å’ï¿½ï¿½ï¿½ï¿½Â”\ï¿½Èƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½iHP / ï¿½Ú“ï¿½ / ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½v / ï¿½ï¿½s / ï¿½pï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½j
+/// - Move/Jump/TakeDamage/Heal ï¿½ï¿½ï¿½ÌŒï¿½ï¿½Jï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 public class enemy : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField, Tooltip("Å‘åHP")]
+    [SerializeField, Tooltip("ï¿½Å‘ï¿½HP")]
     private int maxHealth = 10;
     public int CurrentHealth { get; private set; }
 
     [Header("Movement")]
-    [SerializeField, Tooltip("ˆÚ“®‘¬“x")]
+    [SerializeField, Tooltip("ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x")]
     private float moveSpeed = 2f;
 
-    [SerializeField, Tooltip("ƒWƒƒƒ“ƒv—ÍiƒCƒ“ƒpƒ‹ƒXj")]
+    [SerializeField, Tooltip("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Íiï¿½Cï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Xï¿½j")]
     private float jumpForce = 5f;
 
-    [SerializeField, Tooltip("”òs‰Â”\‚©itrue ‚Ì‚Æ‚«d—Í‚ğ–³Œø‰»j")]
+    [Header("AI / Patrol")]
+    [SerializeField, Tooltip("é£›è¡Œå¯èƒ½ï¼ˆtrue ã§é‡åŠ›ã‚’ç„¡åŠ¹åŒ–ï¼‰")]
     private bool canFly = false;
 
     [Header("AI / Patrol")]
-    [SerializeField, Tooltip("©“®ƒpƒgƒ[ƒ‹‚ğs‚¤‚©")]
+    [SerializeField, Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½")]
     private bool patrol = true;
 
-    [SerializeField, Tooltip("ƒpƒgƒ[ƒ‹‚Ì‰•œ‹——£i‰¡•ûŒüj")]
+    [SerializeField, Tooltip("ï¿½pï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j")]
     private float patrolDistance = 3f;
 
     [Header("Ground Check")]
-    [SerializeField, Tooltip("’n–Ê”»’è‚Ég‚¤ Transformi–¢İ’è‚ÍƒIƒuƒWƒFƒNƒg’†S‚©‚ç‰º‚Éƒ`ƒFƒbƒNj")]
+    [SerializeField, Tooltip("ï¿½nï¿½Ê”ï¿½ï¿½ï¿½Égï¿½ï¿½ Transformï¿½iï¿½ï¿½ï¿½İ’èï¿½ÍƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ç‰ºï¿½Éƒ`ï¿½Fï¿½bï¿½Nï¿½j")]
     private Transform groundCheck;
 
-    [SerializeField, Tooltip("’n–Ê”»’è‚Ì”¼Œa"), Min(0.01f)]
+    [SerializeField, Tooltip("ï¿½nï¿½Ê”ï¿½ï¿½ï¿½Ì”ï¿½ï¿½a"), Min(0.01f)]
     private float groundCheckRadius = 0.1f;
 
-    [SerializeField, Tooltip("’n–ÊƒŒƒCƒ„[")]
+    [SerializeField, Tooltip("ï¿½nï¿½Êƒï¿½ï¿½Cï¿½ï¿½ï¿½[")]
     private LayerMask groundLayers = ~0;
 
-    // “à•”
+    // ï¿½ï¿½ï¿½ï¿½
     private Rigidbody2D rb;
     private Vector2 patrolOrigin;
     private int patrolDirection = 1;
@@ -71,13 +72,13 @@ public class enemy : MonoBehaviour
 
     #region Movement API
     /// <summary>
-    /// …•½ˆÚ“®Bdirection ‚Í -1..1 ‚ğ‘z’è
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½Bdirection ï¿½ï¿½ -1..1 ï¿½ï¿½zï¿½ï¿½
     /// </summary>
     public void Move(float direction)
     {
         float clamped = Mathf.Clamp(direction, -1f, 1f);
         rb.linearVelocity = new Vector2(clamped * moveSpeed, rb.linearVelocity.y);
-        // Œü‚«•ÏXi•K—v‚È‚çƒXƒvƒ‰ƒCƒg‚Ì”½“]‚È‚Ç‚ğ‚±‚±‚Ås‚¤j
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½iï¿½Kï¿½vï¿½È‚ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ì”ï¿½ï¿½]ï¿½È‚Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åsï¿½ï¿½ï¿½j
         if (clamped != 0f)
         {
             Vector3 scale = transform.localScale;
@@ -87,13 +88,13 @@ public class enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒWƒƒƒ“ƒvB”òs‰Â”\‚È‚ç‚’¼‘¬“x‚ğ’¼Úİ’è‚µ‚Äã¸‚³‚¹‚éi•K—v‚É‰‚¶‚Ä’²®j
+    /// ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Bï¿½ï¿½sï¿½Â”\ï¿½È‚ç‚ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ğ’¼Úİ’è‚µï¿½Äã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Kï¿½vï¿½É‰ï¿½ï¿½ï¿½ï¿½Ä’ï¿½ï¿½ï¿½ï¿½j
     /// </summary>
     public void Jump()
     {
         if (canFly)
         {
-            // ”òs‚Íã•ûŒü‚É‘¬“x‚ğ—^‚¦‚Ä‚‚³‚ğ’²®‚Å‚«‚é‚æ‚¤‚É‚·‚é
+            // ï¿½ï¿½sï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½xï¿½ï¿½^ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ğ’²ï¿½ï¿½Å‚ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             return;
         }
@@ -105,7 +106,7 @@ public class enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// ”òsƒ‚[ƒhØ‘Ö
+    /// ï¿½ï¿½sï¿½ï¿½ï¿½[ï¿½hï¿½Ø‘ï¿½
     /// </summary>
     public void SetCanFly(bool value)
     {
@@ -142,7 +143,7 @@ public class enemy : MonoBehaviour
 
     private void Die()
     {
-        // ƒVƒ“ƒvƒ‹‚É”jŠüBƒv[ƒ‹‚âƒGƒtƒFƒNƒg‚ª‚ ‚ê‚Î‚±‚±‚ğ·‚µ‘Ö‚¦‚Ä‚­‚¾‚³‚¢B
+        // ï¿½Vï¿½ï¿½ï¿½vï¿½ï¿½ï¿½É”jï¿½ï¿½ï¿½Bï¿½vï¿½[ï¿½ï¿½ï¿½ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
         Destroy(gameObject);
     }
     #endregion

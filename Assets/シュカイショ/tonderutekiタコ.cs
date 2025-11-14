@@ -12,6 +12,10 @@ public class tonderutekiタコ : enemy
     [SerializeField, Tooltip("プレイヤーのレイヤー（0 の場合は無視）")]
     private LayerMask playerLayers = 0;
 
+    // 新增：初始移动方向（-1 = 向左, +1 = 向右）
+    [SerializeField, Tooltip("初始移动方向（-1=左, +1=右）")]
+    private float initialDirection = -1f;
+
     void Start()
     {
         SetMoveSpeed(speed);
@@ -20,8 +24,8 @@ public class tonderutekiタコ : enemy
     // 物理は FixedUpdate で更新
     void FixedUpdate()
     {
-        // 右から左へ等速移動
-        Move(-1f);
+        // 使用初始方向（可由 Spawner 设置）
+        Move(Mathf.Clamp(initialDirection, -1f, 1f));
     }
 
     void Update()
@@ -60,5 +64,11 @@ public class tonderutekiタコ : enemy
         if (!string.IsNullOrEmpty(playerTag) && col.CompareTag(playerTag)) return true;
         if (playerLayers != 0 && ((1 << col.gameObject.layer) & playerLayers) != 0) return true;
         return false;
+    }
+
+    // 公開方法：Spawner 可以調整初始方向
+    public void SetInitialDirection(float dir)
+    {
+        initialDirection = Mathf.Clamp(dir, -1f, 1f);
     }
 }
