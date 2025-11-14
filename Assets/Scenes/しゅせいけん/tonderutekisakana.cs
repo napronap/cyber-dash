@@ -4,49 +4,106 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class toutekisakana : enemy
 {
-    //[Header("ˆÚ“®")]
-    //[SerializeField, Tooltip("‰E‚©‚ç¶‚Ö‚ÌˆÚ“®‘¬“x")]
-    //private float moveSpeed = 3f;
+    [Header("ä¸Šä¸‹ç§»å‹•")]
+    [SerializeField, Tooltip("ä¸Šä¸‹ç§»å‹•ã®é€Ÿåº¦ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰å˜ä½/ç§’ï¼‰")]
+    private float verticalSpeed = 2f;
+
+    [SerializeField, Tooltip("ç”»é¢ç«¯ã‹ã‚‰ã®ä½™ç™½ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰å˜ä½ï¼‰")]
+    private float verticalPadding = 0.1f;
+
+    [SerializeField, Tooltip("é–‹å§‹æ–¹å‘: true=ä¸Š, false=ä¸‹")]
+    private bool startUp = false;
+
+    [SerializeField, Tooltip("é–‹å§‹æ–¹å‘ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«ã™ã‚‹")]
+    private bool randomStartDirection = false;
 
     private Rigidbody2D rb;
+    private float topY;
+    private float bottomY;
+    private float halfHeight = 0.5f;
+    private int verticalDirection = 1;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError($"{nameof(toutekisakana)} requires Rigidbody2D.");
+            enabled = false;
+            return;
+        }
+
+        // æ¨ªç§»å‹•ã®å½±éŸ¿ã‚’åˆ‡ã‚‹ï¼ˆèƒŒæ™¯ã§æ¨ªæ–¹å‘ã®è¦‹ãŸç›®ç§»å‹•ã‚’ã™ã‚‹æƒ³å®šï¼‰
+        rb.gravityScale = 0f;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        var rend = GetComponentInChildren<Renderer>();
+        if (rend != null) halfHeight = rend.bounds.extents.y;
+
+        verticalDirection = randomStartDirection ? (Random.value > 0.5f ? 1 : -1) : (startUp ? 1 : -1);
+    }
+
+    void Start()
+    {
+        UpdateScreenBounds();
+        // åˆæœŸä½ç½®ã‚’ç”»é¢å†…ã«ã‚¯ãƒ©ãƒ³ãƒ—
+        float y = Mathf.Clamp(transform.position.y, bottomY, topY);
+        transform.position = new Vector3(transform.position.x, y, transform.position.z);
+        if (transform.position.y >= topY) verticalDirection = -1;
+        if (transform.position.y <= bottomY) verticalDirection = 1;
     }
 
     void FixedUpdate()
     {
-        // –ˆ•¨—ƒtƒŒ[ƒ€A¶•ûŒü‚ÖˆÚ“®iRigidbody2D ‚ğg‚¤j
-        rb.linearVelocity  = Vector2.left * moveSpeed;
-    }
+        UpdateScreenBounds();
 
-    // ‰æ–ÊŠOiƒŒƒ“ƒ_ƒ‰[‚ªŒ©‚¦‚È‚­‚È‚Á‚½j‚Å©“®”jŠü
-    void OnBecameInvisible()
-    {
-        Destroy(gameObject);
-    }
+        // æ°´å¹³æ–¹å‘ã‚’ã‚¼ãƒ­ã«å›ºå®šã—ã€å‚ç›´é€Ÿåº¦ã®ã¿ä¸ãˆã‚‹
+        rb.linearVelocity = new Vector2(0f, verticalDirection * Mathf.Abs(verticalSpeed));
 
-    // ƒvƒŒƒCƒ„[‚É‚Ô‚Â‚©‚Á‚½‚çÁ‚¦‚éiCollider ‚ª trigger ‚Ìê‡j
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+        // å¢ƒç•Œåˆ°é”æ™‚ã«ä½ç½®è£œæ­£ã—ã¦åè»¢
+        if (transform.position.y <= bottomY)
         {
-            Destroy(gameObject);
+            transform.position = new Vector3(transform.position.x, bottomY, transform.position.z);
+            verticalDirection = 1;
         }
-
-        if (other.CompareTag(""))
+        else if (transform.position.y >= topY)
         {
-            Destroy(gameObject);
+            transform.position = new Vector3(transform.position.x, topY, transform.position.z);
+            verticalDirection = -1;
         }
     }
 
-    // ƒvƒŒƒCƒ„[‚É‚Ô‚Â‚©‚Á‚½‚çÁ‚¦‚éi’Êí‚ÌÕ“Ë‚Ìê‡j
-    void OnCollisionEnter2D(Collision2D collision)
+    private void UpdateScreenBounds()
     {
-        if (collision.collider.CompareTag("Player"))
+        if (Camera.main == null) return;
+        float z = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+        Vector3 bottomWorld = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, z));
+        Vector3 topWorld = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, z));
+        bottomY = bottomWorld.y + halfHeight + verticalPadding;
+        topY = topWorld.y - halfHeight - verticalPadding;
+
+        // ä¸‡ä¸€é€†è»¢ã—ã¦ã„ãŸã‚‰å®‰å…¨å´ã«è£œæ­£
+        if (topY <= bottomY)
         {
-            Destroy(gameObject);
+            float mid = transform.position.y;
+            bottomY = mid - 0.1f;
+            topY = mid + 0.1f;
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // ã‚¨ãƒ‡ã‚£ã‚¿ã§ä¸Šä¸‹å¢ƒç•Œã‚’ç¢ºèªã—ã‚„ã™ãã™ã‚‹ï¼ˆå®Ÿè¡Œä¸­ä»¥å¤–ã§ã‚‚æç”»ï¼‰
+        var rend = GetComponentInChildren<Renderer>();
+        float hh = (rend != null) ? rend.bounds.extents.y : halfHeight;
+        if (Camera.main == null) return;
+        float z = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+        Vector3 bottomWorld = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, z));
+        Vector3 topWorld = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, z));
+        float b = bottomWorld.y + hh + verticalPadding;
+        float t = topWorld.y - hh - verticalPadding;
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(new Vector3(transform.position.x - 0.5f, b, transform.position.z), new Vector3(transform.position.x + 0.5f, b, transform.position.z));
+        Gizmos.DrawLine(new Vector3(transform.position.x - 0.5f, t, transform.position.z), new Vector3(transform.position.x + 0.5f, t, transform.position.z));
     }
 }
