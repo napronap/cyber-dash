@@ -4,12 +4,14 @@ namespace SupanthaPaul
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private float speed;
+        [Header("Movement")]
+        [SerializeField] private float speed = 8f;
+
         [Header("Jumping")]
-        [SerializeField] private float jumpForce;
-        [SerializeField] private float fallMultiplier;
+        [SerializeField] private float jumpForce = 10f;
+        [SerializeField] private float fallMultiplier = 2f;
         [SerializeField] private Transform groundCheck;
-        [SerializeField] private float groundCheckRadius;
+        [SerializeField] private float groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask whatIsGround;
         [SerializeField] private int extraJumpCount = 1;
         [SerializeField] private GameObject jumpEffect;
@@ -17,175 +19,196 @@ namespace SupanthaPaul
         [Header("Dashing")]
         [SerializeField] private float dashSpeed = 20f;
         [SerializeField] private float dashDuration = 0.15f;
-        [SerializeField] private float dashCooldown = 0.2f;
+        [SerializeField] private float dashCooldown = 0.25f;
+        [SerializeField] private float dashCollisionCheckDistance = 0.3f;
         [SerializeField] private GameObject dashEffect;
 
         [HideInInspector] public bool isGrounded;
-        [HideInInspector] public float moveInput;
-        [HideInInspector] public bool canMove = true;
-        [HideInInspector] public bool isDashing = false;
-        [HideInInspector] public bool isCurrentlyPlayable = false;
+        [HideInInspector] public bool isDashing;
 
-        private Rigidbody2D m_rb;
-        private ParticleSystem m_dustParticle;
-        private bool m_facingRight = true;
-        private readonly float m_groundedRememberTime = 0.25f;
-        private float m_groundedRemember = 0f;
-        private int m_extraJumps;
-        private float m_extraJumpForce;
-        private float m_dashTimer;
-        private bool m_hasDashedInAir = false;
-        private float m_dashCooldownTimer;
+        // ---- NEW INPUT SYSTEM ----
+        private PlayerInputActions input;
+        private Vector2 moveInput;
+        private bool jumpPressed;
+        private bool dashPressed;
+
+        private Rigidbody2D rb;
+        private float gravityDefault;
+        private int extraJumps;
+        private float dashTimer;
+        private float dashCooldownTimer;
         private Vector2 dashDirection;
-        private float originalGravityScale;
-        private bool ignoreGroundCheck = false;
+        private bool hasDashedInAir;
 
-        void Start()
+        private bool canDash;
+        // can dash はなに？
+        // 地面に着地するとき
+        //　ダッシュが終わったとき/ダッシュしていない状況
+
+
+        private void Awake()
         {
-            PoolManager.instance.CreatePool(dashEffect, 2);
-            PoolManager.instance.CreatePool(jumpEffect, 2);
+            input = new PlayerInputActions();
 
-            if (transform.CompareTag("Player"))
-                isCurrentlyPlayable = true;
+            input.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+            input.Player.Move.canceled += ctx => moveInput = Vector2.zero;
 
-            m_extraJumps = extraJumpCount;
-            m_dashCooldownTimer = dashCooldown;
-            m_extraJumpForce = jumpForce * 0.7f;
+            input.Player.Jump.performed += _ => jumpPressed = true;
+            input.Player.Dash.performed += _ => dashPressed = true;
+            canDash = true;
+            
+        }
 
-            m_rb = GetComponent<Rigidbody2D>();
-            m_dustParticle = GetComponentInChildren<ParticleSystem>();
-            originalGravityScale = m_rb.gravityScale;
+        private void OnEnable() => input.Enable();
+        private void OnDisable() => input.Disable();
+
+        private void Start()
+        {
+            PoolManager.instance.CreatePool(jumpEffect, 3);
+            PoolManager.instance.CreatePool(dashEffect, 3);
+
+            rb = GetComponent<Rigidbody2D>();
+            gravityDefault = rb.gravityScale;
+            extraJumps = extraJumpCount;
         }
 
         private void FixedUpdate()
         {
-            if (!ignoreGroundCheck)
-                isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-            else
-                isGrounded = false;
+            // ---- GROUND CHECK ----
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-            if (!isCurrentlyPlayable) return;
-
+            // ---- DASHING ----
+            // effect
             if (isDashing)
             {
-                // Dash aktifken fiziksel hız sıfırlanır ve transform manuel ilerletilir
-                m_rb.linearVelocity = Vector2.zero;
-                transform.Translate(dashDirection * dashSpeed * Time.fixedDeltaTime, Space.World);
-                return; // diğer hareketleri iptal et
+                RaycastHit2D hit = Physics2D.Raycast(
+                    transform.position,
+                    dashDirection,
+                    dashCollisionCheckDistance,
+                    whatIsGround
+                );
+
+                if (hit.collider != null)
+                {
+                    EndDash();
+                    return;
+                }
+
+                rb.linearVelocity = dashDirection * dashSpeed;
+                return;
             }
 
-            if (canMove)
-                m_rb.linearVelocity = new Vector2(moveInput * speed, m_rb.linearVelocity.y);
+            // ---- NORMAL MOVEMENT ----
+            rb.linearVelocity = new Vector2(moveInput.x * speed, rb.linearVelocity.y);
 
-            if (m_rb.linearVelocity.y < 0f)
-                m_rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
-
-            if (!m_facingRight && moveInput > 0f)
-                Flip();
-            else if (m_facingRight && moveInput < 0f)
-                Flip();
-
-            float playerVelocityMag = m_rb.linearVelocity.sqrMagnitude;
-            if (m_dustParticle.isPlaying && playerVelocityMag == 0f)
-                m_dustParticle.Stop();
-            else if (!m_dustParticle.isPlaying && playerVelocityMag > 0f)
-                m_dustParticle.Play();
+            // ---- FAST FALL ----
+            if (rb.linearVelocity.y < 0)
+                rb.linearVelocity += Vector2.up *
+                                     Physics2D.gravity.y * (fallMultiplier - 1) *
+                                     Time.fixedDeltaTime;
         }
 
         private void Update()
         {
-            moveInput = InputSystem.HorizontalRaw();
-
-            if (isGrounded)
-                m_extraJumps = extraJumpCount;
-
-            m_groundedRemember -= Time.deltaTime;
-            if (isGrounded)
-                m_groundedRemember = m_groundedRememberTime;
-
-            if (!isCurrentlyPlayable) return;
-
-            // --- DASH input ---
-            if (!isDashing && !m_hasDashedInAir && m_dashCooldownTimer <= 0f)
+            Debug.Log($"dashcooldowntimer: {dashCooldownTimer}");
+            Debug.Log($"dashtimer: {dashTimer}");
+            // ---- DASH INPUT ----
+            //if (!isDashing && dashCooldownTimer <= 0)
+            if (canDash)
             {
-                if (InputSystem.Dash())
+                //if (dashPressed)
+                if (dashPressed)
                 {
-                    float horizontal = 0f;
-                    float vertical = 0f;
+                    canDash = false;
+                    dashPressed = false;
 
-                    // Yatay giriş kontrolü
-                    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                        horizontal = 1f;
-                    else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                        horizontal = -1f;
+                    Vector2 inputDir = moveInput.normalized;
 
-                    // Dikey giriş kontrolü - W/AŞAĞI ok tuşları eklendi
-                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-                        vertical = 1f;
-                    else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-                        vertical = -1f;
+                    // Eğer hiçbir yön tuşu basılı değilse → baktığı yöne dash
+                    if (inputDir == Vector2.zero)
+                        inputDir = transform.localScale.x > 0
+                            ? Vector2.right
+                            : Vector2.left;
 
-                    // Çapraz hareketler için her iki eksen de kontrol ediliyor
-                    // Eğer hiçbir yön tuşuna basılmazsa, karakterin baktığı yönde dash yapar
-                    if (horizontal == 0 && vertical == 0)
-                        horizontal = m_facingRight ? 1 : -1;
+                    dashDirection = inputDir;
 
-                    dashDirection = new Vector2(horizontal, vertical).normalized;
-
-                    isDashing = true;
-                    ignoreGroundCheck = true;
-                    m_rb.gravityScale = 0f;
-                    m_rb.linearVelocity = Vector2.zero;
-                    m_dashTimer = dashDuration;
-                    m_dashCooldownTimer = dashCooldown;
-                    PoolManager.instance.ReuseObject(dashEffect, transform.position, Quaternion.identity);
-
-                    if (!isGrounded)
-                        m_hasDashedInAir = true;
+                    StartDash();
                 }
             }
 
             if (isDashing)
             {
-                m_dashTimer -= Time.deltaTime;
-                if (m_dashTimer <= 0f)
+                dashTimer -= Time.deltaTime;
+                if (dashTimer <= 0)
                 {
-                    isDashing = false;
-                    m_rb.gravityScale = originalGravityScale;
-                    ignoreGroundCheck = false;
+                    EndDash();
                 }
             }
 
-            m_dashCooldownTimer -= Time.deltaTime;
 
-            if (m_hasDashedInAir && isGrounded)
-                m_hasDashedInAir = false;
 
-            // --- JUMP input ---
-            if (InputSystem.Jump() && m_extraJumps > 0 && !isGrounded)
+            dashCooldownTimer -= Time.deltaTime;
+
+            // ---- JUMP INPUT ----
+            if (jumpPressed)
             {
-                m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, m_extraJumpForce);
-                m_extraJumps--;
-                PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
+                jumpPressed = false;
+
+                if (!isGrounded && extraJumps > 0)
+                {
+                    extraJumps--;
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                    PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
+                }
+                else if (isGrounded)
+                {
+                    extraJumps = extraJumpCount;
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                    PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
+                }
             }
-            else if (InputSystem.Jump() && (isGrounded || m_groundedRemember > 0f))
+
+            if (dashCooldownTimer <= 0f && !isDashing)
             {
-                m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, jumpForce);
-                PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
+                canDash = true;
             }
         }
 
-        void Flip()
+        private void StartDash()
         {
-            m_facingRight = !m_facingRight;
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            isDashing = true;
+            rb.gravityScale = 0;
+            rb.linearVelocity = Vector2.zero;
+
+            dashTimer = dashDuration;
+            dashCooldownTimer = dashCooldown;
+
+            PoolManager.instance.ReuseObject(dashEffect, transform.position, Quaternion.identity);
+
+            if (!isGrounded)
+                hasDashedInAir = true;
+        }
+
+        private void EndDash()
+        {
+            isDashing = false;
+            rb.gravityScale = gravityDefault;
+            rb.linearVelocity = Vector2.zero;
+
+            // Yerdeyse cooldown bittikten sonra tekrar dash yapabilir
+            // Havadaysa bir sonraki yere düşüşüne kadar beklemeli
+            if (isGrounded)
+            {
+                canDash = true;
+                hasDashedInAir = false;
+            }
         }
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.red;
+            if (groundCheck == null) return;
+
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
