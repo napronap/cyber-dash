@@ -2,41 +2,50 @@ using UnityEngine;
 
 public class tonderutekiタコ : enemy
 {
-    [SerializeField, Tooltip("左方向へ進む移動速度（基底クラスに適用）")]
+    [SerializeField, Tooltip("移動速度（基底クラスへ適用）")]
     private float speed = 2f;
 
-    [Header("Despawn Conditions")]
-    [SerializeField, Tooltip("プレイヤーと判定するタグ名。未設定ならレイヤーで判定")]
+    [Header("Player 判定")]
+    [SerializeField, Tooltip("プレイヤータグ")]
     private string playerTag = "Player";
-
-    [SerializeField, Tooltip("プレイヤーのレイヤー（0 の場合は無視）")]
+    [SerializeField, Tooltip("プレイヤーレイヤー（0 の場合は無視）")]
     private LayerMask playerLayers = 0;
 
-    // 新增：初始移动方向（-1 = 向左, +1 = 向右）
-    [SerializeField, Tooltip("初始移动方向（-1=左, +1=右）")]
-    private float initialDirection = -1f;
+    [Header("初期方向 (-1=左, +1=右)")]
+    [SerializeField] private float initialDirection = -1f;
+
+    // 一度でも画面内に入ったか
+    private bool hasEnteredView = false;
 
     void Start()
     {
         SetMoveSpeed(speed);
     }
 
-    // 物理は FixedUpdate で更新
     void FixedUpdate()
     {
-        // 使用初始方向（可由 Spawner 设置）
         Move(Mathf.Clamp(initialDirection, -1f, 1f));
     }
 
     void Update()
     {
-        // 画面外に出たら消滅（カメラ前方のみ判定）
         var cam = Camera.main;
-        if (cam != null)
+        if (cam == null) return;
+
+        Vector3 vp = cam.WorldToViewportPoint(transform.position);
+
+        bool inView = vp.z > 0f && vp.x >= 0f && vp.x <= 1f && vp.y >= 0f && vp.y <= 1f;
+
+        if (inView)
         {
-            var vp = cam.WorldToViewportPoint(transform.position);
-            if (vp.z > 0f && (vp.x < 0f || vp.x > 1f || vp.y < 0f || vp.y > 1f))
+            hasEnteredView = true;
+        }
+        else
+        {
+            // まだ画面に入っていない間は破棄しない
+            if (hasEnteredView)
             {
+                // 一度入ってから外れたので破棄
                 Destroy(gameObject);
             }
         }
@@ -66,7 +75,6 @@ public class tonderutekiタコ : enemy
         return false;
     }
 
-    // 公開方法：Spawner 可以調整初始方向
     public void SetInitialDirection(float dir)
     {
         initialDirection = Mathf.Clamp(dir, -1f, 1f);

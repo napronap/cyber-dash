@@ -1,107 +1,128 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// 可配置的敌人生成器（在视口外生成并可调节频率）
-/// SpawnSide: Left / Right
-/// 可设置固定间隔或随机间隔
-/// 自动把方向传给带有 SetInitialDirection 的敵人脚本（使用反射）
-/// </summary>
+[DisallowMultipleComponent]
 public class EnemySpawner : MonoBehaviour
 {
-    public enum SpawnSide { Left, Right }
+    public enum SpawnSideMode
+    {
+        Left,
+        Right,
+        Random
+    }
 
-    [Header("Prefab")]
+    [Header("Enemy Prefab")]
     [SerializeField] private GameObject enemyPrefab;
 
-    [Header("Spawn Area (viewport 0..1)")]
+    [Header("Spawn Side Mode")]
+    [SerializeField] private SpawnSideMode sideMode = SpawnSideMode.Right;
+
+    [Header("Vertical Range (Viewport) 0..1")]
     [SerializeField, Range(0f, 1f)] private float minViewportY = 0.1f;
     [SerializeField, Range(0f, 1f)] private float maxViewportY = 0.9f;
-    [SerializeField, Tooltip("从视口外多少单位开始生成（以视口坐标为基准，通常 0.05-0.5 足够）")]
-    private float viewportOffset = 0.05f;
 
-    [Header("Spawn Timing")]
-    [SerializeField] private bool useRandomInterval = false;
-    [SerializeField, Min(0f)] private float interval = 2f;
-    [SerializeField, Min(0f)] private float minInterval = 1f;
-    [SerializeField, Min(0f)] private float maxInterval = 3f;
+    [Header("Horizontal Offset (Viewport)")]
+    [SerializeField, Tooltip("画面外に出すためのX方向オフセット(例:0.05)")]
+    private float horizontalViewportOffset = 0.05f;
 
-    [Header("Spawn Side")]
-    [SerializeField] private SpawnSide spawnSide = SpawnSide.Right;
+    [Header("Timing")]
+    [SerializeField, Tooltip("ランダム間隔を使うか")]
+    private bool useRandomInterval = false;
+    [SerializeField, Min(0.01f), Tooltip("固定生成間隔(秒)")]
+    private float interval = 2f;
+    [SerializeField, Min(0.01f), Tooltip("最小ランダム間隔(秒)")]
+    private float minInterval = 1f;
+    [SerializeField, Min(0.01f), Tooltip("最大ランダム間隔(秒)")]
+    private float maxInterval = 3f;
 
-    [Header("Runtime")]
-    [SerializeField, Tooltip("自动开始生成")]
-    private bool spawnOnStart = true;
+    [Header("Auto Start")]
+    [SerializeField, Tooltip("Start時に自動で生成ループ開始")]
+    private bool autoStart = true;
 
-    private Coroutine spawnRoutine;
+    private Coroutine loop;
+
+    void OnValidate()
+    {
+        if (maxViewportY < minViewportY) maxViewportY = minViewportY;
+        if (useRandomInterval && maxInterval < minInterval) maxInterval = minInterval;
+        horizontalViewportOffset = Mathf.Max(0f, horizontalViewportOffset);
+    }
 
     void Start()
     {
-        Debug.Log("EnemySpawner started.");
-        SpawnOnce();
-        //if (spawnOnStart) StartSpawning();
+        if (autoStart) StartSpawning();
     }
 
     public void StartSpawning()
     {
-        if (spawnRoutine == null) spawnRoutine = StartCoroutine(SpawnLoop());
+        if (loop == null) loop = StartCoroutine(SpawnLoop());
     }
 
     public void StopSpawning()
     {
-        if (spawnRoutine != null)
+        if (loop != null)
         {
-            StopCoroutine(spawnRoutine);
-            spawnRoutine = null;
+            StopCoroutine(loop);
+            loop = null;
         }
+    }
+
+    public void SpawnOnce()
+    {
+        DoSpawn();
     }
 
     private IEnumerator SpawnLoop()
     {
-        //while (true)
-        //{
-            SpawnOnce();
-            float wait = useRandomInterval ? Random.Range(minInterval, maxInterval) : interval;
+        while (true)
+        {
+            DoSpawn();
+            float wait = useRandomInterval
+                ? Random.Range(minInterval, maxInterval)
+                : interval;
             yield return new WaitForSeconds(wait);
-        //}
+        }
     }
 
-    private void SpawnOnce()
+    private void DoSpawn()
     {
         if (enemyPrefab == null) return;
         var cam = Camera.main;
         if (cam == null) return;
 
-        Debug.Log("Spawning enemy...");
+        // 生成側決定
+        int sideDir = 0;
+        switch (sideMode)
+        {
+            case SpawnSideMode.Left: sideDir = 1; break;   // 左から右へ
+            case SpawnSideMode.Right: sideDir = -1; break; // 右から左へ
+            case SpawnSideMode.Random: sideDir = (Random.value < 0.5f) ? 1 : -1; break;
+        }
 
-        float vx = (spawnSide == SpawnSide.Left) ? -viewportOffset : 1f + viewportOffset;
+        // Viewport X (外側)
+        float vx = sideDir == 1
+            ? -horizontalViewportOffset                 // 左側外
+            : 1f + horizontalViewportOffset;            // 右側外
+
+        // 垂直位置
         float vy = Random.Range(minViewportY, maxViewportY);
 
+        // Viewport -> World
         Vector3 vp = new Vector3(vx, vy, Mathf.Abs(cam.transform.position.z));
         Vector3 worldPos = cam.ViewportToWorldPoint(vp);
         worldPos.z = 0f;
 
         var go = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
 
-        // 左側生成 -> 右移動 (dir=+1)、右側生成 -> 左移動 (dir=-1)
-        float dir = (spawnSide == SpawnSide.Left) ? 1f : -1f;
-
-        // 使用反射在任意组件上寻找并调用 SetInitialDirection(float)
-        var comps = go.GetComponentsInChildren<MonoBehaviour>();
-        foreach (var c in comps)
+        // 方向を渡す (tonderutekiタコ に限る簡易処理)
+        var octo = go.GetComponent<tonderutekiタコ>();
+        if (octo != null)
         {
-            var method = c.GetType().GetMethod("SetInitialDirection", new System.Type[] { typeof(float) });
-            if (method != null)
-            {
-                method.Invoke(c, new object[] { dir });
-                break;
-            }
+            octo.SetInitialDirection(sideDir);
         }
-
-        var viewportPos = cam.WorldToViewportPoint(transform.position);
-        if (viewportPos.z > 0f && (viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f))
+        else
         {
-            Destroy(gameObject);
+            // 他の敵にも対応したい場合は共通IF実装か基底クラス拡張を検討
         }
     }
 }
