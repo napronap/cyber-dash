@@ -6,6 +6,7 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     public Sprite[] buildingSprites;
 
     [Header("Spawn Settings")]
+    // MAKE RANDOM
     public float spawnInterval = 2f;
     public float despawnXOffset = 3f;
 
