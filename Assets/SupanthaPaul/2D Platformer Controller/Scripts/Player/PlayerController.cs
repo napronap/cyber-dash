@@ -13,7 +13,7 @@ namespace SupanthaPaul
         [SerializeField] private Transform groundCheck;
         [SerializeField] private float groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask whatIsGround;
-        [SerializeField] private int extraJumpCount = 1;
+        //[SerializeField] private int extraJumpCount = 1;
         [SerializeField] private GameObject jumpEffect;
 
         [Header("Dashing")]
@@ -33,7 +33,7 @@ namespace SupanthaPaul
 
         private Rigidbody2D rb;
         private float gravityDefault;
-        private int extraJumps;
+        //private int extraJumps;
         private float dashTimer;
         private float dashCooldownTimer;
         private Vector2 dashDirection;
@@ -67,7 +67,7 @@ namespace SupanthaPaul
 
             rb = GetComponent<Rigidbody2D>();
             gravityDefault = rb.gravityScale;
-            extraJumps = extraJumpCount;
+           // extraJumps = extraJumpCount;
             canDash = true;
         }
 
@@ -172,17 +172,18 @@ namespace SupanthaPaul
             {
                 jumpPressed = false;
 
-                if (!isGrounded && extraJumps > 0)
-                {
-                    // Extra jump in air
-                    extraJumps--;
-                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-                    PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
-                }
-                else if (isGrounded)
+                //if (!isGrounded && extraJumps > 0)
+                //{
+                //    // Extra jump in air
+                //    extraJumps--;
+                //    rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                //    PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
+                //}
+                //else 
+                if (isGrounded)
                 {
                     // Normal ground jump
-                    extraJumps = extraJumpCount;
+                    //extraJumps = extraJumpCount;
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                     PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
                 }
@@ -237,6 +238,23 @@ namespace SupanthaPaul
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawRay(transform.position, dashDirection * dashCollisionCheckDistance);
+            }
+        }
+
+      
+        private void RefreshDash()
+        {
+            canDash = true;
+            hasDashedInAir = false;
+            dashCooldownTimer = 0f;
+            Debug.Log("Dash refreshed by EnemyTrigger!");
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("EnemyTrigger"))
+            {
+                RefreshDash();
             }
         }
     }
