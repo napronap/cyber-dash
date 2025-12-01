@@ -9,12 +9,17 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance { get; private set; }
 
     [SerializeField] private float movingSpeed = 5f;
-    [SerializeField] int dashSpeed = 4;
-    [SerializeField] float dashTime = 0.2f;
+    [Header("Dash Settings")]
+    [SerializeField] private int dashSpeed = 4;
+    [SerializeField] private float dashTime = 0.2f;
+    [SerializeField] private  TrailRenderer trailRenderer;
+    [SerializeField] private float dashCooldownTime = 0.25f;
+
     private Rigidbody2D rb;
     private float minMovingSpeed = 0.1f;
     private bool isRunning = false;
     private float _initialMovingSpeed;
+    private bool isDashing;
 
     private void Awake()
     {
@@ -25,8 +30,15 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
+
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
     }
+
+    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
+    {   
+       Debug.Log("Attack");
+    } 
 
     private void GameInput_OnPlayerDash(object sender, System.EventArgs e)
     {
@@ -34,15 +46,23 @@ public class PlayerController : MonoBehaviour
     }
     private void Dash()
     {
-       StartCoroutine(DashRoutine());
+        if(!isDashing)
+            StartCoroutine(DashRoutine());
+
 
     }
     private IEnumerator DashRoutine()
     {
+        isDashing = true;
         movingSpeed *= dashSpeed;
+        trailRenderer.emitting = true;
         yield return new WaitForSeconds(dashTime);
+
+        trailRenderer.emitting = false;
         movingSpeed = _initialMovingSpeed;
 
+        yield return new WaitForSeconds(dashCooldownTime);
+        isDashing = false;
     }
 
     void FixedUpdate()

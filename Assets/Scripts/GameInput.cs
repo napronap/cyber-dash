@@ -5,6 +5,7 @@ public class GameInput : MonoBehaviour
 {
     public static GameInput Instance { get; private set; }
     private PlayerInputActions _playerInputActions;
+
     public event EventHandler OnPlayerAttack;
     public event EventHandler OnPlayerDash;
     private void Awake()
