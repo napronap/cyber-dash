@@ -1,16 +1,12 @@
 using UnityEngine;
-
+using System.Collections;
+using System;
 public class Sword : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public event EventHandler OnSwordSwing;
+    public void Attack()
     {
-        
-    }
+        OnSwordSwing?.Invoke(this, EventArgs.Empty);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

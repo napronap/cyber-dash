@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
     {   
-       Debug.Log("Attack");
+       ActiveWeapon.Instance.getActiveWeapon().Attack();
     } 
 
     private void GameInput_OnPlayerDash(object sender, System.EventArgs e)

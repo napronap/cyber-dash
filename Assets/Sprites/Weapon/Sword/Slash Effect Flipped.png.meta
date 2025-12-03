@@ -61,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -99,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -153,20 +153,20 @@ TextureImporter:
       name: Slash Effect Flipped_0
       rect:
         serializedVersion: 2
-        x: 222
-        y: 7
-        width: 28
-        height: 38
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0697bdacd72c3aca0800000000000000
-      internalID: -6006743632452028064
+      spriteID: e3c488aa7f414264cba6269cd75438f4
+      internalID: 1496425168
       vertices: []
       indices: 
       edges: []
@@ -175,20 +175,20 @@ TextureImporter:
       name: Slash Effect Flipped_1
       rect:
         serializedVersion: 2
-        x: 292
-        y: 8
-        width: 22
-        height: 49
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9fcf79edc9be5d980800000000000000
-      internalID: -8514640461492126471
+      spriteID: 615dccc56f4c1584db3d69fe2e4d1c6b
+      internalID: -1262324077
       vertices: []
       indices: 
       edges: []
@@ -197,20 +197,20 @@ TextureImporter:
       name: Slash Effect Flipped_2
       rect:
         serializedVersion: 2
-        x: 345
-        y: 10
-        width: 33
-        height: 48
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c812e94aa3424dc50800000000000000
-      internalID: 6689011180840558988
+      spriteID: 5bf9ed91aaafa4e4bbb5db09bd0fbfed
+      internalID: -1067522865
       vertices: []
       indices: 
       edges: []
@@ -219,20 +219,20 @@ TextureImporter:
       name: Slash Effect Flipped_3
       rect:
         serializedVersion: 2
-        x: 407
-        y: 20
-        width: 35
-        height: 38
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 042c24c22bc58e430800000000000000
-      internalID: 3812399004885631552
+      spriteID: 9d36cfff685084c4da2918e1de402a11
+      internalID: -250798225
       vertices: []
       indices: 
       edges: []
@@ -241,20 +241,20 @@ TextureImporter:
       name: Slash Effect Flipped_4
       rect:
         serializedVersion: 2
-        x: 469
-        y: 27
-        width: 37
-        height: 31
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 64cb677e8acf1b180800000000000000
-      internalID: -9101215569571038138
+      spriteID: 3381a5b225c437e47b0db622c82e58a6
+      internalID: -547742030
       vertices: []
       indices: 
       edges: []
@@ -263,20 +263,20 @@ TextureImporter:
       name: Slash Effect Flipped_5
       rect:
         serializedVersion: 2
-        x: 531
-        y: 32
-        width: 39
-        height: 26
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bd10e5a9b0976cbf0800000000000000
-      internalID: -304422834059476517
+      spriteID: d46ef758b9e99804cbc6051abfd2f722
+      internalID: 1200022149
       vertices: []
       indices: 
       edges: []
@@ -285,20 +285,20 @@ TextureImporter:
       name: Slash Effect Flipped_6
       rect:
         serializedVersion: 2
-        x: 18
-        y: 6
-        width: 19
-        height: 8
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c2324ebb75a46d3f0800000000000000
-      internalID: -876431336802082004
+      spriteID: bd8ee793f0cf14443b85620fa3be6783
+      internalID: 2014335293
       vertices: []
       indices: 
       edges: []
@@ -307,20 +307,20 @@ TextureImporter:
       name: Slash Effect Flipped_7
       rect:
         serializedVersion: 2
-        x: 82
-        y: 6
-        width: 30
-        height: 9
+        x: 448
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a8c95e52ed166f810800000000000000
-      internalID: 1798732707927530634
+      spriteID: fe1ec74e4c41d7f42beaa968ea63407b
+      internalID: -2023720101
       vertices: []
       indices: 
       edges: []
@@ -329,20 +329,20 @@ TextureImporter:
       name: Slash Effect Flipped_8
       rect:
         serializedVersion: 2
-        x: 154
-        y: 7
-        width: 29
-        height: 17
+        x: 512
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f133cdba9f15275d0800000000000000
-      internalID: -3066298263513844961
+      spriteID: 1a5edcaca4a26e542886be4884676c27
+      internalID: -171789651
       vertices: []
       indices: 
       edges: []
@@ -351,7 +351,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 20699a4a9033a4f4eb43f4994168af6f
     internalID: 0
     vertices: []
     indices: 
@@ -359,17 +359,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Slash Effect Flipped_0: -6006743632452028064
-      Slash Effect Flipped_1: -8514640461492126471
-      Slash Effect Flipped_2: 6689011180840558988
-      Slash Effect Flipped_3: 3812399004885631552
-      Slash Effect Flipped_4: -9101215569571038138
-      Slash Effect Flipped_5: -304422834059476517
-      Slash Effect Flipped_6: -876431336802082004
-      Slash Effect Flipped_7: 1798732707927530634
-      Slash Effect Flipped_8: -3066298263513844961
+      Slash Effect Flipped_0: 1496425168
+      Slash Effect Flipped_1: -1262324077
+      Slash Effect Flipped_2: -1067522865
+      Slash Effect Flipped_3: -250798225
+      Slash Effect Flipped_4: -547742030
+      Slash Effect Flipped_5: 1200022149
+      Slash Effect Flipped_6: 2014335293
+      Slash Effect Flipped_7: -2023720101
+      Slash Effect Flipped_8: -171789651
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

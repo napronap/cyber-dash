@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 453359305}
   - component: {fileID: 453359306}
   - component: {fileID: 453359307}
+  - component: {fileID: 453359308}
   m_Layer: 0
   m_Name: SwordVisual
   m_TagString: Untagged
@@ -542,6 +543,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &453359308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453359304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ca3958a65962e41b92f5182b03f4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordVisual
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,7 +1070,7 @@ Transform:
   m_GameObject: {fileID: 938969461}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.9848078, w: 0.17364825}
-  m_LocalPosition: {x: -0.65, y: -0.25, z: 0}
+  m_LocalPosition: {x: -1.601, y: 0.134, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
