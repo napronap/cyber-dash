@@ -50,7 +50,7 @@ MonoBehaviour:
   maxViewportY: 0.885
   horizontalViewportOffset: 0.05
   useRandomInterval: 1
-  interval: 30
+  interval: 20
   minInterval: 1
   maxInterval: 3
   autoStart: 1
