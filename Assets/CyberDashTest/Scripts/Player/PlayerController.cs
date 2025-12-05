@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using CyberDash;
+using UnityEngine;
+
 
 namespace CyberDash
 {
@@ -95,7 +97,7 @@ namespace CyberDash
             HandleMovement();
             HandleFastFall();
 
-            
+
         }
 
         private void Update()
