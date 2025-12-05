@@ -14,12 +14,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashTime = 0.2f;
     [SerializeField] private  TrailRenderer trailRenderer;
     [SerializeField] private float dashCooldownTime = 0.25f;
+    [SerializeField] private float jumpForce = 1000f;
+    [SerializeField] private float jumpTime = 0.5f;
 
     private Rigidbody2D rb;
     private float minMovingSpeed = 0.1f;
     private bool isRunning = false;
     private float _initialMovingSpeed;
     private bool isDashing;
+    private bool isJumping;
 
     private void Awake()
     {
@@ -33,6 +36,8 @@ public class PlayerController : MonoBehaviour
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
 
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
+
+        GameInput.Instance.OnPlayerJump += GameInput_OnPlayerJump;
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
@@ -44,6 +49,27 @@ public class PlayerController : MonoBehaviour
     {
         Dash();
     }
+
+    private void GameInput_OnPlayerJump(object sender, System.EventArgs e)
+    {
+        Jump();
+    }
+
+    private void Jump()
+    {
+        if (!isJumping)
+                StartCoroutine(JumpRoutine());
+    }
+    private IEnumerator JumpRoutine()
+    {
+        isJumping = true;
+        rb.AddForce(Vector2.up * jumpForce*10);
+        Debug.Log("Jumped");
+        yield return new WaitForSeconds(jumpTime);
+        isJumping = false;
+
+    }
+
     private void Dash()
     {
         if(!isDashing)
@@ -51,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
     private IEnumerator DashRoutine()
     {
         isDashing = true;
@@ -70,6 +97,7 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
 
     }
+
     private void HandleMovement()
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
@@ -93,6 +121,7 @@ public class PlayerController : MonoBehaviour
         return isRunning;
 
     }
+
     public Vector3 GetPlayerScreenPosition()
     {
         Vector3 playerScreenPosition= Camera.main.WorldToScreenPoint(transform.position);
