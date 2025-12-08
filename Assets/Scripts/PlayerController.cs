@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private  TrailRenderer trailRenderer;
     [SerializeField] private float dashCooldownTime = 0.25f;
     [SerializeField] private float jumpForce = 1000f;
-    [SerializeField] private float jumpTime = 0.5f;
+    [SerializeField] private float jumpTime = 0.2f;
 
     private Rigidbody2D rb;
     private float minMovingSpeed = 0.1f;
