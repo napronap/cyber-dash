@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class ParallaxBuildingsLayer : ParallaxLayerBase
 {
-    [Header("Building Sprites")]
-    public Sprite[] buildingSprites;
+    [Header("Layer Sprite")]
+    public Sprite[] sprite;
 
     [Header("Spawn Settings")]
-    // MAKE RANDOM
-    public float spawnInterval = 2f;
-    public float despawnXOffset = 3f;
+    public float spawnIntervalMin = 2f;
+    public float spawnIntervalMax = 30f;
+    public string sortingLayer;
+    public float spawnY = -1f;
 
     private float timer;
 
@@ -16,40 +17,40 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     {
         timer += dt;
 
-        if (timer >= spawnInterval)
+        if (timer >= Random.Range(spawnIntervalMin, spawnIntervalMax))
         {
             timer = 0f;
-            SpawnBuilding();
+
+            Sprite selectedSprite = sprite[Random.Range(0, sprite.Length)];
+
+            SpawnBuilding(selectedSprite);
         }
 
         MoveBuildings(dt);
     }
 
-    void SpawnBuilding()
+    void SpawnBuilding(Sprite selectedSprite)
     {
-        // TODO: add random interval, not quantity
-        // if interval < elapsedTime * dt??
-        // TODO: take input system back
-        if (buildingSprites == null || buildingSprites.Length == 0)
+        if (sprite == null)
         {
             Debug.LogWarning("no sprites on layer");
             return;
         }
 
-        Sprite sprite = buildingSprites[Random.Range(0, buildingSprites.Length)];
+        
 
         // create sprite
-        GameObject go = new GameObject("Building", typeof(SpriteRenderer));
+        GameObject go = new GameObject($"Building_{selectedSprite.name}", typeof(SpriteRenderer));
         SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
-        sr.sprite = sprite;
+        sr.sprite = selectedSprite;
+        sr.sortingLayerName = sortingLayer;
 
         // spawn
         float spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x + sr.bounds.extents.x;
 
-        // TODO: add offset?
-        float spawnY = 0f;
+        float height = selectedSprite.bounds.extents.y;
 
-        go.transform.position = new Vector3(spawnX, spawnY, 0);
+        go.transform.position = new Vector3(spawnX, -height , 0);
         go.transform.SetParent(transform);
     }
 
@@ -57,11 +58,11 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     {
         float move = speed * dt;
 
-        float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x - despawnXOffset;
 
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Transform child = transform.GetChild(i);
+            float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x - child.GetComponent<SpriteRenderer>().sprite.bounds.extents.x;
 
             child.position += Vector3.left * move;
 
