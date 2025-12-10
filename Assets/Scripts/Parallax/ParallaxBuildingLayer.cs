@@ -3,13 +3,12 @@ using UnityEngine;
 public class ParallaxBuildingsLayer : ParallaxLayerBase
 {
     [Header("Layer Sprite")]
-    public Sprite[] sprite;
+    public Sprite[] spriteList;
 
     [Header("Spawn Settings")]
     public float spawnIntervalMin = 2f;
     public float spawnIntervalMax = 30f;
     public string sortingLayer;
-    public float spawnY = -1f;
 
     private float timer;
 
@@ -21,7 +20,7 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
         {
             timer = 0f;
 
-            Sprite selectedSprite = sprite[Random.Range(0, sprite.Length)];
+            Sprite selectedSprite = spriteList[Random.Range(0, spriteList.Length -1)];
 
             SpawnBuilding(selectedSprite);
         }
@@ -31,13 +30,11 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
 
     void SpawnBuilding(Sprite selectedSprite)
     {
-        if (sprite == null)
+        if (spriteList == null || spriteList.Length == 0)
         {
             Debug.LogWarning("no sprites on layer");
             return;
         }
-
-        
 
         // create sprite
         GameObject go = new GameObject($"Building_{selectedSprite.name}", typeof(SpriteRenderer));
@@ -48,9 +45,9 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
         // spawn
         float spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x + sr.bounds.extents.x;
 
-        float height = selectedSprite.bounds.extents.y;
-
-        go.transform.position = new Vector3(spawnX, -height , 0);
+        // for whatever reason 0 is the exact height of the current street placeholder
+        //何故かわからないけど、y=0でピッタリ道の上にいちさせる。。。
+        go.transform.position = new Vector3(spawnX, 0 , 0);
         go.transform.SetParent(transform);
     }
 
