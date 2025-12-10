@@ -215,7 +215,6 @@ MonoBehaviour:
   spawnIntervalMin: 2
   spawnIntervalMax: 30
   sortingLayer: Building Landscape
-  spawnY: -1
 --- !u!1 &1060858435
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +406,6 @@ MonoBehaviour:
   spawnIntervalMin: 2
   spawnIntervalMax: 30
   sortingLayer: Building Foreground
-  spawnY: -1
 --- !u!1 &1300472102
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +417,7 @@ GameObject:
   - component: {fileID: 1300472104}
   - component: {fileID: 1300472103}
   m_Layer: 0
-  m_Name: Street
+  m_Name: Street-unique
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,7 +546,6 @@ MonoBehaviour:
   spawnIntervalMin: 70
   spawnIntervalMax: 100
   sortingLayer: Street
-  spawnY: -5
 --- !u!1 &1711777036
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +734,6 @@ MonoBehaviour:
   spawnIntervalMin: 30
   spawnIntervalMax: 120
   sortingLayer: Building
-  spawnY: -1
 --- !u!1 &2062895332
 GameObject:
   m_ObjectHideFlags: 0
