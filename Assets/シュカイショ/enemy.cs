@@ -1,49 +1,40 @@
 using UnityEngine;
 
-/// <summary>
-/// 2D �p�̃��W���[�������ꂽ�G�R���|�[�l���g
-/// - Rigidbody2D �� Collider2D ��K�{��
-/// - �C���X�y�N�^�Œ����\�ȃp�����[�^�iHP / �ړ� / �W�����v / ��s / �p�g���[���j
-/// - Move/Jump/TakeDamage/Heal ���̌��J���\�b�h���
-/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 public class enemy : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField, Tooltip("�ő�HP")]
+    [SerializeField, Tooltip("最大HP")]
     private int maxHealth = 10;
     public int CurrentHealth { get; private set; }
 
     [Header("Movement")]
-    [SerializeField, Tooltip("�ړ����x")]
+    [SerializeField, Tooltip("移动速度")]
     private float moveSpeed = 2f;
 
-    [SerializeField, Tooltip("�W�����v�́i�C���p���X�j")]
-    private float jumpForce = 5f;
-
     [Header("AI / Patrol")]
-    [SerializeField, Tooltip("飛行可能（true で重力を無効化）")]
-    private bool canFly = false;
-
-    [Header("AI / Patrol")]
-    [SerializeField, Tooltip("�����p�g���[�����s����")]
+    [SerializeField, Tooltip("是否进行自动巡逻")]
     private bool patrol = true;
 
-    [SerializeField, Tooltip("�p�g���[���̉��������i�������j")]
+    [SerializeField, Tooltip("巡逻的往返距离（横向）")]
     private float patrolDistance = 3f;
 
     [Header("Ground Check")]
-    [SerializeField, Tooltip("�n�ʔ���Ɏg�� Transform�i���ݒ莞�̓I�u�W�F�N�g���S���牺�Ƀ`�F�b�N�j")]
+    [SerializeField, Tooltip("地面判定使用的 Transform（未设置时从对象中心下方检查）")]
     private Transform groundCheck;
 
-    [SerializeField, Tooltip("�n�ʔ���̔��a"), Min(0.01f)]
+    [SerializeField, Tooltip("地面判定半径"), Min(0.01f)]
     private float groundCheckRadius = 0.1f;
 
-    [SerializeField, Tooltip("�n�ʃ��C���[")]
+    [SerializeField, Tooltip("地面图层")]
     private LayerMask groundLayers = ~0;
 
-    // ����
+    [Header("Movement Mode")]
+    [SerializeField, Tooltip("开启后始终向左移动并禁用巡逻")]
+    private bool alwaysMoveLeft = true;
+
+    // 内部
     private Rigidbody2D rb;
     private Vector2 patrolOrigin;
     private int patrolDirection = 1;
@@ -53,11 +44,16 @@ public class enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         CurrentHealth = maxHealth;
         patrolOrigin = transform.position;
-        rb.gravityScale = canFly ? 0f : 1f;
     }
 
     void Update()
     {
+        if (alwaysMoveLeft)
+        {
+            Move(-1f);
+            return;
+        }
+
         if (patrol)
         {
             float offset = transform.position.x - patrolOrigin.x;
@@ -72,54 +68,40 @@ public class enemy : MonoBehaviour
 
     #region Movement API
     /// <summary>
-    /// �����ړ��Bdirection �� -1..1 ��z��
+    /// 水平移动。direction 取值范围为 -1..1
     /// </summary>
     public void Move(float direction)
     {
         float clamped = Mathf.Clamp(direction, -1f, 1f);
         rb.linearVelocity = new Vector2(clamped * moveSpeed, rb.linearVelocity.y);
-        // �����ύX�i�K�v�Ȃ�X�v���C�g�̔��]�Ȃǂ������ōs���j
-        if (clamped != 0f)
-        {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Sign(clamped) * Mathf.Abs(scale.x);
-            transform.localScale = scale;
-        }
-    }
-
-    /// <summary>
-    /// �W�����v�B��s�\�Ȃ琂�����x�𒼐ڐݒ肵�ď㏸������i�K�v�ɉ����Ē����j
-    /// </summary>
-    public void Jump()
-    {
-        if (canFly)
-        {
-            // ��s���͏�����ɑ��x��^���č����𒲐��ł���悤�ɂ���
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            return;
-        }
-
-        if (IsGrounded())
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-    }
-
-    /// <summary>
-    /// ��s���[�h�ؑ�
-    /// </summary>
-    public void SetCanFly(bool value)
-    {
-        canFly = value;
-        rb.gravityScale = canFly ? 0f : 1f;
+        // 不自动翻转，避免与美术默认朝向冲突
     }
 
     public void SetMoveSpeed(float speed) => moveSpeed = Mathf.Max(0f, speed);
-    public void SetJumpForce(float value) => jumpForce = Mathf.Max(0f, value);
+
     public void SetMaxHealth(int value)
     {
         maxHealth = Mathf.Max(1, value);
         CurrentHealth = Mathf.Min(CurrentHealth, maxHealth);
+    }
+    #endregion
+
+    #region Utilities
+    public bool IsGrounded()
+    {
+        Vector2 origin = (groundCheck != null)
+            ? groundCheck.position
+            : transform.position + Vector3.down * 0.1f;
+
+        Collider2D hit = Physics2D.OverlapCircle(origin, groundCheckRadius, groundLayers);
+        return hit != null;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 origin = (groundCheck != null) ? groundCheck.position : transform.position + Vector3.down * 0.1f;
+        Gizmos.DrawWireSphere(origin, groundCheckRadius);
     }
     #endregion
 
@@ -131,7 +113,7 @@ public class enemy : MonoBehaviour
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;
-            Die();
+            Destroy(gameObject);
         }
     }
 
@@ -139,33 +121,6 @@ public class enemy : MonoBehaviour
     {
         if (amount <= 0) return;
         CurrentHealth = Mathf.Min(maxHealth, CurrentHealth + amount);
-    }
-
-    private void Die()
-    {
-        // �V���v���ɔj���B�v�[����G�t�F�N�g������΂����������ւ��Ă��������B
-        Destroy(gameObject);
-    }
-    #endregion
-
-    #region Utilities
-    public bool IsGrounded()
-    {
-        Vector2 origin;
-        if (groundCheck != null)
-            origin = groundCheck.position;
-        else
-            origin = transform.position + Vector3.down * 0.1f;
-
-        Collider2D hit = Physics2D.OverlapCircle(origin, groundCheckRadius, groundLayers);
-        return hit != null;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Vector3 origin = (groundCheck != null) ? groundCheck.position : transform.position + Vector3.down * 0.1f;
-        Gizmos.DrawWireSphere(origin, groundCheckRadius);
     }
     #endregion
 }

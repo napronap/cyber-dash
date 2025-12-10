@@ -35,8 +35,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField, Min(0.01f), Tooltip("最大ランダム間隔(秒)")]
     private float maxInterval = 3f;
 
+    [Header("Start Delay")]
+    [SerializeField, Tooltip("游戏开始后延迟多少秒再开始生成")]
+    private float startDelay = 0f;
+
     [Header("Auto Start")]
-    [SerializeField, Tooltip("Start時に自動で生成ループ開始")]
+    [SerializeField, Tooltip("Start时に自動で生成ループ開始")]
     private bool autoStart = true;
 
     private Coroutine loop;
@@ -46,6 +50,7 @@ public class EnemySpawner : MonoBehaviour
         if (maxViewportY < minViewportY) maxViewportY = minViewportY;
         if (useRandomInterval && maxInterval < minInterval) maxInterval = minInterval;
         horizontalViewportOffset = Mathf.Max(0f, horizontalViewportOffset);
+        startDelay = Mathf.Max(0f, startDelay);
     }
 
     void Start()
@@ -55,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartSpawning()
     {
-        if (loop == null) loop = StartCoroutine(SpawnLoop());
+        if (loop == null) loop = StartCoroutine(SpawnLoopWithDelay());
     }
 
     public void StopSpawning()
@@ -72,8 +77,13 @@ public class EnemySpawner : MonoBehaviour
         DoSpawn();
     }
 
-    private IEnumerator SpawnLoop()
+    private IEnumerator SpawnLoopWithDelay()
     {
+        // 开局延迟
+        if (startDelay > 0f)
+            yield return new WaitForSeconds(startDelay);
+
+        // 进入常规生成循环
         while (true)
         {
             DoSpawn();
@@ -90,39 +100,33 @@ public class EnemySpawner : MonoBehaviour
         var cam = Camera.main;
         if (cam == null) return;
 
-        // 生成側決定
+        // 选择生成侧并决定方向
         int sideDir = 0;
-        switch (sideMode)
+        switch (sideMode)   
         {
-            case SpawnSideMode.Left: sideDir = 1; break;   // 左から右へ
-            case SpawnSideMode.Right: sideDir = -1; break; // 右から左へ
+            case SpawnSideMode.Left: sideDir = 1; break;   // 左外→向右
+            case SpawnSideMode.Right: sideDir = -1; break; // 右外→向左
             case SpawnSideMode.Random: sideDir = (Random.value < 0.5f) ? 1 : -1; break;
         }
 
-        // Viewport X (外側)
         float vx = sideDir == 1
-            ? -horizontalViewportOffset                 // 左側外
-            : 1f + horizontalViewportOffset;            // 右側外
+            ? -horizontalViewportOffset
+            : 1f + horizontalViewportOffset;
 
-        // 垂直位置
         float vy = Random.Range(minViewportY, maxViewportY);
 
-        // Viewport -> World
         Vector3 vp = new Vector3(vx, vy, Mathf.Abs(cam.transform.position.z));
         Vector3 worldPos = cam.ViewportToWorldPoint(vp);
         worldPos.z = 0f;
 
         var go = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
 
-        // 方向を渡す (tonderutekiタコ に限る簡易処理)
+        // 传递方向（如果敌人支持 SetInitialDirection）
         var octo = go.GetComponent<tonderutekiタコ>();
         if (octo != null)
         {
             octo.SetInitialDirection(sideDir);
         }
-        else
-        {
-            // 他の敵にも対応したい場合は共通IF実装か基底クラス拡張を検討
-        }
+        // 其他类型可根据需要扩展
     }
 }

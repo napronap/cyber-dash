@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8782485959599158637}
   - component: {fileID: 2411472442255743233}
   - component: {fileID: 1628789047649630369}
-  - component: {fileID: 5509216444521527220}
   - component: {fileID: 887987543317730348}
   - component: {fileID: 3289891008010536934}
   m_Layer: 0
@@ -32,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 10.43306, y: -0.09074986, z: 0}
-  m_LocalScale: {x: 1.0120295, y: 0.8233037, z: 1}
+  m_LocalScale: {x: 0.6777831, y: 1.0455956, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -156,7 +155,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0056323856, y: 0.3338332}
+  m_Offset: {x: 0.0056323856, y: 0.38247484}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -166,31 +165,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.26777676, y: 0.32320195}
+  m_Size: {x: 0.26777676, y: 0.22591868}
   m_EdgeRadius: 0
---- !u!114 &5509216444521527220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008157949240726384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe35498535299054ba93076aa5f7d544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::enemy
-  maxHealth: 10
-  moveSpeed: 2
-  jumpForce: 5
-  canFly: 0
-  patrol: 1
-  patrolDistance: 3
-  groundCheck: {fileID: 0}
-  groundCheckRadius: 0.1
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &887987543317730348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,8 +181,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: "Assembly-CSharp::tonderuteki\u30BF\u30B3"
   maxHealth: 10
   moveSpeed: 2
-  jumpForce: 5
-  canFly: 1
   patrol: 1
   patrolDistance: 3
   groundCheck: {fileID: 0}
@@ -214,6 +188,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  alwaysMoveLeft: 1
   speed: 2
   playerTag: Player
   playerLayers:
@@ -254,7 +229,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.26540527}
+  m_Offset: {x: 0, y: -0.19892836}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -264,5 +239,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.4876526}
+  m_Size: {x: 1, y: 0.6206064}
   m_EdgeRadius: 0
