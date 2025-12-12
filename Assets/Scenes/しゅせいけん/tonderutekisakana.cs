@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class toutekisakana : enemy
+public class toutekisakana : enemySeiken
 {
     [Header("上下移動")]
     [SerializeField, Tooltip("上下移動の速度（ワールド単位/秒）")]
