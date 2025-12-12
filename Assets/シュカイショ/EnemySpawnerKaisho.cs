@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawnerKaisho : MonoBehaviour
 {
     public enum SpawnSideMode
     {

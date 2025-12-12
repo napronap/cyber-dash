@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemyneko : enemy
+public class Enemyneko : enemyKaisho
 {
     [Header("Left Hand")]
     [SerializeField] private Transform leftHand;

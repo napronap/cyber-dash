@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class tonderutekiタコ : enemy
+public class tonderutekiタコ : enemyKaisho
 {
     [SerializeField, Tooltip("移動速度（基底クラスへ適用）")]
     private float speed = 2f;

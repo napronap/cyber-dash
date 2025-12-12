@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class enemy : MonoBehaviour
+public class enemyKaisho : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField, Tooltip("最大HP")]
