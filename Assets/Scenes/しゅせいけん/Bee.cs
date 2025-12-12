@@ -40,6 +40,9 @@ public class Bee : MonoBehaviour
     [SerializeField, Tooltip("游荡时允许的水平/垂直范围（以开始位置为中心的半径）")]
     private Vector2 roamRange = new Vector2(1f, 0.5f);
 
+    [Header("画面外に出たら消えるか？")]
+    [SerializeField] private bool destroyWhenOffScreen = true;
+
     private State state = State.Wander;
     private Rigidbody2D rb;
     private float stateTime = 0f;
@@ -209,4 +212,5 @@ public class Bee : MonoBehaviour
         Vector3 center = Application.isPlaying ? (Vector3)startPos : transform.position;
         Gizmos.DrawWireCube(center, new Vector3(roamRange.x * 2f, roamRange.y * 2f, 0.1f));
     }
+   
 }
