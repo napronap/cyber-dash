@@ -35,6 +35,12 @@ public class Enemyneko : enemyKaisho
     [SerializeField, Tooltip("是否自动跳跃（落地后冷却完成自动再跳）")]
     private bool autoJump = true;
 
+    [Header("Auto Destroy")]
+    [SerializeField, Tooltip("比较用相机（留空则使用 Camera.main）")]
+    private Camera referenceCamera;
+    [SerializeField, Tooltip("当对象在相机视口 X 小于此值时销毁（0 = 画面左端，负值为画面外）")]
+    private float offscreenViewportX = -0.05f;
+
     // 状态
     private bool _isSwiping;
     private float _baseZ;
@@ -96,6 +102,18 @@ public class Enemyneko : enemyKaisho
         if (autoJump && IsGrounded() && Time.time - _lastJumpTime >= jumpCooldown)
         {
             PerformForwardJump();
+        }
+
+        // 屏幕左侧外销毁判定
+        var cam = referenceCamera != null ? referenceCamera : Camera.main;
+        if (cam != null)
+        {
+            Vector3 vp = cam.WorldToViewportPoint(transform.position);
+            // vp.x < offscreenViewportX 且 vp.z > 0（相机前方）时销毁
+            if (vp.z > 0f && vp.x < offscreenViewportX)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
