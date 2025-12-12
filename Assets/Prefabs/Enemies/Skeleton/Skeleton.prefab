@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 3312882064533940948}
   - component: {fileID: 6138458001828742417}
   - component: {fileID: 3762346949672583925}
+  - component: {fileID: 1737864713601420586}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -351,3 +352,16 @@ MonoBehaviour:
   roamingDistanceMax: 7
   roamingDistanceMin: 3
   roamingTimerMax: 2
+--- !u!114 &1737864713601420586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6893013199036988780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b84f9f57a40c045ac24a8996cbe125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyEntity
+  _maxHealth: 20

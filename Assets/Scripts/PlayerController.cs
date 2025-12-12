@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
+[SelectionBase]
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator JumpRoutine()
     {
         isJumping = true;
-        rb.AddForce(Vector2.up * jumpForce*10);
+        rb.AddForce(Vector2.up * jumpForce*100);
         Debug.Log("Jumped");
         yield return new WaitForSeconds(jumpTime);
         isJumping = false;

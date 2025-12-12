@@ -4,57 +4,148 @@ using CyberDash.Utils;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private State startingState;
-    [SerializeField] private float roamingDistanceMax = 7f;
-    [SerializeField] private float roamingDistanceMin = 3f;
-    [SerializeField] private float roamingTimerMax = 2f;
+    [SerializeField] private State _startingState;
+    [SerializeField] private float _roamingDistanceMax = 7f;
+    [SerializeField] private float _roamingDistanceMin = 3f;
+    [SerializeField] private float _roamingTimerMax = 2f;
 
-    private NavMeshAgent navMeshAgent;
-    private State state;
-    private float roamingTime;
-    private Vector3 roamPosition;
-    private Vector3 startingPosition;
+    [SerializeField] private bool _isChasingEnenemy = false;
+    private float _chasingDistance = 4f;
+    private float _chasingSpeedMultiplayer = 2f;
+
+    private NavMeshAgent _navMeshAgent;
+    private State _currentState;
+    private float _roamingTimer;
+    private Vector3 _roamPosition;
+    private Vector3 _startingPosition;
+
+    private float _roamingSpeed;
+    private float _chasingSpeed;
+
+
+    public bool IsRunning()
+    {
+        get{
+
+
+            if (_navMeshAgent.velocity == Vector3.zero)
+            {
+                return false;
+
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
 
     private enum State
     {
-        Roaming
+        Idle,
+        Roaming,
+        Chasing,
+        Attacking,
+        Death
     }
 
 
     private void Awake()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updateRotation = false;
-        navMeshAgent.updateUpAxis = false;
-        state = startingState;
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.updateRotation = false;
+        _navMeshAgent.updateUpAxis = false;
+        _currentState = _startingState;
+
+        _roamingSpeed = _navMeshAgent.speed;
+        _chasingSpeed = _navMeshAgent.speed * _chasingSpeedMultiplayer;
     }
 
     private void Update()
     {
-        switch (state)
+        StateHandler();
+
+    }
+
+    private void StateHandler()
+    {
+        switch (_currentState)
         {
-            default:
             case State.Roaming:
-                roamingTime -= Time.deltaTime;
-                if (roamingTime < 0)
+                _roamingTimer -= Time.deltaTime;
+                if (_roamingTimer < 0)
                 {
                     Roaming();
-                    roamingTime = roamingTimerMax;
+                    _roamingTimer = _roamingTimerMax;
 
                 }
                 break;
+            case State.Chasing:
+                ChasingTarget();
+                CheckCurrentState();
+
+
+                break;
+            case State.Attacking:
+                break;
+            case State.Death:
+                break;
+            default:
+            case State.Idle:
+                break;
+
         }
+
     }
+
+    private void ChasingTarget()
+    {
+        _navMeshAgent.SetDistination(PlayerController.Instance.transform.position);
+    }
+
+    private void CheckCurrentState()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
+        State state = EnemyAI.State.Roaming;
+
+        if (_isChasingEnenemy)
+        {
+            if (distanceToPlayer <= _chasingDistance)
+            {
+                newState = State.Chasing;
+
+            }
+        }
+        if (newState != _currentState)
+        {
+            if (newState == State.Chasing)
+            {
+                _navMeshAgent.ResetPath();
+                _navmeshAgent.speed = _chasingSpeed;
+            }
+            else if (newState == State.Roaming)
+            {
+                _roamingTimer = 0f;
+                _navMeshAgent.speed = _roamingSpeed;
+
+            }
+            _currentState = newState;
+        }
+
+    }
+
+
+
     private void Roaming()
     {
-        startingPosition = transform.position;
-        roamPosition = GetRoamingPosition();
-        ChangeFacingDirection(transform.position, roamPosition);
-        navMeshAgent.SetDestination(roamPosition);
+        _startingPosition = transform.position;
+        _roamPosition = GetRoamingPosition();
+        ChangeFacingDirection(transform.position, _roamPosition);
+        _navMeshAgent.SetDestination(_roamPosition);
     }
     private Vector3 GetRoamingPosition()
     {
-        return startingPosition + Utils.GetRandomDir() * UnityEngine.Random.Range(roamingDistanceMin, roamingDistanceMax);
+        return _startingPosition + Utils.GetRandomDir() * UnityEngine.Random.Range(_roamingDistanceMin, _roamingDistanceMax);
     }
     private void ChangeFacingDirection(Vector3 soursePosition, Vector3 targetPosition)
     {
