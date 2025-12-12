@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private float _initialMovingSpeed;
     private bool isDashing;
     private bool isJumping;
+    private bool isGrounded;
+    private float groundLevel = -20f;
+    private bool canDash;
+    private bool dashStarted = false;
 
     private void Awake()
     {
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviour
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
 
         GameInput.Instance.OnPlayerJump += GameInput_OnPlayerJump;
+
+        isGrounded = transform.position.y < groundLevel;
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
@@ -62,25 +68,27 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator JumpRoutine()
     {
-        isJumping = true;
-        rb.AddForce(Vector2.up * jumpForce*10);
-        Debug.Log("Jumped");
-        yield return new WaitForSeconds(jumpTime);
-        isJumping = false;
-
+        if (isGrounded)
+        {
+            isJumping = true;
+            rb.AddForce(Vector2.up * jumpForce*10);
+            Debug.Log("Jumped");
+            yield return new WaitForSeconds(jumpTime);
+            isJumping = false;
+        }
     }
 
     private void Dash()
     {
-        if(!isDashing)
+        if(canDash && !dashStarted)
             StartCoroutine(DashRoutine());
-
 
     }
 
     private IEnumerator DashRoutine()
     {
         isDashing = true;
+        dashStarted = true;
         movingSpeed *= dashSpeed;
         trailRenderer.emitting = true;
         yield return new WaitForSeconds(dashTime);
@@ -96,6 +104,24 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
 
+        isGrounded = CheckIsGrounded();
+
+        if (dashStarted)
+        {
+            if (isGrounded)
+            {
+                canDash = true;
+                dashStarted = false;
+            }
+        } else
+        {
+            canDash = !dashStarted;
+        }
+    }
+
+    private bool CheckIsGrounded()
+    { 
+        return transform.position.y < groundLevel;
     }
 
     private void HandleMovement()
