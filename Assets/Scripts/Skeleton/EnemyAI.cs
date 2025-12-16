@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using CyberDash.Utils;
+using System;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -9,9 +10,15 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _roamingDistanceMin = 3f;
     [SerializeField] private float _roamingTimerMax = 2f;
 
-    [SerializeField] private bool _isChasingEnenemy = false;
-    private float _chasingDistance = 4f;
-    private float _chasingSpeedMultiplayer = 2f;
+    [SerializeField] private bool _isChasingEnemy = false;
+    [SerializeField] private float _chasingDistance = 4f;
+    [SerializeField] private float _chasingSpeedMultiplier = 2f;
+
+    [SerializeField] private bool _isAttackingEnemy = false;
+    [SerializeField] private float _attackingDistance = 2f;
+    [SerializeField] private float _attackRate = 2f;
+    private float _nextAttackTime= 0f;
+
 
     private NavMeshAgent _navMeshAgent;
     private State _currentState;
@@ -22,22 +29,20 @@ public class EnemyAI : MonoBehaviour
     private float _roamingSpeed;
     private float _chasingSpeed;
 
+    public event EventHandler OnEnemyAttack;
+
 
     public bool IsRunning()
     {
-        get{
-
-
-            if (_navMeshAgent.velocity == Vector3.zero)
-            {
-                return false;
-
-            }
-            else
-            {
-                return true;
-            }
+        if (_navMeshAgent.velocity == Vector3.zero)
+        {
+            return false;
         }
+        else
+        {
+            return true;
+        }
+
     }
 
     private enum State
@@ -58,7 +63,7 @@ public class EnemyAI : MonoBehaviour
         _currentState = _startingState;
 
         _roamingSpeed = _navMeshAgent.speed;
-        _chasingSpeed = _navMeshAgent.speed * _chasingSpeedMultiplayer;
+        _chasingSpeed = _navMeshAgent.speed * _chasingSpeedMultiplier;
     }
 
     private void Update()
@@ -79,14 +84,15 @@ public class EnemyAI : MonoBehaviour
                     _roamingTimer = _roamingTimerMax;
 
                 }
+                CheckCurrentState();
                 break;
             case State.Chasing:
                 ChasingTarget();
                 CheckCurrentState();
-
-
                 break;
             case State.Attacking:
+                AttackingTarget();
+                CheckCurrentState();
                 break;
             case State.Death:
                 break;
@@ -98,17 +104,23 @@ public class EnemyAI : MonoBehaviour
 
     }
 
+    public float GetRoaimingAnimationSpeed()
+    {
+        return _navMeshAgent.speed / _roamingSpeed;
+
+    }
+
     private void ChasingTarget()
     {
-        _navMeshAgent.SetDistination(PlayerController.Instance.transform.position);
+        _navMeshAgent.SetDestination(PlayerController.Instance.transform.position);
     }
 
     private void CheckCurrentState()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
-        State state = EnemyAI.State.Roaming;
+        State newState = EnemyAI.State.Roaming;
 
-        if (_isChasingEnenemy)
+        if (_isChasingEnemy)
         {
             if (distanceToPlayer <= _chasingDistance)
             {
@@ -116,22 +128,43 @@ public class EnemyAI : MonoBehaviour
 
             }
         }
+        if (_isAttackingEnemy)
+        {
+            if (distanceToPlayer <= _attackingDistance)
+            {
+                newState = State.Attacking;
+            }
+        }
         if (newState != _currentState)
         {
             if (newState == State.Chasing)
             {
                 _navMeshAgent.ResetPath();
-                _navmeshAgent.speed = _chasingSpeed;
+                _navMeshAgent.speed = _chasingSpeed;
             }
             else if (newState == State.Roaming)
             {
                 _roamingTimer = 0f;
                 _navMeshAgent.speed = _roamingSpeed;
-
+            }
+            else if (newState == State.Attacking)
+            {
+                _navMeshAgent.ResetPath();
             }
             _currentState = newState;
         }
 
+    }
+
+    private void AttackingTarget()
+    {
+        if(Time.time >= _nextAttackTime)
+        {
+            OnEnemyAttack?.Invoke(this, EventArgs.Empty);
+
+            _nextAttackTime = Time.time + _attackRate;
+        }
+       
     }
 
 
