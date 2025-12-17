@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2925931809934738750}
   - component: {fileID: 5698342271139736627}
   - component: {fileID: 7126911329020120881}
-  - component: {fileID: -5147217669292093941}
-  m_Layer: 0
+  - component: {fileID: 7810289621634452365}
+  m_Layer: 3
   m_Name: "\u6575\u30CD\u30B3"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,16 +181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274c5ea109766304599a20c7bea3ced6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemyneko
-  maxHealth: 10
+  maxHealth: 1
   moveSpeed: 2
-  patrol: 1
-  patrolDistance: 3
   groundCheck: {fileID: 0}
   groundCheckRadius: 0.1
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  alwaysMoveLeft: 1
   leftHand: {fileID: 9202495344423255795}
   swipeAngle: 90
   swipeSpeed: 240
@@ -201,9 +198,9 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 0
-  forwardJumpSpeed: 12
-  jumpUpVelocity: 7
-  jumpCooldown: 5
+  forwardJumpSpeed: 6
+  jumpUpVelocity: 5
+  jumpCooldown: 3
   autoJump: 1
 --- !u!61 &7126911329020120881
 BoxCollider2D:
@@ -251,7 +248,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.73871946, y: 1.0075526}
   m_EdgeRadius: 0
---- !u!114 &-5147217669292093941
+--- !u!114 &7810289621634452365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,16 +260,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58278138a49d55a4ba0996d412ebf103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemyKaisho
-  maxHealth: 10
+  maxHealth: 1
   moveSpeed: 2
-  patrol: 1
-  patrolDistance: 3
   groundCheck: {fileID: 0}
   groundCheckRadius: 0.1
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  alwaysMoveLeft: 1
 --- !u!1 &8279001770691798529
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +278,7 @@ GameObject:
   - component: {fileID: 9202495344423255795}
   - component: {fileID: 1646109274151567709}
   - component: {fileID: 145535978365011366}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u624B"
   m_TagString: Untagged
   m_Icon: {fileID: 0}

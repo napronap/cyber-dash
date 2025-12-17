@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 1628789047649630369}
   - component: {fileID: 887987543317730348}
   - component: {fileID: 3289891008010536934}
-  m_Layer: 0
+  - component: {fileID: 1619956757271148119}
+  m_Layer: 3
   m_Name: "\u6575\u30BF\u30B3"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,16 +180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 673799a1c64b5064c9f36d5324dcc3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: "Assembly-CSharp::tonderuteki\u30BF\u30B3"
-  maxHealth: 10
+  maxHealth: 1
   moveSpeed: 2
-  patrol: 1
-  patrolDistance: 3
   groundCheck: {fileID: 0}
   groundCheckRadius: 0.1
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  alwaysMoveLeft: 1
   speed: 2
   playerTag: Player
   playerLayers:
@@ -241,3 +239,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.6206064}
   m_EdgeRadius: 0
+--- !u!114 &1619956757271148119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008157949240726384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58278138a49d55a4ba0996d412ebf103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemyKaisho
+  maxHealth: 1
+  moveSpeed: 2
+  groundCheck: {fileID: 0}
+  groundCheckRadius: 0.1
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295

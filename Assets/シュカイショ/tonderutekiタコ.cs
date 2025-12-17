@@ -14,9 +14,6 @@ public class tonderutekiタコ : enemyKaisho
     [Header("初期方向 (-1=左, +1=右)")]
     [SerializeField] private float initialDirection = -1f;
 
-    // 一度でも画面内に入ったか
-    private bool hasEnteredView = false;
-
     void Start()
     {
         SetMoveSpeed(speed);
@@ -29,26 +26,8 @@ public class tonderutekiタコ : enemyKaisho
 
     void Update()
     {
-        var cam = Camera.main;
-        if (cam == null) return;
-
-        Vector3 vp = cam.WorldToViewportPoint(transform.position);
-
-        bool inView = vp.z > 0f && vp.x >= 0f && vp.x <= 1f && vp.y >= 0f && vp.y <= 1f;
-
-        if (inView)
-        {
-            hasEnteredView = true;
-        }
-        else
-        {
-            // まだ画面に入っていない間は破棄しない
-            if (hasEnteredView)
-            {
-                // 一度入ってから外れたので破棄
-                Destroy(gameObject);
-            }
-        }
+        // 画面外での自動破棄処理を削除しました
+        // 必要に応じて他のロジックをここに追加できます
     }
 
     void OnCollisionEnter2D(Collision2D collision)

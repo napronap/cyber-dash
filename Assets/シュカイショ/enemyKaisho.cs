@@ -6,19 +6,12 @@ public class enemyKaisho : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField, Tooltip("最大HP")]
-    private int maxHealth = 10;
+    private int maxHealth = 1;
     public int CurrentHealth { get; private set; }
 
     [Header("Movement")]
     [SerializeField, Tooltip("移动速度")]
     private float moveSpeed = 2f;
-
-    [Header("AI / Patrol")]
-    [SerializeField, Tooltip("是否进行自动巡逻")]
-    private bool patrol = true;
-
-    [SerializeField, Tooltip("巡逻的往返距离（横向）")]
-    private float patrolDistance = 3f;
 
     [Header("Ground Check")]
     [SerializeField, Tooltip("地面判定使用的 Transform（未设置时从对象中心下方检查）")]
@@ -30,46 +23,40 @@ public class enemyKaisho : MonoBehaviour
     [SerializeField, Tooltip("地面图层")]
     private LayerMask groundLayers = ~0;
 
-    [Header("Movement Mode")]
-    [SerializeField, Tooltip("开启后始终向左移动并禁用巡逻")]
-    private bool alwaysMoveLeft = true;
-
     // 内部
     private Rigidbody2D rb;
-    private Vector2 patrolOrigin;
-    private int patrolDirection = 1;
+
+    // 画面に一度でも入ったか
+    private bool _hasEnteredView;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         CurrentHealth = maxHealth;
-        patrolOrigin = transform.position;
+        _hasEnteredView = false;
     }
 
     void Update()
     {
-        if (alwaysMoveLeft)
+        var cam = Camera.main;
+        if (cam == null) return;
+
+        Vector3 vp = cam.WorldToViewportPoint(transform.position);
+        bool inView = vp.z > 0f && vp.x >= 0f && vp.x <= 1f && vp.y >= 0f && vp.y <= 1f;
+
+        if (inView)
         {
-            Move(-1f);
-            return;
+            _hasEnteredView = true;
         }
-
-        if (patrol)
+        else if (_hasEnteredView)
         {
-            float offset = transform.position.x - patrolOrigin.x;
-            if (Mathf.Abs(offset) >= patrolDistance)
-            {
-                patrolDirection *= -1;
-            }
-
-            Move(patrolDirection);
+            // 入場後に画面外へ出たら自動破棄
+            Destroy(gameObject);
         }
     }
 
     #region Movement API
-    /// <summary>
-    /// 水平移动。direction 取值范围为 -1..1
-    /// </summary>
+   
     public void Move(float direction)
     {
         float clamped = Mathf.Clamp(direction, -1f, 1f);
@@ -115,12 +102,6 @@ public class enemyKaisho : MonoBehaviour
             CurrentHealth = 0;
             Destroy(gameObject);
         }
-    }
-
-    public void Heal(int amount)
-    {
-        if (amount <= 0) return;
-        CurrentHealth = Mathf.Min(maxHealth, CurrentHealth + amount);
     }
     #endregion
 }
