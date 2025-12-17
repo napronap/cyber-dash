@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool _isAttackingEnemy = false;
     [SerializeField] private float _attackingDistance = 2f;
     [SerializeField] private float _attackRate = 2f;
-    private float _nextAttackTime= 0f;
+    private float _nextAttackTime = 0f;
 
 
     private NavMeshAgent _navMeshAgent;
@@ -28,6 +28,10 @@ public class EnemyAI : MonoBehaviour
 
     private float _roamingSpeed;
     private float _chasingSpeed;
+
+    private float _nextCheckDirectionTime = 0f;
+    private float _checkDirectionDuration = 0.1f;
+    private Vector3 _lastPosition;
 
     public event EventHandler OnEnemyAttack;
 
@@ -69,6 +73,7 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         StateHandler();
+        MovementDirectionHandler();
 
     }
 
@@ -158,13 +163,30 @@ public class EnemyAI : MonoBehaviour
 
     private void AttackingTarget()
     {
-        if(Time.time >= _nextAttackTime)
+        if (Time.time >= _nextAttackTime)
         {
             OnEnemyAttack?.Invoke(this, EventArgs.Empty);
 
             _nextAttackTime = Time.time + _attackRate;
         }
-       
+
+    }
+
+    private void MovementDirectionHandler()
+    {
+        if (Time.time > _nextCheckDirectionTime)
+        {
+            if (IsRunning())
+            {
+                ChangeFacingDirection(_lastPosition, transform.position);
+            }
+            else if (_currentState == State.Roaming)
+            {
+                ChangeFacingDirection(transform.position, PlayerController.Instance.transform.position);
+            }
+            _lastPosition = transform.position;
+            _nextCheckDirectionTime = Time.time + _checkDirectionDuration;
+        }
     }
 
 
@@ -173,7 +195,6 @@ public class EnemyAI : MonoBehaviour
     {
         _startingPosition = transform.position;
         _roamPosition = GetRoamingPosition();
-        ChangeFacingDirection(transform.position, _roamPosition);
         _navMeshAgent.SetDestination(_roamPosition);
     }
     private Vector3 GetRoamingPosition()
