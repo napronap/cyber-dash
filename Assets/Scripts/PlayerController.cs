@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int dashSpeed = 4;
     [SerializeField] private float dashTime = 0.2f;
     [SerializeField] private  TrailRenderer trailRenderer;
-    [SerializeField] private float dashCooldownTime = 0.25f;
+    [SerializeField] private float dashCooldownTime = 30.0f;
     [SerializeField] private float jumpForce = 1000f;
     [SerializeField] private float jumpTime = 0.2f;
 
@@ -91,6 +91,15 @@ public class PlayerController : MonoBehaviour
         dashStarted = true;
         movingSpeed *= dashSpeed;
         trailRenderer.emitting = true;
+
+        //var waitForSecondDuration = dashTime;
+
+        //if (isGrounded)
+        //{
+        //    waitForSecondDuration += dashCooldownTime;
+        //}
+           
+
         yield return new WaitForSeconds(dashTime);
 
         trailRenderer.emitting = false;
@@ -106,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = CheckIsGrounded();
 
-        if (dashStarted)
+        if (dashStarted && !isDashing)
         {
             if (isGrounded)
             {
