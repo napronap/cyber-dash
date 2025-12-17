@@ -14,6 +14,13 @@ public class Enemyneko : enemyKaisho
     private float swipeCooldown = 1.0f;
     [SerializeField, Tooltip("自动挥击的时间间隔（秒）")]
     private float swipeInterval = 1.5f;
+    
+    [Header("Player 判定")]
+    [SerializeField, Tooltip("プレイヤータグ")]
+    private string playerTag = "Player";
+    [SerializeField, Tooltip("プレイヤーレイヤー（0 の場合は無視）")]
+    private LayerMask playerLayers = 0;
+
 
     [Header("Hit")]
     [SerializeField, Tooltip("伤害数值")]

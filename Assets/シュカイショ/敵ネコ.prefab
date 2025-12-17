@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 7488227347705176477}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.32, y: -1.4785042, z: 0}
-  m_LocalScale: {x: 1.2175908, y: 0.52961206, z: 1}
+  m_LocalPosition: {x: -3.316, y: -1.4785042, z: 0}
+  m_LocalScale: {x: 1.2095547, y: 0.52961206, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9202495344423255795}
@@ -218,6 +218,10 @@ MonoBehaviour:
   swipeSpeed: 240
   swipeCooldown: 0
   swipeInterval: 4
+  playerTag: Player
+  playerLayers:
+    serializedVersion: 2
+    m_Bits: 0
   damage: 10
   hitRadius: 0.4
   hitMask:
@@ -227,6 +231,8 @@ MonoBehaviour:
   jumpUpVelocity: 7
   jumpCooldown: 5
   autoJump: 1
+  referenceCamera: {fileID: 0}
+  offscreenViewportX: -0.05
 --- !u!61 &7126911329020120881
 BoxCollider2D:
   m_ObjectHideFlags: 0
