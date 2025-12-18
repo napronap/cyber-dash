@@ -16,9 +16,14 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Options"); // <-- scene name here
     }
+
+    public void Credits()
+    {
+        SceneManager.LoadScene("Credits"); // <-- scene name here
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void QuitGame()
     {
-        Application.Quit();
+        SceneManager.LoadScene("Quit"); // <-- scene name here
     }
 }
