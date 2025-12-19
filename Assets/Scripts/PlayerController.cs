@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
+        //GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
 
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
 
@@ -46,10 +46,10 @@ public class PlayerController : MonoBehaviour
         isGrounded = transform.position.y < groundLevel;
     }
 
-    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
-    {   
-       ActiveWeapon.Instance.getActiveWeapon().Attack();
-    } 
+    //private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
+    //{   
+    //   ActiveWeapon.Instance.getActiveWeapon().Attack();
+    //} 
 
     private void GameInput_OnPlayerDash(object sender, System.EventArgs e)
     {
