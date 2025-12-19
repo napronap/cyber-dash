@@ -9,6 +9,7 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     public float spawnIntervalMin = 2f;
     public float spawnIntervalMax = 30f;
     public string sortingLayer;
+    public int spawnHeight = 0;
 
     private float timer;
 
@@ -47,7 +48,7 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
 
         // for whatever reason 0 is the exact height of the current street placeholder
         //何故かわからないけど、y=0でピッタリ道の上にいちさせる。。。
-        go.transform.position = new Vector3(spawnX, 0 , 0);
+        go.transform.position = new Vector3(spawnX, spawnHeight, 0);
         go.transform.SetParent(transform);
     }
 
