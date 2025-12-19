@@ -14,7 +14,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.aseprite": {
-      "version": "2.0.1",
+      "version": "2.0.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -36,6 +36,27 @@
         "com.unity.mathematics": "1.1.0",
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.uielements": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.enhancers": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.2d.common": "11.0.1",
+        "com.unity.ai.generators": "1.0.0-pre.12",
+        "com.unity.settings-manager": "2.0.1",
+        "com.unity.modules.uielements": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.pixel-perfect": {
+      "version": "5.1.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.imgui": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -87,6 +108,35 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.ai.generators": {
+      "version": "1.0.0-pre.12",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ai.toolkit": "1.0.0-pre.12",
+        "com.unity.mathematics": "1.3.2",
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ai.navigation": {
+      "version": "2.0.9",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ai.toolkit": {
+      "version": "1.0.0-pre.12",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.burst": {
       "version": "1.8.24",
       "depth": 2,
@@ -123,8 +173,23 @@
       "source": "builtin",
       "dependencies": {}
     },
+    "com.unity.feature.2d": {
+      "version": "2.0.1",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.2d.animation": "12.0.2",
+        "com.unity.2d.pixel-perfect": "5.1.1",
+        "com.unity.2d.psdimporter": "11.0.1",
+        "com.unity.2d.sprite": "1.0.0",
+        "com.unity.2d.spriteshape": "12.0.1",
+        "com.unity.2d.tilemap": "1.0.0",
+        "com.unity.2d.tilemap.extras": "5.0.1",
+        "com.unity.2d.aseprite": "2.0.2"
+      }
+    },
     "com.unity.ide.rider": {
-      "version": "3.0.37",
+      "version": "3.0.38",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -133,11 +198,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.23",
+      "version": "2.0.25",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.test-framework": "1.1.9"
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -167,6 +232,13 @@
     },
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.5",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
@@ -222,6 +294,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.settings-manager": {
+      "version": "2.1.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.shadergraph": {
       "version": "17.2.0",
       "depth": 1,
@@ -273,7 +352,7 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.9.7",
+      "version": "1.9.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {

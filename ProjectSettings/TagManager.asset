@@ -11,13 +11,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - Over Background
+  - Building Landscape
+  - Building Foreground
+  - Building
+  - Street
+  - Character
   - 
   - 
   - 
@@ -41,8 +41,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 1
-    uniqueID: 207182073
+  - name: Background
+    uniqueID: 653520669
+    locked: 0
+  - name: Over Background
+    uniqueID: 2244420001
+    locked: 0
+  - name: Building Landscape
+    uniqueID: 3122370777
+    locked: 0
+  - name: Building Foreground
+    uniqueID: 1639016439
+    locked: 0
+  - name: Building
+    uniqueID: 3401741475
+    locked: 0
+  - name: Street
+    uniqueID: 3270374387
+    locked: 0
+  - name: Character
+    uniqueID: 2415208647
     locked: 0
   m_RenderingLayers:
   - Default
