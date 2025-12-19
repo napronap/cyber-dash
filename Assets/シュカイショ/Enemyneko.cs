@@ -46,7 +46,7 @@ public class Enemyneko : enemyKaisho
 
     private void OnEnable()
     {
-        ForceFaceRight();
+       
         _rb = GetComponent<Rigidbody2D>();
 
         // 自动查找左手（若未在 Inspector 指定）
@@ -101,7 +101,7 @@ public class Enemyneko : enemyKaisho
 
     private void LateUpdate()
     {
-        ForceFaceRight();
+       
     }
 
     // 向前（左）跳跃（如需向右，把 v.x 改为 +forwardJumpSpeed）
@@ -210,15 +210,8 @@ public class Enemyneko : enemyKaisho
         t.localEulerAngles = e;
     }
 
-    // 强制朝右
-    private void ForceFaceRight()
-    {
-        var s = transform.localScale;
-        s.x = Mathf.Abs(s.x);
-        transform.localScale = s;
-        var sr = GetComponentInChildren<SpriteRenderer>();
-        if (sr != null) sr.flipX = false;
-    }
+   
+  
 }
 
 public interface IDamageABLE

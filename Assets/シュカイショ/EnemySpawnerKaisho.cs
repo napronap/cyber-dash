@@ -127,6 +127,6 @@ public class EnemySpawnerKaisho : MonoBehaviour
         {
             octo.SetInitialDirection(sideDir);
         }
-        // 其他类型可根据需要扩展
+        
     }
 }

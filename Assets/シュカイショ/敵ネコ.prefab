@@ -190,15 +190,15 @@ MonoBehaviour:
     m_Bits: 4294967295
   leftHand: {fileID: 9202495344423255795}
   swipeAngle: 90
-  swipeSpeed: 240
+  swipeSpeed: 420
   swipeCooldown: 0
-  swipeInterval: 4
+  swipeInterval: 2.55
   damage: 10
   hitRadius: 0.4
   hitMask:
     serializedVersion: 2
     m_Bits: 0
-  forwardJumpSpeed: 6
+  forwardJumpSpeed: 4.5
   jumpUpVelocity: 5
   jumpCooldown: 3
   autoJump: 1
