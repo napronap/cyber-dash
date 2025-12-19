@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private void GameInput_OnPlayerDash(object sender, System.EventArgs e)
     {
         Dash();
+        ActiveWeapon.Instance.getActiveWeapon().Attack();
     }
 
     private void GameInput_OnPlayerJump(object sender, System.EventArgs e)
