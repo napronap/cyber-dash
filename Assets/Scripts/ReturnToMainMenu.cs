@@ -4,6 +4,6 @@ public class ReturnToMainMenu : MonoBehaviour
 {
     public void GoToMainMenu()
     {
-        SceneFadeManager.I.FadeToScene("MainMenuTest");
+       SceneFadeManager.I.FadeToScene("MainMenuTest");
     }
 }
