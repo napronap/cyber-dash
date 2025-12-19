@@ -37,19 +37,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
-
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
 
         GameInput.Instance.OnPlayerJump += GameInput_OnPlayerJump;
 
         isGrounded = transform.position.y < groundLevel;
     }
-
-    //private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
-    //{   
-    //   ActiveWeapon.Instance.getActiveWeapon().Attack();
-    //} 
 
     private void GameInput_OnPlayerDash(object sender, System.EventArgs e)
     {
@@ -91,15 +84,6 @@ public class PlayerController : MonoBehaviour
         dashStarted = true;
         movingSpeed *= dashSpeed;
         trailRenderer.emitting = true;
-
-        //var waitForSecondDuration = dashTime;
-
-        //if (isGrounded)
-        //{
-        //    waitForSecondDuration += dashCooldownTime;
-        //}
-           
-
         yield return new WaitForSeconds(dashTime);
 
         trailRenderer.emitting = false;
