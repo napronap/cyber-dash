@@ -348,7 +348,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.96
   far clip plane: 1000
   field of view: 34
   orthographic: 1
@@ -847,7 +847,7 @@ Transform:
   m_GameObject: {fileID: 907203697}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.03, y: -9.07, z: 0}
+  m_LocalPosition: {x: 10.03, y: -9.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -948,6 +948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bd44a44cd62c64fbfc1eea95b24880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Extensions.CollectSources2d
+  <Order>k__BackingField: 0
+  m_navMeshOwner: {fileID: 1504311287}
   m_OverrideByGrid: 0
   m_UseMeshPrefab: {fileID: 0}
   m_CompressBounds: 0
@@ -969,7 +971,6 @@ MonoBehaviour:
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
-    serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
   m_DefaultArea: 0
@@ -983,6 +984,8 @@ MonoBehaviour:
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: 635598b88b3e61b44b73a8cedd2bb6bc, type: 2}
+  m_LastPosition: {x: 1, y: 1, z: 0}
+  m_LastRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
 --- !u!4 &1504311288
 Transform:
   m_ObjectHideFlags: 0
