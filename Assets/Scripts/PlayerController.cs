@@ -55,22 +55,23 @@ public class PlayerController : MonoBehaviour
     private void GameInput_OnPlayerJump(object sender, System.EventArgs e)
     {
         Jump();
+        Debug.Log("Jumped");
     }
 
     private void Jump()
     {
-        if (!isJumping)
-                StartCoroutine(JumpRoutine());
+        rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        
     }
-    private IEnumerator JumpRoutine()
-    {
-        isJumping = true;
-        rb.AddForce(Vector2.up * jumpForce*100);
-        Debug.Log("Jumped");
-        yield return new WaitForSeconds(jumpTime);
-        isJumping = false;
+    //private IEnumerator JumpRoutine()
+    //{
+    //    isJumping = true;
+    //    rb.AddForce(Vector2.up * jumpForce*100);
+    //    Debug.Log("Jumped");
+    //    yield return new WaitForSeconds(jumpTime);
+    //    isJumping = false;
 
-    }
+    //}
 
     private void Dash()
     {
