@@ -53,4 +53,12 @@ public class SceneFadeManager : MonoBehaviour
 
         fadeGroup.alpha = targetAlpha;
     }
+    public void FadeOut()
+    {
+               StartCoroutine(FadeTo(1f));
+    }
+    public void FadeIn()
+    {
+               StartCoroutine(FadeTo(0f));
+    }
 }
