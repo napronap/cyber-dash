@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Settings")]
     [SerializeField] private int dashSpeed = 4;
     [SerializeField] private float dashTime = 0.2f;
-    [SerializeField] private  TrailRenderer trailRenderer;
+    [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private float dashCooldownTime = 30.0f;
     [SerializeField] private float jumpForce = 1000f;
     [SerializeField] private float jumpTime = 0.2f;
@@ -57,23 +57,43 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         if (!isJumping)
-                StartCoroutine(JumpRoutine());
+            StartCoroutine(JumpRoutine());
     }
     private IEnumerator JumpRoutine()
     {
         if (isGrounded)
         {
+            
             isJumping = true;
-            rb.AddForce(Vector2.up * jumpForce*10);
-            Debug.Log("Jumped");
+
+            
+            Vector2 inputVector = GameInput.Instance.GetMovementVector();
+
+            
+            if (Mathf.Abs(inputVector.x) > 0.1f)
+            {
+                
+                Vector2 jumpDirection = new Vector2(inputVector.x * 0.7f, 1f).normalized;
+                rb.AddForce(jumpDirection * jumpForce * 5);
+                Debug.Log("Jump Cross " + inputVector.x);
+            }
+            else
+            {
+                
+                rb.AddForce(Vector2.up * jumpForce * 5);
+                Debug.Log("Jump");
+            }
+
             yield return new WaitForSeconds(jumpTime);
             isJumping = false;
         }
+
+
     }
 
     private void Dash()
     {
-        if(canDash && !dashStarted)
+        if (canDash && !dashStarted)
             StartCoroutine(DashRoutine());
 
     }
@@ -106,14 +126,15 @@ public class PlayerController : MonoBehaviour
                 canDash = true;
                 dashStarted = false;
             }
-        } else
+        }
+        else
         {
             canDash = !dashStarted;
         }
     }
 
     private bool CheckIsGrounded()
-    { 
+    {
         return transform.position.y < groundLevel;
     }
 
@@ -121,17 +142,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
         inputVector = inputVector.normalized;
+
+
+        //rb.MovePosition(rb.position + new Vector2(inputVector.x * movingSpeed * Time.fixedDeltaTime, 0f));
+
+
         rb.MovePosition(rb.position + inputVector * (movingSpeed * Time.fixedDeltaTime));
 
-        if ((Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed))
-        {
-            isRunning = true;
-        }
-        else
-        {
-            isRunning = false;
 
-        }
+
+
 
 
     }
@@ -143,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 GetPlayerScreenPosition()
     {
-        Vector3 playerScreenPosition= Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         return playerScreenPosition;
     }
 }
