@@ -6,19 +6,9 @@ public class ParallaxManager : MonoBehaviour
 
     public void SetScrolling(bool active)
     {
-        foreach (var layer in layers)
-        {
-            layer.isActive = active;
-        }
     }
 
     void Update()
     {
-        // TODO
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     Debug.Log("space");
-        //     SetScrolling(false);
-        // }
     }
 }

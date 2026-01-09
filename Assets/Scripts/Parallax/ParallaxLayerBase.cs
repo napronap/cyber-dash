@@ -11,9 +11,12 @@ public abstract class ParallaxLayerBase : MonoBehaviour
 
     void Update()
     {
-        if (!isActive) return;
-
         Tick(Time.deltaTime);
+    }
+
+    public virtual void toggleActive()
+    {
+        isActive = !isActive;
     }
 
     protected abstract void Tick(float dt);

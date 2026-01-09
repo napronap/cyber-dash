@@ -17,16 +17,26 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     {
         timer += dt;
 
-        if (timer >= Random.Range(spawnIntervalMin, spawnIntervalMax))
+        Debug.Log(isActive);
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            timer = 0f;
-
-            Sprite selectedSprite = spriteList[Random.Range(0, spriteList.Length -1)];
-
-            SpawnBuilding(selectedSprite);
+            toggleActive();
         }
 
-        MoveBuildings(dt);
+        if (isActive)
+        {
+            if (timer >= Random.Range(spawnIntervalMin, spawnIntervalMax))
+            {
+                timer = 0f;
+
+                Sprite selectedSprite = spriteList[Random.Range(0, spriteList.Length - 1)];
+
+                SpawnBuilding(selectedSprite);
+            }
+
+            MoveBuildings(dt);
+        }
     }
 
     void SpawnBuilding(Sprite selectedSprite)
