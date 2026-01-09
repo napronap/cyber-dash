@@ -14,10 +14,11 @@ public class ParallaxManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("space");
-            SetScrolling(false);
-        }
+        // TODO
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     Debug.Log("space");
+        //     SetScrolling(false);
+        // }
     }
 }

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashCooldownTime = 30.0f;
     [SerializeField] private float jumpForce = 1000f;
     [SerializeField] private float jumpTime = 0.2f;
+    [SerializeField] private float groundLevel = -4f;
 
     private Rigidbody2D rb;
     private float minMovingSpeed = 0.1f;
@@ -24,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private bool isDashing;
     private bool isJumping;
     private bool isGrounded;
-    private float groundLevel = -20f;
     private bool canDash;
     private bool dashStarted = false;
 
