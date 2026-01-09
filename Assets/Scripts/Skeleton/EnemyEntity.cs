@@ -33,9 +33,12 @@ public class EnemyEntity : MonoBehaviour
         _currentHealth = _enemySO.enemyHealth;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("attack");
+        if (collision.transform.TryGetComponent(out PlayerController player))
+        {
+            player.TakeDamage(transform, _enemySO.enemyDamageAmount);
+        }
     }
 
     public void TakeDamage(int damage)

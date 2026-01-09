@@ -972,11 +972,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7df5d1e19b0c34284ab99d01099b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _maxhealth: 10
   _movingSpeed: 5
   _dashSpeed: 4
   _dashTime: 0.2
-  _trailRenderer: {fileID: 0}
+  _trailRenderer: {fileID: 1797947294}
   _dashCooldownTime: 0.25
   _jumpForce: 1000
   _jumpTime: 0.2
@@ -1119,7 +1118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2457becbf41e23447b21b8294e349715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockBack
-  _knockBackForce: 1
+  _knockBackForce: 3
   _knockBackMovingTimerMax: 0.3
 --- !u!1001 &1010690981
 PrefabInstance:
@@ -2018,10 +2017,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 480503260761209746, guid: 79c4ff570f71992499ca056ed482d053, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1640063930322924302, guid: 79c4ff570f71992499ca056ed482d053, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1640063930322924302, guid: 79c4ff570f71992499ca056ed482d053, type: 3}

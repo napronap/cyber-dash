@@ -1,35 +1,41 @@
-using JetBrains.Annotations;
-using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 using System;
 using System.Collections;
 
 [SelectionBase]
+[RequireComponent(typeof(KnockBack))]
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
+    [SerializeField] private int _maxhealth =10;
 
-    [SerializeField] private float movingSpeed = 5f;
+    Vector2 inputVector;
+
+    [SerializeField] private float _movingSpeed = 5f;
     [Header("Dash Settings")]
-    [SerializeField] private int dashSpeed = 4;
-    [SerializeField] private float dashTime = 0.2f;
-    [SerializeField] private  TrailRenderer trailRenderer;
-    [SerializeField] private float dashCooldownTime = 0.25f;
-    [SerializeField] private float jumpForce = 1000f;
-    [SerializeField] private float jumpTime = 0.2f;
+    [SerializeField] private int _dashSpeed = 4;
+    [SerializeField] private float _dashTime = 0.2f;
+    [SerializeField] private  TrailRenderer _trailRenderer;
+    [SerializeField] private float _dashCooldownTime = 0.25f;
+    [SerializeField] private float _jumpForce = 1000f;
+    [SerializeField] private float _jumpTime = 0.2f;
 
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
+    private KnockBack _knockBack;
+
     private float minMovingSpeed = 0.1f;
     private bool isRunning = false;
     private float _initialMovingSpeed;
     private bool isDashing;
     private bool isJumping;
+    private int _currentHealth;
 
     private void Awake()
     {
         Instance = this;
-        rb = GetComponent<Rigidbody2D>();
-        _initialMovingSpeed = movingSpeed;
+        _rb = GetComponent<Rigidbody2D>();
+        _initialMovingSpeed = _movingSpeed;
+        _knockBack = GetComponent<KnockBack>();
     }
 
     private void Start()
@@ -39,6 +45,16 @@ public class PlayerController : MonoBehaviour
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
 
         GameInput.Instance.OnPlayerJump += GameInput_OnPlayerJump;
+
+        _currentHealth = _maxhealth;
+    }
+
+    public void TakeDamage(Transform damageSource, int damage)
+    {
+        _currentHealth = Mathf.Max(0, _currentHealth -= damage);
+        Debug.Log(_currentHealth);
+        _knockBack.GetKnockedBack(damageSource);
+
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
@@ -60,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        _rb.AddForce(transform.up * _jumpForce, ForceMode2D.Impulse);
         
     }
     //private IEnumerator JumpRoutine()
@@ -84,28 +100,29 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         isDashing = true;
-        movingSpeed *= dashSpeed;
-        trailRenderer.emitting = true;
-        yield return new WaitForSeconds(dashTime);
+        _movingSpeed *= _dashSpeed;
+        _trailRenderer.emitting = true;
+        yield return new WaitForSeconds(_dashTime);
 
-        trailRenderer.emitting = false;
-        movingSpeed = _initialMovingSpeed;
+        _trailRenderer.emitting = false;
+        _movingSpeed = _initialMovingSpeed;
 
-        yield return new WaitForSeconds(dashCooldownTime);
+        yield return new WaitForSeconds(_dashCooldownTime);
         isDashing = false;
     }
 
     void FixedUpdate()
     {
+        if(_knockBack.IsGettingKnockedBack)
+            return;
         HandleMovement();
-
     }
 
     private void HandleMovement()
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
         inputVector = inputVector.normalized;
-        rb.MovePosition(rb.position + inputVector * (movingSpeed * Time.fixedDeltaTime));
+        _rb.MovePosition(_rb.position + inputVector * (_movingSpeed * Time.fixedDeltaTime));
 
         if ((Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed))
         {
@@ -130,4 +147,6 @@ public class PlayerController : MonoBehaviour
         Vector3 playerScreenPosition= Camera.main.WorldToScreenPoint(transform.position);
         return playerScreenPosition;
     }
+
+    
 }
