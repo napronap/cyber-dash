@@ -17,8 +17,6 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     {
         timer += dt;
 
-        Debug.Log(isActive);
-
         if (Input.GetKeyDown(KeyCode.P))
         {
             toggleActive();

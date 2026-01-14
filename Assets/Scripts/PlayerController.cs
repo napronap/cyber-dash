@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float movingSpeed = 5f;
     [Header("Dash Settings")]
-    [SerializeField] private int dashSpeed = 4;
+    [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private float dashTime = 0.2f;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private float dashCooldownTime = 30.0f;
@@ -19,14 +19,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundLevel = -4f;
 
     private Rigidbody2D rb;
-    private float minMovingSpeed = 0.1f;
-    private bool isRunning = false;
     private float _initialMovingSpeed;
     private bool isDashing;
-    private bool isJumping;
+    private bool isRunning;
     private bool isGrounded;
     private bool canDash;
     private bool dashStarted = false;
+    private bool willDash = false;
 
     private void Awake()
     {
@@ -38,73 +37,67 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnPlayerDash += GameInput_OnPlayerDash;
-
         GameInput.Instance.OnPlayerJump += GameInput_OnPlayerJump;
-
-        isGrounded = transform.position.y < groundLevel;
     }
 
-    private void GameInput_OnPlayerDash(object sender, System.EventArgs e)
+    private void GameInput_OnPlayerDash(object sender, EventArgs e)
     {
         Dash();
     }
 
-    private void GameInput_OnPlayerJump(object sender, System.EventArgs e)
+    private void GameInput_OnPlayerJump(object sender, EventArgs e)
     {
         Jump();
     }
 
     private void Jump()
     {
-        if (!isJumping)
-            StartCoroutine(JumpRoutine());
-    }
-    private IEnumerator JumpRoutine()
-    {
         if (isGrounded)
         {
-            
-            isJumping = true;
-
-            
             Vector2 inputVector = GameInput.Instance.GetMovementVector();
 
-            
             if (Mathf.Abs(inputVector.x) > 0.1f)
             {
-                
                 Vector2 jumpDirection = new Vector2(inputVector.x * 0.7f, 1f).normalized;
-                rb.AddForce(jumpDirection * jumpForce * 5);
-                Debug.Log("Jump Cross " + inputVector.x);
+                rb.AddForce(jumpDirection * jumpForce * 7);
             }
             else
             {
-                
-                rb.AddForce(Vector2.up * jumpForce * 5);
-                Debug.Log("Jump");
+                rb.AddForce(Vector2.up * jumpForce * 7);
             }
-
-            yield return new WaitForSeconds(jumpTime);
-            isJumping = false;
         }
-
-
     }
 
     private void Dash()
     {
-        if (canDash && !dashStarted)
+        if (canDash)
+        {
             StartCoroutine(DashRoutine());
-
+            return;
+        }
     }
 
     private IEnumerator DashRoutine()
     {
+        willDash = true;
         isDashing = true;
         dashStarted = true;
-        movingSpeed *= dashSpeed;
+
+        Vector2 inputVector = GameInput.Instance.GetMovementVector();
+
+        float x = inputVector.x;
+        float y = inputVector.y;
+
+        bool hasHorizontalInput = Mathf.Abs(x) > 0.1f;
+        bool isRight = x > 0.1f;
+        bool isUp = y > 0.1f;
+
+        bool longDash = isRight || (!hasHorizontalInput && isUp);
+
+        movingSpeed *= longDash ? dashSpeed : dashSpeed / 2f;
         trailRenderer.emitting = true;
         yield return new WaitForSeconds(dashTime);
+        willDash = false;
 
         trailRenderer.emitting = false;
         movingSpeed = _initialMovingSpeed;
@@ -118,7 +111,16 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
 
         isGrounded = CheckIsGrounded();
+        CheckDash();
+    }
 
+    private bool CheckIsGrounded()
+    {
+        return transform.position.y < groundLevel;
+    }
+
+    private void CheckDash()
+    {
         if (dashStarted && !isDashing)
         {
             if (isGrounded)
@@ -133,32 +135,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool CheckIsGrounded()
-    {
-        return transform.position.y < groundLevel;
-    }
-
     private void HandleMovement()
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
-        inputVector = inputVector.normalized;
 
+        float vy = willDash ? inputVector.y : 0f;
+        Vector2 cleanedVector = new Vector2(inputVector.x, vy).normalized;
 
-        //rb.MovePosition(rb.position + new Vector2(inputVector.x * movingSpeed * Time.fixedDeltaTime, 0f));
-
-
-        rb.MovePosition(rb.position + inputVector * (movingSpeed * Time.fixedDeltaTime));
-
-
-
-
-
-
+        var speed = cleanedVector * movingSpeed;
+        rb.linearVelocity = speed;
     }
+
     public bool IsRunning()
     {
         return isRunning;
-
     }
 
     public Vector3 GetPlayerScreenPosition()
