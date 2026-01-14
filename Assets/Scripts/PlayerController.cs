@@ -7,7 +7,11 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
+    public event EventHandler OnPlayerDeath;
+    public event EventHandler OnFlashBlink;
+
     [SerializeField] private int _maxhealth =10;
+    [SerializeField] private float _damageRecoveryTime = 0.5f;
 
     Vector2 inputVector;
 
@@ -29,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private bool isDashing;
     private bool isJumping;
     private int _currentHealth;
+    private bool _canTakeDamage;
+    private bool _isAlive;
 
     private void Awake()
     {
@@ -46,14 +52,49 @@ public class PlayerController : MonoBehaviour
 
         GameInput.Instance.OnPlayerJump += GameInput_OnPlayerJump;
 
+        _canTakeDamage = true;
+
+        _isAlive = true;
+
         _currentHealth = _maxhealth;
     }
 
+    public bool IsAlive() => _isAlive;
+
+
     public void TakeDamage(Transform damageSource, int damage)
     {
-        _currentHealth = Mathf.Max(0, _currentHealth -= damage);
-        Debug.Log(_currentHealth);
-        _knockBack.GetKnockedBack(damageSource);
+        if (_canTakeDamage && _isAlive)
+        {
+            _canTakeDamage = false;
+            _currentHealth = Mathf.Max(0, _currentHealth -= damage);
+            Debug.Log(_currentHealth);
+            _knockBack.GetKnockedBack(damageSource);
+
+            OnFlashBlink?.Invoke(this, EventArgs.Empty);
+
+            StartCoroutine(DamageRecoveryRoutine());
+        }
+        DetectDeath();
+    }
+
+    private void DetectDeath()
+    {
+        if(_currentHealth == 0 && _isAlive )
+        {
+
+            _isAlive = false;
+            _knockBack.StopKnockBackMovement();
+            GameInput.Instance.DisableMovement();
+            OnPlayerDeath?.Invoke(this, EventArgs.Empty);
+
+        }
+    }
+
+    private IEnumerator DamageRecoveryRoutine()
+    {
+        yield return new WaitForSeconds(_damageRecoveryTime);
+        _canTakeDamage = true;
 
     }
 
@@ -111,7 +152,7 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if(_knockBack.IsGettingKnockedBack)
             return;
