@@ -1982,6 +1982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 840591918}
   - component: {fileID: 840591919}
+  - component: {fileID: 840591920}
   m_Layer: 5
   m_Name: MusicSlider
   m_TagString: Untagged
@@ -2004,11 +2005,11 @@ RectTransform:
   - {fileID: 1589183548}
   - {fileID: 877325604}
   - {fileID: 802714348}
-  m_Father: {fileID: 1033324063}
+  m_Father: {fileID: 1599787697}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 304.14, y: 83.729}
+  m_AnchoredPosition: {x: 509.22998, y: -2.2710037}
   m_SizeDelta: {x: 548.3322, y: 175.7203}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &840591919
@@ -2062,6 +2063,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &840591920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840591917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058aa5f5463401b4b85c5e692b24f1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicSliderBinder
+  slider: {fileID: 840591919}
+  audioSettings: {fileID: 1390709128}
 --- !u!1 &853442228
 GameObject:
   m_ObjectHideFlags: 0
@@ -2478,7 +2493,6 @@ RectTransform:
   m_Children:
   - {fileID: 2049594060}
   - {fileID: 1599787697}
-  - {fileID: 840591918}
   - {fileID: 1658880947}
   - {fileID: 1684714135}
   - {fileID: 1278256970}
@@ -3577,7 +3591,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 840591918}
   m_Father: {fileID: 1033324063}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
