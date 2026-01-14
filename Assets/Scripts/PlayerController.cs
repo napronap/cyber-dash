@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour
         if (canDash)
         {
             StartCoroutine(DashRoutine());
-            return;
         }
     }
 

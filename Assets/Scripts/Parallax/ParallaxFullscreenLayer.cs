@@ -15,7 +15,7 @@ public class ParallaxFullscreenLayer : ParallaxLayerBase
         width = leftTile.GetComponent<SpriteRenderer>().bounds.size.x;
 
         float xOffset = 1.3f;
-        
+
         leftTile.localPosition = new Vector3(-xOffset, 0.5f, 0);
         rightTile.localPosition = new Vector3(width - xOffset, 0.5f, 0);
     }
@@ -24,19 +24,27 @@ public class ParallaxFullscreenLayer : ParallaxLayerBase
     {
         float move = speed * dt;
 
-        leftTile.position += Vector3.left * move;
-        rightTile.position += Vector3.left * move;
-
-        if (leftTile.position.x <= -width)
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            leftTile.position = new Vector3(rightTile.position.x + width, leftTile.position.y, leftTile.position.z);
-            SwapTiles();
+            toggleActive();
         }
 
-        if (rightTile.position.x <= -width)
+        if (isActive)
         {
-            rightTile.position = new Vector3(leftTile.position.x + width, rightTile.position.y, rightTile.position.z);
-            SwapTiles();
+            leftTile.position += Vector3.left * move;
+            rightTile.position += Vector3.left * move;
+
+            if (leftTile.position.x <= -width)
+            {
+                leftTile.position = new Vector3(rightTile.position.x + width, leftTile.position.y, leftTile.position.z);
+                SwapTiles();
+            }
+
+            if (rightTile.position.x <= -width)
+            {
+                rightTile.position = new Vector3(leftTile.position.x + width, rightTile.position.y, rightTile.position.z);
+                SwapTiles();
+            }
         }
     }
 
