@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 4129200379580718742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.73, z: 0}
-  m_LocalScale: {x: 1, y: 0.6277, z: 1}
+  m_LocalPosition: {x: -0.41, y: -3.05, z: 0}
+  m_LocalScale: {x: 3.056, y: 2.2087631, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7950846879237947776}
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.8490566, g: 0.7371063, b: 0.47659308, a: 1}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 7729258257603172294}
   - component: {fileID: 5343343226255834791}
   - component: {fileID: 6087386037534363447}
+  - component: {fileID: -6104709933179586156}
   m_Layer: 0
   m_Name: bee
   m_TagString: Untagged
@@ -179,8 +180,8 @@ Transform:
   m_GameObject: {fileID: 7382663874716763413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.63, y: -0.58, z: 0}
-  m_LocalScale: {x: 1.0227556, y: 1.2288, z: 1}
+  m_LocalPosition: {x: 9.7035, y: -0.363, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2792512488759647624}
@@ -233,8 +234,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.8679245, g: 0.8439639, b: 0.5854396, a: 1}
+  m_Sprite: {fileID: -2745622741750566816, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -282,13 +283,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 16.99, y: 8.1422205}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10, y: 5}
   m_EdgeRadius: 0
 --- !u!50 &5343343226255834791
 Rigidbody2D:
@@ -343,3 +344,26 @@ MonoBehaviour:
   lifeCollider: {fileID: 135801895616805537}
   selfDamageOnHit: 10
   roamRange: {x: 1, y: 0.5}
+  destroyWhenOffScreen: 1
+--- !u!95 &-6104709933179586156
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382663874716763413}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8b6dd8eb0b67d8b4cbb409845ea2fe6e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
