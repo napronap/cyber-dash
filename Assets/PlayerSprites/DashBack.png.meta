@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2bdf9bd944f7b06409791bdb955025b8
+guid: d8fdf074c46ea6b448fcfb8353cca44d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,101 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: jump_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1240
-        width: 1476
-        height: 1240
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 623fdc50315cfc24c9af0912f05e40a0
-      internalID: -1715041650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: jump_1
-      rect:
-        serializedVersion: 2
-        x: 1476
-        y: 1240
-        width: 1476
-        height: 1240
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: af2e6e72d44cc8b408c1c255de471994
-      internalID: 1855979578
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: jump_2
-      rect:
-        serializedVersion: 2
-        x: 2952
-        y: 1240
-        width: 1476
-        height: 1240
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e7866e4ab8a43e43a748c80f6971e14
-      internalID: -1252548632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: jump_3
-      rect:
-        serializedVersion: 2
-        x: 4428
-        y: 1240
-        width: 1476
-        height: 1240
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 86a53f54d1d437f4190a2425815d896d
-      internalID: -1441378984
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: jump_4
+      name: backstep_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1476
-        height: 1240
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34b64bb166d6d184da2cb16780874d37
-      internalID: -449887960
+      spriteID: fe89d63f083deeb48b0a066add1fe360
+      internalID: 212220846
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_5
+      name: backstep_1
       rect:
         serializedVersion: 2
-        x: 1476
+        x: 1372
         y: 0
-        width: 1476
-        height: 1240
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f3ec98d36b8ab443a7bf9e3a0236e2a
-      internalID: -259083880
+      spriteID: 013f610ef4c667741b5e769e5f5e4f3f
+      internalID: -1455740593
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_6
+      name: backstep_2
       rect:
         serializedVersion: 2
-        x: 2952
+        x: 2744
         y: 0
-        width: 1476
-        height: 1240
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,20 +182,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcb9907fe4307fb44bc48dd4f6211ecd
-      internalID: -1634865684
+      spriteID: 8fbcf9c8dba39ec49992ba8c857c2d8a
+      internalID: 870736064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_7
+      name: backstep_3
       rect:
         serializedVersion: 2
-        x: 4430
+        x: 4116
         y: 0
-        width: 1476
-        height: 1240
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,8 +204,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72ebe9bba6acfcd4db69530ad220604a
-      internalID: 1120828749
+      spriteID: 0901f3e6cc54b944ab458309f643273b
+      internalID: -585771983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backstep_4
+      rect:
+        serializedVersion: 2
+        x: 5488
+        y: 0
+        width: 1372
+        height: 2480
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b45224aa665386e4d809a79f71860af7
+      internalID: -1680408529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backstep_5
+      rect:
+        serializedVersion: 2
+        x: 6860
+        y: 0
+        width: 1372
+        height: 2480
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4f64f0901d6c7d4983dd8760bd0f594
+      internalID: 1462341334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backstep_6
+      rect:
+        serializedVersion: 2
+        x: 8232
+        y: 0
+        width: 1372
+        height: 2480
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a2eaf489cdbf4f46b00f68258ce6ba5
+      internalID: -582568769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backstep_7
+      rect:
+        serializedVersion: 2
+        x: 9604
+        y: 0
+        width: 1372
+        height: 2480
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61e39f2ee5b2e3b438e25838bc50e81c
+      internalID: 94644140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backstep_8
+      rect:
+        serializedVersion: 2
+        x: 10976
+        y: 0
+        width: 1372
+        height: 2480
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf5c2cc9dc3ff5c4f89668fb42b3ab5a
+      internalID: 74884158
       vertices: []
       indices: 
       edges: []
@@ -312,16 +334,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":2.0},"gridSpriteSize":{"x":1476.0,"y":1240.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":1.0},"gridSpriteSize":{"x":1372.0,"y":2480.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      jump_0: -1715041650
-      jump_1: 1855979578
-      jump_2: -1252548632
-      jump_3: -1441378984
-      jump_4: -449887960
-      jump_5: -259083880
-      jump_6: -1634865684
-      jump_7: 1120828749
+      backstep_0: 212220846
+      backstep_1: -1455740593
+      backstep_2: 870736064
+      backstep_3: -585771983
+      backstep_4: -1680408529
+      backstep_5: 1462341334
+      backstep_6: -582568769
+      backstep_7: 94644140
+      backstep_8: 74884158
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

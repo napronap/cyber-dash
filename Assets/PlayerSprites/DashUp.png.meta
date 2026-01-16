@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2bdf9bd944f7b06409791bdb955025b8
+guid: d6fcb8d257851724ab26f7f95cf8dec4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,12 +123,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: jump_0
+      name: DashUp_0
       rect:
         serializedVersion: 2
         x: 0
         y: 1240
-        width: 1476
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -138,19 +138,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 623fdc50315cfc24c9af0912f05e40a0
-      internalID: -1715041650
+      spriteID: b4e9c4541b6632b49ac1b4d489adc34a
+      internalID: 1916671259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_1
+      name: DashUp_1
       rect:
         serializedVersion: 2
-        x: 1476
+        x: 1181
         y: 1240
-        width: 1476
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -160,19 +160,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af2e6e72d44cc8b408c1c255de471994
-      internalID: 1855979578
+      spriteID: f7411706f3ac30a40aed9c46b9ccefe5
+      internalID: -81485225
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_2
+      name: DashUp_2
       rect:
         serializedVersion: 2
-        x: 2952
+        x: 2362
         y: 1240
-        width: 1476
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -182,19 +182,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e7866e4ab8a43e43a748c80f6971e14
-      internalID: -1252548632
+      spriteID: d2baee8579bc87c46949cc97aee34a37
+      internalID: -1476676870
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_3
+      name: DashUp_3
       rect:
         serializedVersion: 2
-        x: 4428
-        y: 1240
-        width: 1476
+        x: 3557
+        y: 1237
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -204,19 +204,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86a53f54d1d437f4190a2425815d896d
-      internalID: -1441378984
+      spriteID: 838f5c01af8dc7048a6fc057b2caf7a2
+      internalID: 2010768321
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_4
+      name: DashUp_4
+      rect:
+        serializedVersion: 2
+        x: 4725
+        y: 1240
+        width: 1181
+        height: 1240
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c1ba35e2182b764b8d2b9c1a9cc7e26
+      internalID: -906064856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DashUp_5
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1476
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -226,19 +248,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34b64bb166d6d184da2cb16780874d37
-      internalID: -449887960
+      spriteID: b269f3d66e4c256418d1635b79046953
+      internalID: 817811379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_5
+      name: DashUp_6
       rect:
         serializedVersion: 2
-        x: 1476
+        x: 1181
         y: 0
-        width: 1476
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -248,19 +270,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f3ec98d36b8ab443a7bf9e3a0236e2a
-      internalID: -259083880
+      spriteID: 44c85ab01ec672544a8cc49adae1f830
+      internalID: 542204444
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_6
+      name: DashUp_7
       rect:
         serializedVersion: 2
-        x: 2952
+        x: 2362
         y: 0
-        width: 1476
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -270,19 +292,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcb9907fe4307fb44bc48dd4f6211ecd
-      internalID: -1634865684
+      spriteID: b9d5320436795124da752ea5af314d61
+      internalID: 1243164247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_7
+      name: DashUp_8
       rect:
         serializedVersion: 2
-        x: 4430
-        y: 0
-        width: 1476
+        x: 3550
+        y: 3
+        width: 1181
         height: 1240
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -292,8 +314,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72ebe9bba6acfcd4db69530ad220604a
-      internalID: 1120828749
+      spriteID: 35402ca9a3af65647a24b1fc1e3ea4a7
+      internalID: 1590991959
       vertices: []
       indices: 
       edges: []
@@ -312,16 +334,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":2.0},"gridSpriteSize":{"x":1476.0,"y":1240.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":2.0},"gridSpriteSize":{"x":1181.0,"y":1240.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      jump_0: -1715041650
-      jump_1: 1855979578
-      jump_2: -1252548632
-      jump_3: -1441378984
-      jump_4: -449887960
-      jump_5: -259083880
-      jump_6: -1634865684
-      jump_7: 1120828749
+      DashUp_0: 1916671259
+      DashUp_1: -81485225
+      DashUp_2: -1476676870
+      DashUp_3: 2010768321
+      DashUp_4: -906064856
+      DashUp_5: 817811379
+      DashUp_6: 542204444
+      DashUp_7: 1243164247
+      DashUp_8: 1590991959
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
