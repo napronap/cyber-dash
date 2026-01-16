@@ -189,7 +189,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   leftHand: {fileID: 9202495344423255795}
-  swipeAngle: 90
+  swipeAngle: 120
   swipeSpeed: 420
   swipeCooldown: 0
   swipeInterval: 2.55
@@ -319,8 +319,8 @@ Transform:
   m_GameObject: {fileID: 8279001770691798529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.936, y: -2.336, z: 0}
-  m_LocalScale: {x: 0.93947315, y: 3.886621, z: 1}
+  m_LocalPosition: {x: -4.936, y: -2.237, z: 0}
+  m_LocalScale: {x: 0.93947315, y: 4.72917, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 386967581303213008}
