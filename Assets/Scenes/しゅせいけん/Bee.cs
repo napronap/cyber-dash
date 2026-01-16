@@ -223,7 +223,10 @@ public class Bee : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         if (attackCollider != null) attackCollider.enabled = false;
         if (lifeCollider != null) lifeCollider.enabled = false;
-        Destroy(gameObject, 0.8f); // 匹配死亡动画时长
+
+        // 把0.8f改成死亡动画的总时长（比如动画1秒就设为1f，2秒设为2f）
+        Destroy(gameObject, 2f);
+        Debug.Log("死亡动画播放中，" + 2f + "秒后销毁");
     }
 
     void OnDrawGizmosSelected()
