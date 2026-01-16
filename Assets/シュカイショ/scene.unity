@@ -569,7 +569,7 @@ PrefabInstance:
     - target: {fileID: 5801428036288393568, guid: a491af571b7fd72428a4a7e0347fc8bb, type: 3}
       propertyPath: enemyPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 345955375227598598, guid: a67fa1c0a048eab429ba4873d0cdc5a8, type: 3}
     - target: {fileID: 5801428036288393568, guid: a491af571b7fd72428a4a7e0347fc8bb, type: 3}
       propertyPath: maxInterval
       value: 28
@@ -646,7 +646,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 1000000
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -841,7 +841,7 @@ PrefabInstance:
     - target: {fileID: 5801428036288393568, guid: a491af571b7fd72428a4a7e0347fc8bb, type: 3}
       propertyPath: enemyPrefab
       value: 
-      objectReference: {fileID: 7382663874716763413, guid: 921b85029acdef745957069c534d18db, type: 3}
+      objectReference: {fileID: 7382663874716763413, guid: fcec19ba08f7ea243ad6bdee8ac6e222, type: 3}
     - target: {fileID: 5801428036288393568, guid: a491af571b7fd72428a4a7e0347fc8bb, type: 3}
       propertyPath: maxInterval
       value: 30
@@ -852,11 +852,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801428036288393568, guid: a491af571b7fd72428a4a7e0347fc8bb, type: 3}
       propertyPath: maxViewportY
-      value: 0.497
+      value: 0.662
       objectReference: {fileID: 0}
     - target: {fileID: 5801428036288393568, guid: a491af571b7fd72428a4a7e0347fc8bb, type: 3}
       propertyPath: minViewportY
-      value: 0.315
+      value: 0.489
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
