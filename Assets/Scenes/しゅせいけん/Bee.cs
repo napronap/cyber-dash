@@ -165,6 +165,41 @@ public class Bee : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // 屏幕越界销毁（稳定版）
+        if (!isDead && destroyWhenOffScreen)
+        {
+            TryDestroyIfOffScreen();
+        }
+    }
+
+    private void TryDestroyIfOffScreen()
+    {
+        // 视口越界检测：带少量缓冲
+        const float margin = 0.1f; // 10% 视口缓冲，避免刚离开即销毁造成抖动
+        var cam = Camera.main;
+
+        if (cam != null)
+        {
+            Vector3 vp = cam.WorldToViewportPoint(transform.position);
+            bool offByViewport = vp.z < 0f || vp.x < -margin || vp.x > 1f + margin || vp.y < -margin || vp.y > 1f + margin;
+            if (offByViewport)
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+        else
+        {
+            // 无主摄像机时，回退到渲染可见性
+            if (spriteRenderer != null && !spriteRenderer.isVisible)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
     private void EnterState(State newState)
     {
         if (isDead) return;
