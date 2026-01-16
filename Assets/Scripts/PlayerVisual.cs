@@ -5,6 +5,9 @@ public class PlayerVisual : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private const string IS_RUNNING = "IsRunning";
+    private const string IS_JUMPING = "IsJumping";
+    private const string IS_DASHING = "IsDashing";
+    private const string IS_DIE = "IsDie";
     private void Awake()
     {
         animator = GetComponent<Animator>();
