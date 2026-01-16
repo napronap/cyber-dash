@@ -14,7 +14,6 @@ public class tonderutekiタコ : enemyKaisho
     [Header("初期方向 (-1=左, +1=右)")]
     [SerializeField] private float initialDirection = -1f;
 
-    // ====== Swipe Attack ======
     [Header("Swipe Attack")]
     [SerializeField, Tooltip("挥击用の武器 `Transform`（長方体の代替）")]
     private Transform weapon;
@@ -26,41 +25,69 @@ public class tonderutekiタコ : enemyKaisho
     private float swipeCooldown = 1.0f;
     [SerializeField, Tooltip("入場後に自動で定期的に振る")]
     private bool autoSwipe = true;
-    [SerializeField, Tooltip("当たり判定時に与えるダメージ")]
-    private int swipeDamage = 1;
+
+    // フレームアニメーション
+    [Header("Frame Animation (画像を挿入して使用)")]
+    [SerializeField, Tooltip("通常/攻撃時に再生するフレーム画像列")]
+    private Sprite[] attackFrames;
+    [SerializeField, Tooltip("死亡時に再生するフレーム画像列")]
+    private Sprite[] deathFrames;
+    [SerializeField, Tooltip("1フレームの表示時間（秒）")]
+    private float frameDuration = 0.1f;
+    [SerializeField, Tooltip("アニメ再生対象の `SpriteRenderer`")]
+    private SpriteRenderer spriteRenderer;
 
     private bool _isSwiping;
     private float _weaponBaseZ;
-    private bool _hasEnteredView;
+    private bool _isDying;
+
+    // フレーム再生内部状態
+    private System.Collections.IEnumerator _currentAnimCo;
+    private bool _isAttackLoopPlaying; // 攻撃アニメ常時ループ開始済み
 
     void Start()
     {
         SetMoveSpeed(speed);
-        // 武器の基準角
         _weaponBaseZ = (weapon != null) ? GetLocalZ(weapon) : 0f;
-        _hasEnteredView = false;
+        _isDying = false;
+        _isAttackLoopPlaying = false;
+
+        // 参照が未設定なら自動取得
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        // 初期表示
+        if (spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
+        {
+            spriteRenderer.sprite = attackFrames[0];
+        }
     }
 
     void FixedUpdate()
     {
+        if (_isDying) return;
         Move(Mathf.Clamp(initialDirection, -1f, 1f));
     }
 
     void Update()
     {
-        // 画面外での自動破棄処理を削除しました
-        // 必要に応じて他のロジックをここに追加できます
+        if (_isDying) return;
 
-        // 画面入場検知（入場後のみ自動スワイプ）
-        var cam = Camera.main;
-        if (cam != null)
+        // 画面に映ったら（SpriteRenderer が可視になったら）攻撃アニメをループ開始
+        if (!_isAttackLoopPlaying
+            && spriteRenderer != null
+            && spriteRenderer.isVisible
+            && attackFrames != null
+            && attackFrames.Length > 0)
         {
-            var vp = cam.WorldToViewportPoint(transform.position);
-            bool inView = vp.z > 0f && vp.x >= 0f && vp.x <= 1f && vp.y >= 0f && vp.y <= 1f;
-            if (inView) _hasEnteredView = true;
+            PlayFrames(attackFrames, loop: true);
+            _isAttackLoopPlaying = true;
         }
 
-        if (autoSwipe && _hasEnteredView && !_isSwiping)
+        // スワイプ攻撃はアニメ開始後に回す
+        if (autoSwipe && _isAttackLoopPlaying && !_isSwiping && weapon != null)
         {
             TriggerSwipe();
         }
@@ -68,17 +95,19 @@ public class tonderutekiタコ : enemyKaisho
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (_isDying) return;
         if (IsPlayerCollider(collision.collider))
         {
-            Destroy(gameObject);
+            HandleDeath();
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (_isDying) return;
         if (IsPlayerCollider(other))
         {
-            Destroy(gameObject);
+            HandleDeath();
         }
     }
 
@@ -95,7 +124,7 @@ public class tonderutekiタコ : enemyKaisho
         initialDirection = Mathf.Clamp(dir, -1f, 1f);
     }
 
-    // Swipe Attack 
+    // 攻撃（スワイプのみ。見た目のアニメは常時ループ）
     public void TriggerSwipe()
     {
         if (_isSwiping || weapon == null) return;
@@ -106,16 +135,9 @@ public class tonderutekiタコ : enemyKaisho
     private System.Collections.IEnumerator SwipeRoutine()
     {
         float baseZ = _weaponBaseZ;
-
-        // 予備動作：少し引く
         yield return RotateTo(weapon, baseZ - swipeAngle * 0.3f);
-
-        // 本振り：途中でヒット適用
         yield return RotateWithHitTo(weapon, baseZ + swipeAngle);
-
-        // 復帰
         yield return RotateTo(weapon, baseZ);
-
         yield return new WaitForSeconds(swipeCooldown);
         _isSwiping = false;
     }
@@ -168,31 +190,126 @@ public class tonderutekiタコ : enemyKaisho
 
     private void ApplySwipeHit()
     {
-        if (weapon == null) return;
+        if (weapon == null || _isDying) return;
 
-        // 武器に付与された Collider2D のみを使用（簡易円当たり判定は削除）
         if (weapon.TryGetComponent<Collider2D>(out var col))
         {
-            var contactFilter = new ContactFilter2D();
-            contactFilter.useLayerMask = playerLayers != 0;
-            contactFilter.layerMask = playerLayers;
-            contactFilter.useTriggers = true;
+            var filter = new ContactFilter2D
+            {
+                useLayerMask = playerLayers != 0,
+                layerMask = playerLayers,
+                useTriggers = true
+            };
 
             Collider2D[] results = new Collider2D[8];
-            int count = Physics2D.OverlapCollider(col, contactFilter, results);
+            int count = Physics2D.OverlapCollider(col, filter, results);
             for (int i = 0; i < count; i++)
             {
                 var hitCol = results[i];
                 if (hitCol == null) continue;
                 if (!string.IsNullOrEmpty(playerTag) && !hitCol.CompareTag(playerTag)) continue;
 
-                // プレイヤー側にダメージ API がある場合はここで呼ぶ。
-                // ここでは簡易的に破壊のみ（必要に応じて置き換え）
                 Destroy(hitCol.gameObject);
             }
         }
-       
-        
+    }
+
+    // 死亡処理：アニメ再生後に破棄
+    private void HandleDeath()
+    {
+        if (_isDying) return;
+        _isDying = true;
+
+        // 移動/攻撃/アニメの全コルーチン停止
+        StopAllCoroutines();
+
+        // 物理と当たり判定を停止
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.isKinematic = true;
+        }
+        var cols = GetComponentsInChildren<Collider2D>();
+        for (int i = 0; i < cols.Length; i++)
+        {
+            cols[i].enabled = false;
+        }
+
+        // 武器角度を初期化
+        if (weapon != null)
+        {
+            SetLocalZ(weapon, _weaponBaseZ);
+        }
+
+        // 死亡アニメがあれば再生、なければ即時破棄
+        if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
+        {
+            StartCoroutine(DeathRoutine());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // 死亡アニメを順再生してから破棄
+    private System.Collections.IEnumerator DeathRoutine()
+    {
+        float dur = Mathf.Max(0.01f, frameDuration);
+
+        if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
+        {
+            for (int i = 0; i < deathFrames.Length; i++)
+            {
+                spriteRenderer.sprite = deathFrames[i];
+                yield return new WaitForSeconds(dur);
+            }
+        }
+
+        Destroy(gameObject);
+    }
+
+    // フレーム再生の共通処理
+    private void PlayFrames(Sprite[] frames, bool loop)
+    {
+        if (spriteRenderer == null || frames == null || frames.Length == 0)
+            return;
+
+        if (_currentAnimCo != null)
+        {
+            StopCoroutine(_currentAnimCo);
+            _currentAnimCo = null;
+        }
+
+        _currentAnimCo = FramePlayer(frames, loop);
+        StartCoroutine(_currentAnimCo);
+    }
+
+    private System.Collections.IEnumerator FramePlayer(Sprite[] frames, bool loop)
+    {
+        int index = 0;
+        float dur = Mathf.Max(0.01f, frameDuration);
+
+        while (true)
+        {
+            spriteRenderer.sprite = frames[index];
+            yield return new WaitForSeconds(dur);
+
+            index++;
+            if (index >= frames.Length)
+            {
+                if (loop)
+                {
+                    index = 0;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
     }
 
     private static float GetLocalZ(Transform t)
