@@ -5,14 +5,14 @@ public class PauseManager : MonoBehaviour
     public string pauseSceneName = "Pause";
     public string optionsSceneName = "Options";
     bool isPaused;
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused) Resume();
-            else Pause();
-        }
-    }
+    //void Update()
+    //{
+        //if (Input.GetKeyDown(KeyCode.Escape))
+       // {
+            //if (isPaused) Resume();
+            //else Pause();
+        //}
+    //}
     public void Pause()
     {
         if (isPaused) return;
