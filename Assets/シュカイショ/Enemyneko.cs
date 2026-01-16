@@ -45,6 +45,14 @@ public class Enemyneko : enemyKaisho
     [SerializeField, Tooltip("播放动画的 SpriteRenderer")]
     private SpriteRenderer spriteRenderer;
 
+    [Header("Death Trigger")]
+    [SerializeField, Tooltip("使用玩家Tag判断")]
+    private bool usePlayerTag = true;
+    [SerializeField, Tooltip("玩家的Tag名称")]
+    private string playerTag = "Player";
+    [SerializeField, Tooltip("使用玩家Layer判断（关闭上面Tag时生效）")]
+    private LayerMask playerLayers = 0;
+
     // 状态
     private bool _isSwiping;
     private float _baseZ;
@@ -341,6 +349,32 @@ public class Enemyneko : enemyKaisho
         }
 
         Destroy(gameObject);
+    }
+
+    // 碰撞/触发到玩家即死亡
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (_isDying) return;
+        if (IsPlayer(collision.collider)) StartDeath();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (_isDying) return;
+        if (IsPlayer(other)) StartDeath();
+    }
+
+    private bool IsPlayer(Collider2D col)
+    {
+        if (usePlayerTag)
+        {
+            return col.CompareTag(playerTag);
+        }
+        else
+        {
+            int mask = 1 << col.gameObject.layer;
+            return (playerLayers.value & mask) != 0;
+        }
     }
 
     // 共通：获取/设置局部 Z

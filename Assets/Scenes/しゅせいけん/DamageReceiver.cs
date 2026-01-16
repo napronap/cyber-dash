@@ -1,79 +1,51 @@
-ï»¿using UnityEngine;
-using System.Collections;
+using UnityEngine;
 
 public class DamageReceiver : MonoBehaviour
 {
-    [Header("Enemy HP")]
-    public int maxHP = 5;
-    public int currentHP;
+    [Header("°ó¶¨Ä¿±ê£¨¿ÉÑ¡£¬²»ÌîÔò×Ô¶¯ÔÚ¸¸²ã²éÕÒ£©")]
+    [SerializeField] private FishUFO fishUFO;
 
-    private SpriteRenderer sr;
-    private FishUFO fishUFO; // ç§»åŠ¨è„šæœ¬å¼•ç”¨
-    private bool isDead = false; // æ­»äº¡åˆ¤å®šï¼ˆé‡è¤‡å®Ÿè¡Œé˜²æ­¢ï¼‰
+    private bool _dead;
 
-    void Start()
+    private void Awake()
     {
-        currentHP = maxHP;
-        sr = GetComponent<SpriteRenderer>();
-        fishUFO = GetComponent<FishUFO>(); // è·å–ç§»åŠ¨è„šæœ¬
-    }
-
-    // é€šå¸¸ãƒ€ãƒ¡ãƒ¼ã‚¸
-    public void TakeDamage(int amount)
-    {
-        if (isDead) return; // æ­»äº¡å¾Œã¯ç„¡åŠ¹
-
-        currentHP -= amount;
-
-        if (sr != null)
-            StartCoroutine(FlashHit());
-
-        if (currentHP <= 0)
-            Die();
-    }
-
-    // å³æ­»ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼ˆãƒ€ãƒƒã‚·ãƒ¥æ”»æ’ƒç”¨ï¼‰
-    public void TakeFatalDamage()
-    {
-        if (isDead) return; // æ­»äº¡å¾Œã¯ç„¡åŠ¹
-
-        currentHP = 0;
-
-        if (sr != null)
-            StartCoroutine(FlashHit());
-
-        Die();
-    }
-
-    private IEnumerator FlashHit()
-    {
-        if (sr != null)
+        if (fishUFO == null)
         {
-            Color originalColor = sr.color;
-            sr.color = Color.red;
-            yield return new WaitForSeconds(0.1f);
-            sr.color = originalColor;
+            fishUFO = GetComponent<FishUFO>();
+            if (fishUFO == null)
+            {
+                fishUFO = GetComponentInParent<FishUFO>();
+            }
         }
     }
 
-    private void Die()
+    // ÆÕÍ¨ÉËº¦£ºUFOÉè¼ÆÎªÒ»´Î¹¥»÷¼´ËÀÍö
+    public void TakeDamage(int amount)
     {
-        isDead = true;
+        if (_dead) return;
+        Kill();
+    }
 
-        // æ­»äº¡ã‚¢ãƒ‹ãƒ¡å†ç”Ÿ
+    // ¾ø¶ÔÖÂÃü£¨ÀıÈçDashAttackÃüÖĞ£©
+    public void TakeFatalDamage()
+    {
+        if (_dead) return;
+        Kill();
+    }
+
+    private void Kill()
+    {
+        _dead = true;
+
+        // µ÷ÓÃUFOËÀÍöÖ¡¶¯»­
         if (fishUFO != null)
         {
             fishUFO.PlayDeathAnimation();
         }
-
-        // æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãŒçµ‚ã‚ã£ã¦ã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ï¼ˆã‚¢ãƒ‹ãƒ¡é•·ã•ã«åˆã‚ã›ã¦èª¿æ•´ï¼‰
-        Destroy(gameObject, 0.5f); // 0.5fã¯ã‚¢ãƒ‹ãƒ¡ã®é•·ã•ã«åˆã‚ã›ã¦å¤‰æ›´
-
-        // è£œè¶³ï¼šç§»å‹•åœæ­¢ï¼ˆå¿…è¦ãªå ´åˆï¼‰
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
+        else
         {
-            rb.linearVelocity = Vector2.zero;
+            // ÈôÎ´°ó¶¨µ½UFO£¬¿ÉÖ±½ÓÏú»Ù»òÀ©Õ¹ÎªÆäËûµĞÈËÀàĞÍ
+            Destroy(gameObject);
         }
     }
 }

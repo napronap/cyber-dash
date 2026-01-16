@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 3723456350578015021}
   - component: {fileID: 8214343428665036723}
   - component: {fileID: 7036668511244438832}
-  - component: {fileID: 3368452356247174817}
-  - component: {fileID: 6217122224373516101}
+  - component: {fileID: 5219031290986031415}
   m_Layer: 0
   m_Name: Fish
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,7 +187,21 @@ MonoBehaviour:
   startMovingUp: 0
   horizontalSpeed: 2
   destroyWhenOffScreen: 1
---- !u!114 &3368452356247174817
+  moveFrames:
+  - {fileID: -2791059562200420330, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: -4759179048237918821, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: -8269613794657660418, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: 2117366179120498944, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  deathFrames:
+  - {fileID: -1688247831821521182, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: 8965483060273099607, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: -1334987274648991702, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: -2625203821067882038, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  - {fileID: 539383854887309416, guid: dbd3295ff8eb642408021841bff61f27, type: 3}
+  frameDuration: 0.1
+  spriteRenderer: {fileID: 0}
+  deathDestroyDelay: 1
+--- !u!114 &5219031290986031415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,30 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9fa637cffa5d7546b6977c35704e8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageReceiver
-  maxHP: 5
-  currentHP: 0
---- !u!95 &6217122224373516101
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345955375227598598}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df6f8313555d8b54fa142b21a06a0a45, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  fishUFO: {fileID: 7036668511244438832}
 --- !u!1 &2786420858788146748
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +225,7 @@ GameObject:
   - component: {fileID: 6880570437887027013}
   - component: {fileID: 4521692388749898031}
   - component: {fileID: 9030559471346047070}
+  - component: {fileID: 2971427431818917445}
   m_Layer: 0
   m_Name: Life
   m_TagString: Untagged
@@ -329,6 +320,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageZone
   normalDamage: 1
   instaKillFromDash: 1
+--- !u!61 &2971427431818917445
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2786420858788146748}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.31825787}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 0.3634843}
+  m_EdgeRadius: 0
 --- !u!1 &3478967939518370082
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 1763249677580682610}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.3823061, w: 0.9240358}
-  m_LocalPosition: {x: -8.68, y: 4.772, z: 0}
-  m_LocalScale: {x: 3.621946, y: 0.31482196, z: 1}
+  m_LocalPosition: {x: -7.409, y: 5.828, z: 0}
+  m_LocalScale: {x: 4.140032, y: 0.31482196, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1969274872695277912}
@@ -168,8 +168,8 @@ Transform:
   m_GameObject: {fileID: 6211709066759390554}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.125879, y: -3.469927, z: 0}
-  m_LocalScale: {x: 0.24035494, y: 0.24558231, z: 1}
+  m_LocalPosition: {x: 9.7773, y: -3.469927, z: 0}
+  m_LocalScale: {x: 0.20651296, y: 0.21083242, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6047068228977930599}
@@ -332,9 +332,9 @@ MonoBehaviour:
     m_Bits: 0
   initialDirection: -1
   weapon: {fileID: 6047068228977930599}
-  swipeAngle: 60
-  swipeSpeed: 360
-  swipeCooldown: 1
+  swipeAngle: 180
+  swipeSpeed: 1200
+  swipeCooldown: 0.5
   autoSwipe: 1
   attackFrames:
   - {fileID: 3811334129134616224, guid: 15f3c8756591ce6438e3ac76f5d6b0f7, type: 3}

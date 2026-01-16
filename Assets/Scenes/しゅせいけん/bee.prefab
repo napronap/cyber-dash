@@ -216,7 +216,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.0009967983}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -226,7 +226,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.9980064}
   m_EdgeRadius: 0
 --- !u!1 &7382663874716763413
 GameObject:
@@ -241,10 +241,9 @@ GameObject:
   - component: {fileID: 7729258257603172294}
   - component: {fileID: 5343343226255834791}
   - component: {fileID: 6087386037534363447}
-  - component: {fileID: -6104709933179586156}
   m_Layer: 0
   m_Name: bee
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,7 +257,7 @@ Transform:
   m_GameObject: {fileID: 7382663874716763413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.7035, y: -0.363, z: 0}
+  m_LocalPosition: {x: 9.7035, y: -0.356, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -358,7 +357,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.5171766, y: -0.1443758}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -368,7 +367,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10, y: 5}
+  m_Size: {x: 5.3907204, y: 5.2887516}
   m_EdgeRadius: 0
 --- !u!50 &5343343226255834791
 Rigidbody2D:
@@ -409,7 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5009a1a6fdaefb94d92a2ac8d9b757cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bee
-  maxHp: 10
   wanderAmplitude: 0.5
   wanderVerticalAmplitude: 0.1
   wanderSpeed: 0.5
@@ -421,28 +419,38 @@ MonoBehaviour:
   recoverDuration: 1.5
   attackCollider: {fileID: 135801895616805537}
   lifeCollider: {fileID: 583199174449946772}
-  selfDamageOnHit: 10
   roamRange: {x: 1, y: 0.5}
   destroyWhenOffScreen: 1
---- !u!95 &-6104709933179586156
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7382663874716763413}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8b6dd8eb0b67d8b4cbb409845ea2fe6e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  moveFrames:
+  - {fileID: -4373228996945053483, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -2745622741750566816, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: 8803668788669372758, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  attackFrames:
+  - {fileID: -2054803268272246267, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: 4007598152011571691, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -7658651694837166119, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -3849452068767243982, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -6555341863615850798, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: 8698520387796899285, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -5330047527275004909, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  deathFrames:
+  - {fileID: 6845139701356465935, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: 2522231727380205344, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -3848931377743499226, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: 4664813592503856992, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -3996004583700029725, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -477977313161095055, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -5136941138848937971, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -3930803150711956136, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -4461391836559751770, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  - {fileID: -2897460228490901380, guid: 0971516aa1564124a858dfefe0c124d7, type: 3}
+  frameDuration: 0.1
+  spriteRenderer: {fileID: 0}
+  deathDestroyDelay: 2
+  deathFallMode: 0
+  deathGravityScale: 2
+  deathFallSpeedY: -1
+  bodyCollider: {fileID: 0}
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
