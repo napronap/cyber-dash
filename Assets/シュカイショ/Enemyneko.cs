@@ -35,6 +35,16 @@ public class Enemyneko : enemyKaisho
     [SerializeField, Tooltip("是否自动跳跃（落地后冷却完成自动再跳）")]
     private bool autoJump = true;
 
+    [Header("Frame Animation (插入图片使用)")]
+    [SerializeField, Tooltip("通常/攻击帧序列（完整播一遍）")]
+    private Sprite[] attackFrames;
+    [SerializeField, Tooltip("死亡帧序列（顺序播放一次）")]
+    private Sprite[] deathFrames;
+    [SerializeField, Tooltip("每帧持续时间（秒）")]
+    private float frameDuration = 0.1f;
+    [SerializeField, Tooltip("播放动画的 SpriteRenderer")]
+    private SpriteRenderer spriteRenderer;
+
     // 状态
     private bool _isSwiping;
     private float _baseZ;
@@ -43,11 +53,21 @@ public class Enemyneko : enemyKaisho
     // 跳跃状态
     private Rigidbody2D _rb;
     private float _lastJumpTime;
+    private bool _isJumping;             // 起跳后到落地前
+    private float _jumpGraceUntil;       // 起跳直后接地判定無効期間
+
+    // 动画内部状态
+    private System.Collections.IEnumerator _currentAnimCo;
+    private bool _isPlayingAttackCycle;  // 当前是否在播放一次性攻击序列
+    private bool _isDying;
 
     private void OnEnable()
     {
-       
         _rb = GetComponent<Rigidbody2D>();
+        _isDying = false;
+        _isJumping = false;
+        _jumpGraceUntil = 0f;
+        _isPlayingAttackCycle = false;
 
         // 自动查找左手（若未在 Inspector 指定）
         if (leftHand == null)
@@ -65,8 +85,20 @@ public class Enemyneko : enemyKaisho
             return;
         }
 
+        // 自动查找 SpriteRenderer（若未在 Inspector 指定）
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        // 初始显示（若有攻击帧）
+        if (spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
+        {
+            spriteRenderer.sprite = attackFrames[0];
+        }
+
         _baseZ = GetLocalZ(leftHand);
-        _nextSwipeTime = Time.time + swipeInterval; // 定时开始
+        _nextSwipeTime = Time.time + swipeInterval;
     }
 
     private void OnValidate()
@@ -75,33 +107,39 @@ public class Enemyneko : enemyKaisho
         swipeSpeed = Mathf.Max(1f, swipeSpeed);
         swipeCooldown = Mathf.Max(0f, swipeCooldown);
         swipeInterval = Mathf.Max(0.1f, swipeInterval);
-            hitRadius = Mathf.Max(0.01f, hitRadius);
+        hitRadius = Mathf.Max(0.01f, hitRadius);
         damage = Mathf.Max(0f, damage);
 
         forwardJumpSpeed = Mathf.Max(0f, forwardJumpSpeed);
         jumpUpVelocity = Mathf.Max(0f, jumpUpVelocity);
         jumpCooldown = Mathf.Max(0.05f, jumpCooldown);
+
+        frameDuration = Mathf.Max(0.01f, frameDuration);
     }
 
     private void Update()
     {
-        // 定时自动挥击：到时且未在挥击中则触发
-        if (!_isSwiping && Time.time >= _nextSwipeTime)
+        if (_isDying) return;
+
+        // 跳跃状态：グレース期間後のみ接地終了
+        if (_isJumping && Time.time >= _jumpGraceUntil && IsGrounded())
+        {
+            _isJumping = false;
+            // 不立即停止攻击序列，让它自然播放完；结束后协程会自行重置到第一帧
+        }
+
+        // 定时自动挥击：仅跳跃中触发
+        if (_isJumping && !_isSwiping && Time.time >= _nextSwipeTime)
         {
             TriggerSwipe();
             _nextSwipeTime = Time.time + swipeInterval;
         }
 
-        // 自动跳跃：接地且冷却完成时起跳（不依赖落地挥击）
+        // 自动跳跃：接地且冷却完成时起跳
         if (autoJump && IsGrounded() && Time.time - _lastJumpTime >= jumpCooldown)
         {
             PerformForwardJump();
         }
-    }
-
-    private void LateUpdate()
-    {
-       
     }
 
     // 向前（左）跳跃（如需向右，把 v.x 改为 +forwardJumpSpeed）
@@ -109,15 +147,68 @@ public class Enemyneko : enemyKaisho
     {
         if (_rb == null) _rb = GetComponent<Rigidbody2D>();
         if (_rb == null) return;
-        if (!IsGrounded()) return; // 若需要空中连跳，移除此判断
+        if (!IsGrounded()) return;
         if (Time.time - _lastJumpTime < jumpCooldown) return;
 
         _lastJumpTime = Time.time;
 
-        var v = _rb.linearVelocity; // 使用正确 API
+        _isJumping = true;
+        _jumpGraceUntil = Time.time + 0.2f;
+
+        var v = _rb.linearVelocity;
         v.x = -forwardJumpSpeed;
         v.y = jumpUpVelocity;
         _rb.linearVelocity = v;
+
+        // 起跳时开始“完整一次”的攻击动画（若未在播放）
+        if (!_isPlayingAttackCycle && spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
+        {
+            StartAttackCycleOnce();
+        }
+    }
+
+    private void StartAttackCycleOnce()
+    {
+        if (_currentAnimCo != null)
+        {
+            StopCoroutine(_currentAnimCo);
+            _currentAnimCo = null;
+        }
+        _currentAnimCo = AttackCycleOnce();
+        _isPlayingAttackCycle = true;
+        StartCoroutine(_currentAnimCo);
+    }
+
+    // 一次完整的攻击帧序列播放（不中断）
+    private System.Collections.IEnumerator AttackCycleOnce()
+    {
+        float dur = Mathf.Max(0.01f, frameDuration);
+
+        // 播放一遍完整序列
+        for (int i = 0; i < attackFrames.Length; i++)
+        {
+            if (spriteRenderer != null) spriteRenderer.sprite = attackFrames[i];
+            yield return new WaitForSeconds(dur);
+        }
+
+        _isPlayingAttackCycle = false;
+        _currentAnimCo = null;
+
+        // 播放完毕时，如果已经落地或正在死亡，回到第一帧
+        if (!_isJumping || _isDying)
+        {
+            if (spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
+            {
+                spriteRenderer.sprite = attackFrames[0];
+            }
+        }
+        else
+        {
+            // 仍在空中：如需连续播放，可再次启动一次性序列
+            // 如果希望每次跳跃只播一遍，不再继续，这里不触发后续
+            // 若希望空中循环完整序列（一次接一次），取消注释：
+            // StartAttackCycleOnce();
+        }
     }
 
     private void TriggerSwipe()
@@ -195,6 +286,64 @@ public class Enemyneko : enemyKaisho
         }
     }
 
+    // 对外暴露的死亡启动（如被玩家击杀时调用）
+    public void StartDeath()
+    {
+        if (_isDying) return;
+        _isDying = true;
+
+        StopAllCoroutines();
+        _isSwiping = false;
+        _isJumping = false;
+        _isPlayingAttackCycle = false;
+        _currentAnimCo = null;
+
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.isKinematic = true;
+        }
+        var cols = GetComponentsInChildren<Collider2D>();
+        for (int i = 0; i < cols.Length; i++)
+        {
+            cols[i].enabled = false;
+        }
+
+        if (leftHand != null)
+        {
+            SetLocalZ(leftHand, _baseZ);
+        }
+
+        // 死亡帧播放（完整一次）
+        if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
+        {
+            StartCoroutine(DeathRoutine());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private System.Collections.IEnumerator DeathRoutine()
+    {
+        float dur = Mathf.Max(0.01f, frameDuration);
+
+        if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
+        {
+            for (int i = 0; i < deathFrames.Length; i++)
+            {
+                spriteRenderer.sprite = deathFrames[i];
+                yield return new WaitForSeconds(dur);
+            }
+        }
+
+        Destroy(gameObject);
+    }
+
+    // 共通：获取/设置局部 Z
     private static float GetLocalZ(Transform t)
     {
         var e = t.localEulerAngles;
@@ -209,9 +358,6 @@ public class Enemyneko : enemyKaisho
         e.z = (z < 0f) ? z + 360f : z;
         t.localEulerAngles = e;
     }
-
-   
-  
 }
 
 public interface IDamageABLE
