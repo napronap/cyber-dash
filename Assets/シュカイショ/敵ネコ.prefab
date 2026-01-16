@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5698342271139736627}
   - component: {fileID: 7126911329020120881}
   - component: {fileID: 7810289621634452365}
+  - component: {fileID: 2627256516426261104}
+  - component: {fileID: 8450540273311563161}
   m_Layer: 3
   m_Name: "\u6575\u30CD\u30B3"
   m_TagString: Enemy
@@ -292,6 +294,38 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2627256516426261104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7488227347705176477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9fa637cffa5d7546b6977c35704e8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageReceiver
+  fishUFO: {fileID: 0}
+  killTarget: {fileID: 0}
+--- !u!114 &8450540273311563161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7488227347705176477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6888fc5191a220469d80764983ee78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageZone
+  normalDamage: 1
+  usePlayerTag: 1
+  playerTag: Player
+  playerLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8279001770691798529
 GameObject:
   m_ObjectHideFlags: 0
