@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 7488227347705176477}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.32, y: -1.4785042, z: 0}
-  m_LocalScale: {x: 1.2175908, y: 0.52961206, z: 1}
+  m_LocalPosition: {x: -3.956, y: -3.016, z: 0}
+  m_LocalScale: {x: 0.22901627, y: 0.20853855, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9202495344423255795}
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 61bb6dd587310b44d9ee5c45ded29091, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 3600183624469181417, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -157,17 +157,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -3.0642538, y: 1.1680714}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 11.2300005, y: 9.391412}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.2377043, y: 4.9281063}
   m_EdgeRadius: 0
 --- !u!114 &5698342271139736627
 MonoBehaviour:
@@ -202,6 +202,26 @@ MonoBehaviour:
   jumpUpVelocity: 5
   jumpCooldown: 3
   autoJump: 1
+  attackFrames:
+  - {fileID: 3600183624469181417, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 8923473851679652555, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -5465761938870343038, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -60823481055739711, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 5407613000288665206, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 8845903901050647992, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -4590131320025696378, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -8856945667201706336, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -8502387148204289263, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  deathFrames:
+  - {fileID: -3805506078418992809, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 4509303742407746947, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 476970678985421065, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 3677860355941853052, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: 2676033248637317392, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -5651447399632101585, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  - {fileID: -1338607004064115524, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
+  frameDuration: 0.1
+  spriteRenderer: {fileID: 0}
 --- !u!61 &7126911329020120881
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -236,17 +256,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.13064027, y: 0.0037763268}
+  m_Offset: {x: -0.1907816, y: -2.734345}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 11.2300005, y: 9.391412}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.73871946, y: 1.0075526}
+  m_Size: {x: 8.882389, y: 2.8499699}
   m_EdgeRadius: 0
 --- !u!114 &7810289621634452365
 MonoBehaviour:
@@ -294,8 +314,8 @@ Transform:
   m_GameObject: {fileID: 8279001770691798529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.567, y: 0, z: 0}
-  m_LocalScale: {x: 0.6684375, y: 0.22432618, z: 1}
+  m_LocalPosition: {x: -6.63, y: -3.88, z: 0}
+  m_LocalScale: {x: 1.535195, y: 0.7987873, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 386967581303213008}
