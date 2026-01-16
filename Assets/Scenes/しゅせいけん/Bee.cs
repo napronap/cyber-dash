@@ -43,11 +43,13 @@ public class Bee : MonoBehaviour
     [Header("画面外に出たら消えるか？")]
     [SerializeField] private bool destroyWhenOffScreen = true;
 
+    private Animator anim; // 动画组件
     private State state = State.Wander;
     private Rigidbody2D rb;
     private float stateTime = 0f;
     private Vector2 startPos;
     private int currentHp;
+    private bool isDead = false; // 死亡判定
 
     void Awake()
     {
@@ -55,6 +57,13 @@ public class Bee : MonoBehaviour
         if (rb == null) rb = gameObject.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        // 获取动画组件
+        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.LogWarning("BeeオブジェクトにAnimatorコンポーネントがアタッチされていません！", this);
+        }
 
         currentHp = maxHp;
         startPos = transform.position;
@@ -79,6 +88,8 @@ public class Bee : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDead) return; // 死亡后停止所有逻辑
+
         float dt = Time.fixedDeltaTime;
         stateTime += dt;
 
@@ -105,22 +116,29 @@ public class Bee : MonoBehaviour
 
     private void EnterState(State newState)
     {
+        if (isDead) return;
+
         state = newState;
         stateTime = 0f;
 
+        // 状态切换时控制动画：仅飞行/攻击/死亡
         switch (state)
         {
             case State.Wander:
+                PlayFlyAnimation(); // 游荡=飞行
                 if (attackCollider != null) attackCollider.enabled = false;
                 startPos = transform.position;
                 break;
             case State.PrepareDive:
+                PlayFlyAnimation(); // 准备俯冲时保持飞行（无额外动画）
                 if (attackCollider != null) attackCollider.enabled = false;
                 break;
             case State.Dive:
+                PlayAttackAnimation(); // 俯冲=攻击
                 if (attackCollider != null) attackCollider.enabled = true;
                 break;
             case State.Recover:
+                PlayFlyAnimation(); // 恢复时切回飞行
                 if (attackCollider != null) attackCollider.enabled = false;
                 break;
         }
@@ -128,49 +146,42 @@ public class Bee : MonoBehaviour
 
     private void DoWander(float dt)
     {
-        // 基于 startPos 与 roamRange 限制小范围游荡
         float t = Time.time * wanderSpeed;
         float targetX = startPos.x + Mathf.Sin(t) * Mathf.Min(wanderAmplitude, roamRange.x);
         float targetY = startPos.y + Mathf.Sin(t * 2f) * Mathf.Min(wanderVerticalAmplitude, roamRange.y);
 
-        // 保证目标在 roamRange 内
         targetX = Mathf.Clamp(targetX, startPos.x - roamRange.x, startPos.x + roamRange.x);
         targetY = Mathf.Clamp(targetY, startPos.y - roamRange.y, startPos.y + roamRange.y);
 
         Vector2 targetPos = new Vector2(targetX, targetY);
         Vector2 toTarget = targetPos - (Vector2)transform.position;
 
-        // 以较平滑的方式移动：设置速度为差值 / dt，但限制最大速率防止抖动
         Vector2 desiredVel = toTarget / Mathf.Max(dt, 0.0001f);
-        float maxVel = wanderSpeed * 2f; // 限制一个合理的最大速度
+        float maxVel = wanderSpeed * 2f;
         if (desiredVel.magnitude > maxVel) desiredVel = desiredVel.normalized * maxVel;
         rb.linearVelocity = desiredVel;
     }
 
     private void DoDive(float dt)
     {
-        // V-shaped dive: first down-left, then up-left
         float half = diveDuration * 0.5f;
         Vector2 dirDownLeft = new Vector2(-1f, -1f).normalized;
         Vector2 dirUpLeft = new Vector2(-1f, 1f).normalized;
 
         if (stateTime < half)
         {
-            // phase 0: down-left
             rb.linearVelocity = dirDownLeft * Mathf.Abs(diveSpeed);
         }
         else
         {
-            // phase 1: up-left
             rb.linearVelocity = dirUpLeft * Mathf.Abs(diveSpeed);
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other == null) return;
+        if (other == null || isDead) return;
 
-        // lifeCollider check: player touching lifeCollider damages this enemy
         if (lifeCollider != null)
         {
             if (lifeCollider.IsTouching(other))
@@ -183,7 +194,6 @@ public class Bee : MonoBehaviour
             }
         }
 
-        // attack collider check: only apply if attackCollider touched (or none assigned)
         if (attackCollider != null)
         {
             if (!attackCollider.IsTouching(other)) return;
@@ -197,20 +207,49 @@ public class Bee : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        if (dmg <= 0) return;
+        if (dmg <= 0 || isDead) return;
+
         currentHp -= dmg;
         if (currentHp <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
 
-    // 调试时在编辑器中显示 roam 范围
+    private void Die()
+    {
+        isDead = true;
+        PlayDeathAnimation();
+        rb.linearVelocity = Vector2.zero;
+        if (attackCollider != null) attackCollider.enabled = false;
+        if (lifeCollider != null) lifeCollider.enabled = false;
+        Destroy(gameObject, 0.8f); // 匹配死亡动画时长
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Vector3 center = Application.isPlaying ? (Vector3)startPos : transform.position;
         Gizmos.DrawWireCube(center, new Vector3(roamRange.x * 2f, roamRange.y * 2f, 0.1f));
     }
-   
+
+    // ========== 仅保留3个动画控制方法 ==========
+    private void PlayFlyAnimation()
+    {
+        anim?.SetTrigger("IsFly");
+        anim?.ResetTrigger("IsAttack");
+    }
+
+    private void PlayAttackAnimation()
+    {
+        anim?.SetTrigger("IsAttack");
+        anim?.ResetTrigger("IsFly");
+    }
+
+    private void PlayDeathAnimation()
+    {
+        anim?.SetTrigger("IsDead");
+        anim?.ResetTrigger("IsFly");
+        anim?.ResetTrigger("IsAttack");
+    }
 }
