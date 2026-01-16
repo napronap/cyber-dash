@@ -93,22 +93,21 @@ public class tonderutekiタコ : enemyKaisho
         }
     }
 
+    // 仅在 DamageReceiver -> KillByDamage 调用时死亡
+    public void KillByDamage()
+    {
+        HandleDeath();
+    }
+
+    // 以往对玩家碰撞即死亡的逻辑移除，避免非头部命中导致死亡
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_isDying) return;
-        if (IsPlayerCollider(collision.collider))
-        {
-            HandleDeath();
-        }
+        // 不再因与玩家碰撞自动死亡
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (_isDying) return;
-        if (IsPlayerCollider(other))
-        {
-            HandleDeath();
-        }
+        // 不再因与玩家触发器接触自动死亡
     }
 
     private bool IsPlayerCollider(Collider2D col)

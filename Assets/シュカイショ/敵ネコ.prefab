@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7810289621634452365}
   m_Layer: 3
   m_Name: "\u6575\u30CD\u30B3"
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 10000
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -319,8 +319,8 @@ Transform:
   m_GameObject: {fileID: 8279001770691798529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.63, y: -3.88, z: 0}
-  m_LocalScale: {x: 1.535195, y: 0.7987873, z: 1}
+  m_LocalPosition: {x: -4.936, y: -2.336, z: 0}
+  m_LocalScale: {x: 0.93947315, y: 3.886621, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 386967581303213008}
@@ -373,7 +373,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.005584087, g: 0.9339623, b: 0.004405493, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
