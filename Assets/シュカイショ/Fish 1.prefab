@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 4521692388749898031}
   - component: {fileID: 9030559471346047070}
   - component: {fileID: 2971427431818917445}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}

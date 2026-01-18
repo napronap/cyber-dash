@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1638803135910413287}
   - component: {fileID: 4444782108385841347}
   - component: {fileID: 3791861372649336826}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.1907816, y: -2.954172}
+  m_Offset: {x: -0.6128323, y: -2.954172}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -318,7 +318,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.882389, y: 3.2896237}
+  m_Size: {x: 7.8396783, y: 3.2896237}
   m_EdgeRadius: 0
 --- !u!114 &7810289621634452365
 MonoBehaviour:
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 1646109274151567709}
   - component: {fileID: 145535978365011366}
   - component: {fileID: 8110435126950542798}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u624B"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
