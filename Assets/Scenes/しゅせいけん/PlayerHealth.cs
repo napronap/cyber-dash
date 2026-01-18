@@ -8,20 +8,28 @@ public class PlayerHealth : MonoBehaviour
 
     private SpriteRenderer sr;
     private bool invulnerable = false;
+    private bool isDead = false;
 
     void Start()
     {
-        currentHP = maxHP;
+        currentHP = Mathf.Max(0, maxHP);
         sr = GetComponent<SpriteRenderer>();
     }
 
     public void TakeDamage(int amount)
     {
+        if (isDead) return;
         if (invulnerable) return;
+        if (amount <= 0) return;
 
-        currentHP -= amount;
-        StartCoroutine(Invulnerability());
-        StartCoroutine(FlashHit());
+        currentHP = Mathf.Max(0, currentHP - amount);
+
+        // 命中反馈（可在死亡时跳过）
+        if (currentHP > 0)
+        {
+            StartCoroutine(Invulnerability());
+            StartCoroutine(FlashHit());
+        }
 
         if (currentHP <= 0)
         {
@@ -32,12 +40,13 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator Invulnerability()
     {
         invulnerable = true;
-        yield return new WaitForSeconds(1f);   // 1昩娫偺柍揋帪娫
+        yield return new WaitForSeconds(1f);
         invulnerable = false;
     }
 
     private IEnumerator FlashHit()
     {
+        if (sr == null) yield break;
         Color original = sr.color;
         sr.color = Color.red;
         yield return new WaitForSeconds(0.15f);
@@ -46,7 +55,33 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         Debug.Log("Player died");
-        // 偙偙偱儕僗億乕儞張棟傗傾僯儊乕僔儑儞傪嵞惗偡傞
+
+        // 停止输入与移动
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.isKinematic = true;
+        }
+
+        var col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // 可选：隐藏角色外观
+        if (sr != null)
+        {
+            sr.enabled = false;
+        }
+
+        // 立即销毁玩家（或根据需要改为重载场景/复活流程）
+        Destroy(gameObject);
     }
 }

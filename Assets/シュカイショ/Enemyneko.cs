@@ -45,14 +45,6 @@ public class Enemyneko : enemyKaisho
     [SerializeField, Tooltip("播放动画的 SpriteRenderer")]
     private SpriteRenderer spriteRenderer;
 
-    [Header("Death Trigger")]
-    [SerializeField, Tooltip("使用玩家Tag判断")]
-    private bool usePlayerTag = true;
-    [SerializeField, Tooltip("玩家的Tag名称")]
-    private string playerTag = "Player";
-    [SerializeField, Tooltip("使用玩家Layer判断（关闭上面Tag时生效）")]
-    private LayerMask playerLayers = 0;
-
     // 状态
     private bool _isSwiping;
     private float _baseZ;
@@ -61,12 +53,12 @@ public class Enemyneko : enemyKaisho
     // 跳跃状态
     private Rigidbody2D _rb;
     private float _lastJumpTime;
-    private bool _isJumping;             // 起跳后到落地前
-    private float _jumpGraceUntil;       // 起跳直后接地判定無効期間
+    private bool _isJumping;
+    private float _jumpGraceUntil;
 
     // 动画内部状态
     private System.Collections.IEnumerator _currentAnimCo;
-    private bool _isPlayingAttackCycle;  // 当前是否在播放一次性攻击序列
+    private bool _isPlayingAttackCycle;
     private bool _isDying;
 
     private void OnEnable()
@@ -77,7 +69,6 @@ public class Enemyneko : enemyKaisho
         _jumpGraceUntil = 0f;
         _isPlayingAttackCycle = false;
 
-        // 自动查找左手（若未在 Inspector 指定）
         if (leftHand == null)
         {
             var trs = GetComponentsInChildren<Transform>(true);
@@ -93,13 +84,11 @@ public class Enemyneko : enemyKaisho
             return;
         }
 
-        // 自动查找 SpriteRenderer（若未在 Inspector 指定）
         if (spriteRenderer == null)
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
-        // 初始显示（若有攻击帧）
         if (spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
         {
             spriteRenderer.sprite = attackFrames[0];
@@ -117,11 +106,9 @@ public class Enemyneko : enemyKaisho
         swipeInterval = Mathf.Max(0.1f, swipeInterval);
         hitRadius = Mathf.Max(0.01f, hitRadius);
         damage = Mathf.Max(0f, damage);
-
         forwardJumpSpeed = Mathf.Max(0f, forwardJumpSpeed);
         jumpUpVelocity = Mathf.Max(0f, jumpUpVelocity);
         jumpCooldown = Mathf.Max(0.05f, jumpCooldown);
-
         frameDuration = Mathf.Max(0.01f, frameDuration);
     }
 
@@ -129,28 +116,23 @@ public class Enemyneko : enemyKaisho
     {
         if (_isDying) return;
 
-        // 跳跃状态：グレース期間後のみ接地終了
         if (_isJumping && Time.time >= _jumpGraceUntil && IsGrounded())
         {
             _isJumping = false;
-            // 不立即停止攻击序列，让它自然播放完；结束后协程会自行重置到第一帧
         }
 
-        // 定时自动挥击：仅跳跃中触发
         if (_isJumping && !_isSwiping && Time.time >= _nextSwipeTime)
         {
             TriggerSwipe();
             _nextSwipeTime = Time.time + swipeInterval;
         }
 
-        // 自动跳跃：接地且冷却完成时起跳
         if (autoJump && IsGrounded() && Time.time - _lastJumpTime >= jumpCooldown)
         {
             PerformForwardJump();
         }
     }
 
-    // 向前（左）跳跃（如需向右，把 v.x 改为 +forwardJumpSpeed）
     public void PerformForwardJump()
     {
         if (_rb == null) _rb = GetComponent<Rigidbody2D>();
@@ -168,7 +150,6 @@ public class Enemyneko : enemyKaisho
         v.y = jumpUpVelocity;
         _rb.linearVelocity = v;
 
-        // 起跳时开始“完整一次”的攻击动画（若未在播放）
         if (!_isPlayingAttackCycle && spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
         {
             StartAttackCycleOnce();
@@ -187,35 +168,24 @@ public class Enemyneko : enemyKaisho
         StartCoroutine(_currentAnimCo);
     }
 
-    // 一次完整的攻击帧序列播放（不中断）
     private System.Collections.IEnumerator AttackCycleOnce()
     {
         float dur = Mathf.Max(0.01f, frameDuration);
 
-        // 播放一遍完整序列
         for (int i = 0; i < attackFrames.Length; i++)
         {
             if (spriteRenderer != null) spriteRenderer.sprite = attackFrames[i];
             yield return new WaitForSeconds(dur);
         }
-
-        _isPlayingAttackCycle = false;
+            _isPlayingAttackCycle = false;
         _currentAnimCo = null;
 
-        // 播放完毕时，如果已经落地或正在死亡，回到第一帧
         if (!_isJumping || _isDying)
         {
             if (spriteRenderer != null && attackFrames != null && attackFrames.Length > 0)
             {
                 spriteRenderer.sprite = attackFrames[0];
             }
-        }
-        else
-        {
-            // 仍在空中：如需连续播放，可再次启动一次性序列
-            // 如果希望每次跳跃只播一遍，不再继续，这里不触发后续
-            // 若希望空中循环完整序列（一次接一次），取消注释：
-            // StartAttackCycleOnce();
         }
     }
 
@@ -228,13 +198,9 @@ public class Enemyneko : enemyKaisho
 
     private System.Collections.IEnumerator SwipeRoutine()
     {
-        // 预备动作
         yield return RotateHandTo(_baseZ - swipeAngle * 0.4f);
-        // 主挥动（中段命中）
         yield return RotateHandWithHitTo(_baseZ + swipeAngle);
-        // 复位
         yield return RotateHandTo(_baseZ);
-        // 冷却
         yield return new WaitForSeconds(swipeCooldown);
         _isSwiping = false;
     }
@@ -267,7 +233,6 @@ public class Enemyneko : enemyKaisho
             float current = Mathf.MoveTowards(GetLocalZ(leftHand), targetZ, swipeSpeed * Time.deltaTime);
             SetLocalZ(leftHand, current);
 
-            // 进度（0..1）
             float traveled = Mathf.Abs(current - startZ);
             float t = total > 0f ? traveled / total : 1f;
 
@@ -294,7 +259,12 @@ public class Enemyneko : enemyKaisho
         }
     }
 
-    // 对外暴露的死亡启动（如被玩家击杀时调用）
+    // 供 DamageReceiver 调用的死亡入口
+    public void KillByDamage()
+    {
+        StartDeath();
+    }
+
     public void StartDeath()
     {
         if (_isDying) return;
@@ -324,7 +294,6 @@ public class Enemyneko : enemyKaisho
             SetLocalZ(leftHand, _baseZ);
         }
 
-        // 死亡帧播放（完整一次）
         if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
         {
             StartCoroutine(DeathRoutine());
@@ -351,33 +320,10 @@ public class Enemyneko : enemyKaisho
         Destroy(gameObject);
     }
 
-    // 碰撞/触发到玩家即死亡
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (_isDying) return;
-        if (IsPlayer(collision.collider)) StartDeath();
-    }
+    // 删除原来的“直接碰到就死亡”判定，改由 DamageZone 触发
+    private void OnCollisionEnter2D(Collision2D collision) { }
+    private void OnTriggerEnter2D(Collider2D other) { }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (_isDying) return;
-        if (IsPlayer(other)) StartDeath();
-    }
-
-    private bool IsPlayer(Collider2D col)
-    {
-        if (usePlayerTag)
-        {
-            return col.CompareTag(playerTag);
-        }
-        else
-        {
-            int mask = 1 << col.gameObject.layer;
-            return (playerLayers.value & mask) != 0;
-        }
-    }
-
-    // 共通：获取/设置局部 Z
     private static float GetLocalZ(Transform t)
     {
         var e = t.localEulerAngles;

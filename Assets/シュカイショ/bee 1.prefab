@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1324055957000470303}
   - component: {fileID: 583199174449946772}
-  m_Layer: 3
-  m_Name: a
+  m_Layer: 0
+  m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,11 +88,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2792512488759647624}
   - component: {fileID: 8982664824548938429}
-  - component: {fileID: 8266794610999705124}
   - component: {fileID: 135801895616805537}
   m_Layer: 3
   m_Name: beeattack
-  m_TagString: EnemyAttack
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 4129200379580718742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.41, y: -3.05, z: 0}
+  m_LocalPosition: {x: -0.41000083, y: -3.0500002, z: 0}
   m_LocalScale: {x: 3.056, y: 2.2087631, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -170,18 +169,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8266794610999705124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4129200379580718742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eec786422fa2c240977d8c06289df3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::attack
 --- !u!61 &135801895616805537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -212,7 +199,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -261,8 +248,8 @@ Transform:
   m_LocalScale: {x: 0.1447, y: 0.16172001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2792512488759647624}
   - {fileID: 1324055957000470303}
+  - {fileID: 2792512488759647624}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4169421385026423339
@@ -415,7 +402,7 @@ MonoBehaviour:
   prepareDuration: 1.5
   diveSpeed: 10
   diveDuration: 1
-  attackDamage: 10
+  attackDamage: 1
   recoverDuration: 1.5
   attackCollider: {fileID: 135801895616805537}
   lifeCollider: {fileID: 583199174449946772}

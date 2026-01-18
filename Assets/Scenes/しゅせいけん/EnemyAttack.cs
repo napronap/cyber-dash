@@ -2,12 +2,33 @@ using UnityEngine;
 
 public class EnemyAttackZone : MonoBehaviour
 {
-    public int damageToPlayer = 1;     // 触手が与えるダメージ
+    [SerializeField, Tooltip("ｶﾔﾍ貍ﾒﾔ�ｳﾉｵﾄﾉﾋｺｦ")]
+    public int damageToPlayer = 1;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 侵入したオブジェクトが PlayerHealth を持っている場合 → ダメージを与える
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
+        // ﾓﾅﾏﾈﾔﾚﾃ�ﾖﾐｶﾔﾏｾｲ耻ﾒ PlayerHealth｣ｻﾈ郢鈊ｻﾓﾐ｣ｬﾔﾚﾆ荳ｸｲ羇鰈ﾒ
+        var player = other.GetComponent<PlayerHealth>();
+        if (player == null)
+        {
+            player = other.GetComponentInParent<PlayerHealth>();
+        }
+
+        if (player != null)
+        {
+            player.TakeDamage(damageToPlayer);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision == null || collision.collider == null) return;
+
+        var player = collision.collider.GetComponent<PlayerHealth>();
+        if (player == null)
+        {
+            player = collision.collider.GetComponentInParent<PlayerHealth>();
+        }
 
         if (player != null)
         {

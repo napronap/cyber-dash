@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8214343428665036723}
   - component: {fileID: 7036668511244438832}
   - component: {fileID: 5219031290986031415}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fish
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageReceiver
   fishUFO: {fileID: 7036668511244438832}
+  killTarget: {fileID: 0}
 --- !u!1 &2786420858788146748
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +227,7 @@ GameObject:
   - component: {fileID: 4521692388749898031}
   - component: {fileID: 9030559471346047070}
   - component: {fileID: 2971427431818917445}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +320,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageZone
   normalDamage: 1
-  instaKillFromDash: 1
+  usePlayerTag: 1
+  playerTag: Player
+  playerLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!61 &2971427431818917445
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -354,7 +359,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.31825787}
+  m_Offset: {x: 0, y: -0.22582655}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -364,7 +369,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.3634843}
+  m_Size: {x: 1, y: 0.5483469}
   m_EdgeRadius: 0
 --- !u!1 &3478967939518370082
 GameObject:
@@ -376,7 +381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6014412020307849219}
   - component: {fileID: 7869787481798506625}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +472,7 @@ GameObject:
   - component: {fileID: 2626260250818965073}
   - component: {fileID: 4013006193269901832}
   - component: {fileID: 4702093570582505263}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

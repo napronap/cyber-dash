@@ -99,4 +99,35 @@ public class TESETO : MonoBehaviour
         Vector3 origin = (groundCheck != null) ? groundCheck.position : transform.position + Vector3.down * 0.1f;
         Gizmos.DrawWireSphere(origin, groundCheckRadius);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        ApplyEnemyDamage(other);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision == null || collision.collider == null) return;
+        ApplyEnemyDamage(collision.collider);
+    }
+
+    // 仅当玩家主体碰撞体与 Tag=Enemy 接触时扣 1 点生命值；忽略 PlayerAttack 子碰撞体触发
+    private void ApplyEnemyDamage(Collider2D col)
+    {
+        if (col == null) return;
+        if (!col.CompareTag("Enemy")) return;
+
+        // 取玩家主体碰撞体（挂在同一 GameObject 上的 Collider2D）
+        var bodyCollider = GetComponent<Collider2D>();
+        if (bodyCollider == null) return;
+
+        // 只有主体碰撞体与敌人发生接触时才结算伤害
+        if (!bodyCollider.IsTouching(col)) return;
+
+        var hp = GetComponent<PlayerHealth>();
+        if (hp != null)
+        {
+            hp.TakeDamage(1);
+        }
+    }
 }

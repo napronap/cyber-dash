@@ -88,7 +88,6 @@ public class Bee : MonoBehaviour
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
-        // 主体物理碰撞体（非触发），用于与地面阻挡
         if (bodyCollider == null) bodyCollider = GetComponent<Collider2D>();
         if (bodyCollider != null) bodyCollider.isTrigger = false;
 
@@ -151,7 +150,6 @@ public class Bee : MonoBehaviour
                 break;
             case State.Dive:
                 DoDive(dt);
-                // 仅在时间到并且攻击帧已完整播放后，才进入恢复
                 if (stateTime >= diveDuration && !_isPlayingAttackCycle)
                 {
                     EnterState(State.Recover);
@@ -167,7 +165,6 @@ public class Bee : MonoBehaviour
 
     void Update()
     {
-        // 屏幕越界销毁（稳定版）
         if (!isDead && destroyWhenOffScreen)
         {
             TryDestroyIfOffScreen();
@@ -176,8 +173,7 @@ public class Bee : MonoBehaviour
 
     private void TryDestroyIfOffScreen()
     {
-        // 视口越界检测：带少量缓冲
-        const float margin = 0.1f; // 10% 视口缓冲，避免刚离开即销毁造成抖动
+        const float margin = 0.1f;
         var cam = Camera.main;
 
         if (cam != null)
@@ -192,7 +188,6 @@ public class Bee : MonoBehaviour
         }
         else
         {
-            // 无主摄像机时，回退到渲染可见性
             if (spriteRenderer != null && !spriteRenderer.isVisible)
             {
                 Destroy(gameObject);
@@ -222,7 +217,6 @@ public class Bee : MonoBehaviour
                 if (attackCollider != null) attackCollider.enabled = true;
                 StopMoveLoop();
 
-                // 确保俯冲持续时间至少覆盖攻击帧总时长，避免中途切换
                 float attackTotal = (attackFrames != null) ? attackFrames.Length * Mathf.Max(0.01f, frameDuration) : 0f;
                 if (attackTotal > 0f)
                 {
@@ -276,10 +270,10 @@ public class Bee : MonoBehaviour
     {
         if (other == null || isDead) return;
 
-        // 关键致命部位：玩家触碰即死亡
+        // 致命部位：仅当 PlayerAttack 触碰时才立即死亡
         if (lifeCollider != null && lifeCollider.IsTouching(other))
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("PlayerAttack"))
             {
                 Die();
             }
@@ -298,21 +292,18 @@ public class Bee : MonoBehaviour
         }
     }
 
-    // 与地面发生物理碰撞时的处理
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (!IsGround(collision.collider)) return;
 
         if (isDead)
         {
-            // 死亡落地后停住
             if (rb != null) rb.linearVelocity = Vector2.zero;
             return;
         }
 
         if (state == State.Dive)
         {
-            // 俯冲触地后切换到恢复状态
             EnterState(State.Recover);
         }
     }
@@ -330,9 +321,8 @@ public class Bee : MonoBehaviour
 
         if (attackCollider != null) attackCollider.enabled = false;
         if (lifeCollider != null) lifeCollider.enabled = false;
-        if (bodyCollider != null) bodyCollider.enabled = true; // 保证主体碰撞还在
+        if (bodyCollider != null) bodyCollider.enabled = true;
 
-        // 启用死亡下落效果
         if (rb != null)
         {
             switch (deathFallMode)
@@ -348,11 +338,9 @@ public class Bee : MonoBehaviour
             }
         }
 
-        // 停止所有动画协程
         StopMoveLoop();
         StopAttackAnimIfAny();
 
-        // 播放死亡帧序列后销毁；若未配置死亡帧，则按延时销毁
         if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
         {
             StartCoroutine(DeathRoutine());
@@ -363,7 +351,6 @@ public class Bee : MonoBehaviour
         }
     }
 
-    // 移动动画：循环播放
     private void StartMoveLoop()
     {
         if (spriteRenderer == null || moveFrames == null || moveFrames.Length == 0) return;
@@ -393,7 +380,6 @@ public class Bee : MonoBehaviour
         }
     }
 
-    // 攻击动画：一次性播放
     private void StartAttackCycleOnce()
     {
         if (spriteRenderer == null || attackFrames == null || attackFrames.Length == 0) return;
@@ -426,12 +412,9 @@ public class Bee : MonoBehaviour
 
         _isPlayingAttackCycle = false;
         _currentAttackCo = null;
-
-        // 回到移动循环（若仍处于非俯冲状态）
         StartMoveLoop();
     }
 
-    // 死亡动画：一次性播放后销毁
     private System.Collections.IEnumerator DeathRoutine()
     {
         float dur = Mathf.Max(0.01f, frameDuration);

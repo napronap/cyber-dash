@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1324055957000470303}
   - component: {fileID: 583199174449946772}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,9 +88,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2792512488759647624}
   - component: {fileID: 8982664824548938429}
-  - component: {fileID: 8266794610999705124}
   - component: {fileID: 135801895616805537}
-  m_Layer: 0
+  - component: {fileID: 6602123342302967961}
+  m_Layer: 3
   m_Name: beeattack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,18 +170,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8266794610999705124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4129200379580718742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eec786422fa2c240977d8c06289df3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::attack
 --- !u!61 &135801895616805537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -228,6 +216,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.9980064}
   m_EdgeRadius: 0
+--- !u!114 &6602123342302967961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129200379580718742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3cece24409beac47b89addc04c47183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackZone
+  damageToPlayer: 1
 --- !u!1 &7382663874716763413
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ GameObject:
   - component: {fileID: 7729258257603172294}
   - component: {fileID: 5343343226255834791}
   - component: {fileID: 6087386037534363447}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
