@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 8110435126950542798}
   m_Layer: 3
   m_Name: "\u624B"
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
