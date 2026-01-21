@@ -8,6 +8,7 @@ public class GameFlowManager : MonoBehaviour
     public string mainMenuScene = "MainMenuTest";
     bool pauseLoaded;
     bool confirmLoaded;
+    PauseUIRoot uiRoot;
     void Awake()
     {
         if (I != null) { Destroy(gameObject); return; }
@@ -89,7 +90,10 @@ public class GameFlowManager : MonoBehaviour
 
     void SetPauseUIVisible(bool visible)
     {
-        var ui = FindFirstObjectByType<PauseUIRoot>();
-        if (ui != null) ui.SetVisible(visible);
+        if (uiRoot == null)
+        {
+            uiRoot = FindFirstObjectByType<PauseUIRoot>();
+        }
+        uiRoot.SetVisible(visible);
     }
 }
