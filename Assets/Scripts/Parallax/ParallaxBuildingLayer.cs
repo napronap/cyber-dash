@@ -9,14 +9,13 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     public float spawnIntervalMin = 2f;
     public float spawnIntervalMax = 30f;
     public string sortingLayer;
-    public int spawnHeight = 0;
+    public float spawnHeight = 0f;
+    public float spriteScale = 1f;
 
     private float timer;
 
     protected override void Tick(float dt)
     {
-        timer += dt;
-
         if (Input.GetKeyDown(KeyCode.P))
         {
             toggleActive();
@@ -24,6 +23,8 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
 
         if (isActive)
         {
+            timer += dt;
+
             if (timer >= Random.Range(spawnIntervalMin, spawnIntervalMax))
             {
                 timer = 0f;
@@ -50,6 +51,8 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
         SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
         sr.sprite = selectedSprite;
         sr.sortingLayerName = sortingLayer;
+        Transform tr = go.GetComponent<Transform>();
+        tr.localScale = new Vector3(spriteScale, spriteScale, spriteScale);
 
         // spawn
         float spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x + sr.bounds.extents.x;
@@ -64,11 +67,11 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     {
         float move = speed * dt;
 
-
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Transform child = transform.GetChild(i);
-            float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x - child.GetComponent<SpriteRenderer>().sprite.bounds.extents.x;
+            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
+            float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x - sr.bounds.extents.x;
 
             child.position += Vector3.left * move;
 
