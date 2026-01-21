@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d279c0b0ec04f884a9fcdf3571888e77
+guid: 2a7d6a948c6ba5743b4af8b64a38774c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,133 +123,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dash_0
+      name: attack_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 2756
-        width: 1574
-        height: 1378
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        y: 2154
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68e427c0f34ee44419f24115b5fdbabe
-      internalID: 27538023
+      spriteID: 043a0bc19ca2fbd488e9feba8b921de6
+      internalID: -886807583
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_1
+      name: attack_1
       rect:
         serializedVersion: 2
-        x: 1574
-        y: 2756
-        width: 1574
-        height: 1378
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 2870
+        y: 2154
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6b250ec15179344eae1561ae315e75c
-      internalID: 657480975
+      spriteID: e95440d4e2d63ac429cc97f42cbd5a02
+      internalID: 488263696
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_2
+      name: attack_2
       rect:
         serializedVersion: 2
-        x: 3148
-        y: 2756
-        width: 1574
-        height: 1378
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 5740
+        y: 2154
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1fcf82abf03dd7d41b75e8d57bfa49e5
-      internalID: -1792140984
+      spriteID: f1037e14b9828844a91309d5d40f521a
+      internalID: 594661255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_3
+      name: attack_3
       rect:
         serializedVersion: 2
-        x: 4722
-        y: 2756
-        width: 1574
-        height: 1378
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 8610
+        y: 2154
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 458c71af8328941498f0f0f02f89576f
-      internalID: 782193779
+      spriteID: 1c740c455c3421b459dd55e60738a77c
+      internalID: 1353135273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_4
+      name: attack_4
       rect:
         serializedVersion: 2
-        x: 6296
-        y: 2756
-        width: 1574
-        height: 1378
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 0
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8431a6b1fc12cd247b117b2bce7f0fb7
-      internalID: 2002859632
+      spriteID: 3b36757302333b049b4f079191cc0745
+      internalID: 1980530387
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_5
+      name: attack_5
       rect:
         serializedVersion: 2
-        x: 7870
-        y: 2756
-        width: 1574
-        height: 1378
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 2870
+        y: 0
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e41e39cfb687c7245b55aac2c9c4f327
-      internalID: 780955072
+      spriteID: cb2287553fd2dc442aea00720ff3352e
+      internalID: -509398931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: attack_6
+      rect:
+        serializedVersion: 2
+        x: 5740
+        y: 0
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63f8ded266c236143a0239c2bf99bb47
+      internalID: -1027935004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: attack_7
+      rect:
+        serializedVersion: 2
+        x: 8610
+        y: 0
+        width: 2870
+        height: 2154
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59b8ba907f2f88c4b91ceac6a3acafe7
+      internalID: 1459166475
       vertices: []
       indices: 
       edges: []
@@ -268,21 +312,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":3.0},"gridSpriteSize":{"x":1574.0,"y":1378.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":2.0},"gridSpriteSize":{"x":2870.0,"y":2154.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.15000000596046449},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      dash_0: 27538023
-      dash_1: 657480975
-      dash_10: 516047892
-      dash_11: 1501852487
-      dash_12: -1924686302
-      dash_2: -1792140984
-      dash_3: 782193779
-      dash_4: 2002859632
-      dash_5: 780955072
-      dash_6: -1824452055
-      dash_7: 2113832047
-      dash_8: -178462321
-      dash_9: -1336497476
+      attack_0: -886807583
+      attack_1: 488263696
+      attack_2: 594661255
+      attack_3: 1353135273
+      attack_4: 1980530387
+      attack_5: -509398931
+      attack_6: -1027935004
+      attack_7: 1459166475
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
