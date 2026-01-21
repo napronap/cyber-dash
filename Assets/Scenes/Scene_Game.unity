@@ -212,11 +212,17 @@ MonoBehaviour:
   speed: 2
   isActive: 1
   spriteList:
-  - {fileID: 4773402796307927748, guid: b84ebb21d6bd929469b87effad5971e4, type: 3}
+  - {fileID: 1704876855, guid: 61cbfabe365d33b47815c70f6cf29b8e, type: 3}
+  - {fileID: 1353237926, guid: 61cbfabe365d33b47815c70f6cf29b8e, type: 3}
+  - {fileID: 218443036, guid: 61cbfabe365d33b47815c70f6cf29b8e, type: 3}
+  - {fileID: -25541768, guid: 61cbfabe365d33b47815c70f6cf29b8e, type: 3}
+  - {fileID: 1122841503, guid: 61cbfabe365d33b47815c70f6cf29b8e, type: 3}
+  - {fileID: -2015744186, guid: 61cbfabe365d33b47815c70f6cf29b8e, type: 3}
   spawnIntervalMin: 2
   spawnIntervalMax: 30
   sortingLayer: Building Landscape
-  spawnHeight: 0
+  spawnHeight: -0.6
+  spriteScale: 0.04
 --- !u!1 &453961082
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,13 +658,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParallaxBuildingsLayer
   speed: 2
-  isActive: 1
+  isActive: 0
   spriteList:
   - {fileID: 2181323322532047525, guid: 56235debaeda85943b1c8810906132c8, type: 3}
   spawnIntervalMin: 2
   spawnIntervalMax: 30
   sortingLayer: Building Foreground
   spawnHeight: 0
+  spriteScale: 1
 --- !u!1 &1289457519
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,13 +954,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParallaxBuildingsLayer
   speed: 2
-  isActive: 1
+  isActive: 0
   spriteList:
   - {fileID: -8030835215644163416, guid: 45d057238b3a01745a17803cd1611467, type: 3}
   spawnIntervalMin: 70
   spawnIntervalMax: 100
   sortingLayer: Street
   spawnHeight: 0
+  spriteScale: 1
 --- !u!1 &1522076941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,13 +1223,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParallaxBuildingsLayer
   speed: 2
-  isActive: 1
+  isActive: 0
   spriteList:
   - {fileID: 1474166525095652743, guid: 6a3a15e3d50728b4bae39daff5449d7a, type: 3}
   spawnIntervalMin: 30
   spawnIntervalMax: 120
   sortingLayer: Building
   spawnHeight: 0
+  spriteScale: 1
 --- !u!1 &2062895332
 GameObject:
   m_ObjectHideFlags: 0
