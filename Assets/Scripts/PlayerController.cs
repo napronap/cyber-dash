@@ -3,7 +3,7 @@ using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 using System;
 using System.Collections;
-using Unity.Android.Gradle.Manifest;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -135,13 +135,13 @@ public class PlayerController : MonoBehaviour
         isGrounded = CheckIsGrounded();
         CheckDash();
 
-       
+
         if (isJumping && rb.linearVelocity.y <= 0 && isGrounded)
         {
             isJumping = false;
         }
 
-       
+
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
         isRunning = Mathf.Abs(inputVector.x) > 0.1f || Mathf.Abs(inputVector.y) > 0.1f;
     }
