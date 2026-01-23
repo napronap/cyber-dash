@@ -301,6 +301,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!96 &639239305 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 1251752887766990915, guid: af4de0e2f1fefa248a5b9defaf67770f, type: 3}
+  m_PrefabInstance: {fileID: 850466236}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &780156531
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2366649671922462667, guid: af4de0e2f1fefa248a5b9defaf67770f, type: 3}
       propertyPath: jumpForce
-      value: 250
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 2366649671922462667, guid: af4de0e2f1fefa248a5b9defaf67770f, type: 3}
       propertyPath: groundLevel
@@ -546,7 +551,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2172687965113554848, guid: af4de0e2f1fefa248a5b9defaf67770f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1136859888}
   m_SourcePrefab: {fileID: 100100000, guid: af4de0e2f1fefa248a5b9defaf67770f, type: 3}
 --- !u!1 &1060858435
 GameObject:
@@ -599,6 +607,31 @@ Transform:
   - {fileID: 1400160964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1136859883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2172687965113554848, guid: af4de0e2f1fefa248a5b9defaf67770f, type: 3}
+  m_PrefabInstance: {fileID: 850466236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1136859888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136859883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a7df5d1e19b0c34284ab99d01099b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  movingSpeed: 6
+  dashSpeed: 4
+  dashTime: 0.2
+  trailRenderer: {fileID: 639239305}
+  dashCooldownTime: 0.25
+  jumpForce: 300
+  jumpTime: 0.3
+  groundLevel: 0
 --- !u!1 &1200599753
 GameObject:
   m_ObjectHideFlags: 0
