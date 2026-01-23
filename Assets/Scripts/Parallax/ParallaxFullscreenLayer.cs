@@ -5,6 +5,8 @@ public class ParallaxFullscreenLayer : ParallaxLayerBase
     private Transform leftTile;
     private Transform rightTile;
     private float width;
+    [SerializeField] float VerticalOffset = .5f;
+    [SerializeField] bool addHorizontalOffset = true;
 
     void Start()
     {
@@ -16,8 +18,8 @@ public class ParallaxFullscreenLayer : ParallaxLayerBase
 
         float xOffset = 1.3f;
 
-        leftTile.localPosition = new Vector3(-xOffset, 0.5f, 0);
-        rightTile.localPosition = new Vector3(width - xOffset, 0.5f, 0);
+        leftTile.localPosition = new Vector3(0, VerticalOffset, 0);
+        rightTile.localPosition = new Vector3(width - 0, VerticalOffset, 0);
     }
 
     protected override void Tick(float dt)

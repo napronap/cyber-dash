@@ -64,6 +64,9 @@ TagManager:
   - name: Street
     uniqueID: 3270374387
     locked: 0
+  - name: Street Foreground
+    uniqueID: 345263037
+    locked: 0
   - name: Character
     uniqueID: 2415208647
     locked: 0
