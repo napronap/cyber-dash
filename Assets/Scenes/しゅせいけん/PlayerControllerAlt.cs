@@ -1,24 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerAlt : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 6f;       // ’ÊíˆÚ“®‘¬“x
+    [SerializeField] private float moveSpeed = 6f;       // ï¿½Êï¿½Ú“ï¿½ï¿½ï¿½ï¿½x
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashSpeed = 18f;      // ƒ_ƒbƒVƒ…‘¬“x
-    [SerializeField] private float dashDuration = 0.15f; // ƒ_ƒbƒVƒ…ŽžŠÔ
-    [SerializeField] private float dashCooldown = 0.35f; // ƒN[ƒ‹ƒ_ƒEƒ“
+    [SerializeField] private float dashSpeed = 18f;      // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½x
+    [SerializeField] private float dashDuration = 0.15f; // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private float dashCooldown = 0.35f; // ï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½
 
     [Header("Backward Slowdown")]
-    [SerializeField] private float backwardSlowFactor = 0.4f;     // Œã‚ë•ûŒü‚ÌŒ¸‘¬—¦
-    [SerializeField] private float backwardSlowDuration = 0.20f;  // Œ¸‘¬ŽžŠÔ
+    [SerializeField] private float backwardSlowFactor = 0.4f;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private float backwardSlowDuration = 0.20f;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     [Header("Components")]
     public Rigidbody2D rb;                 // Rigidbody2D
-    public SpriteRenderer sr;              // ƒXƒvƒ‰ƒCƒg”½“]—p
-    public GameObject dashHitbox;          // ƒ_ƒbƒVƒ…UŒ‚‚Ì“–‚½‚è”»’è
+    public SpriteRenderer sr;              // ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½]ï¿½p
+    public GameObject dashHitbox;          // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
 
     private Vector2 moveInput;
     private bool isDashing = false;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // --- ’ÊíˆÚ“® ---
+        // --- ï¿½Êï¿½Ú“ï¿½ ---
         if (!isDashing)
         {
             float x = Input.GetAxisRaw("Horizontal");
@@ -34,21 +34,21 @@ public class PlayerController : MonoBehaviour
 
             moveInput = new Vector2(x, y).normalized;
 
-            // ‰EŒü‚«‚ÌŽž‚¾‚¯”½“]
+            // ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ÌŽï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
             if (moveInput.x > 0) sr.flipX = false;
         }
 
-        // --- ƒ_ƒbƒVƒ…“ü—ÍiXƒL[j ---
+        // --- ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÍiXï¿½Lï¿½[ï¿½j ---
         if (Input.GetKeyDown(KeyCode.X) && canDash)
         {
-            // ¶•ûŒü‚Ìê‡ ¨ ƒ_ƒbƒVƒ…•s‰Â ¨ Œ¸‘¬‚¾‚¯“K—p
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ ï¿½ï¿½ ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½sï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½p
             if (moveInput.x < 0)
             {
                 StartCoroutine(BackwardSlowdown());
                 return;
             }
 
-            // –³“ü—Í‚ÌŽž ¨ ƒfƒtƒHƒ‹ƒg‚Í‰E•ûŒü‚Éƒ_ƒbƒVƒ…
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ÌŽï¿½ ï¿½ï¿½ ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Í‰Eï¿½ï¿½ï¿½ï¿½ï¿½Éƒ_ï¿½bï¿½Vï¿½ï¿½
             if (moveInput == Vector2.zero)
                 moveInput = Vector2.right;
 
@@ -57,14 +57,14 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        // ƒ_ƒbƒVƒ…’†‚Í’ÊíˆÚ“®‚µ‚È‚¢
+        // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Í’Êï¿½Ú“ï¿½ï¿½ï¿½ï¿½È‚ï¿½
         if (!isDashing)
         {
             rb.linearVelocity = moveInput * moveSpeed;
         }
     }
 
-    // --- ƒ_ƒbƒVƒ…ˆ— ---
+    // --- ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ---
     private IEnumerator PerformDash(Vector2 direction)
     {
         isDashing = true;
@@ -86,17 +86,17 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
-    // --- ¶“ü—Í‚Åƒ_ƒbƒVƒ…‚ðŽŽ‚Ý‚½Žž‚ÌŒ¸‘¬ˆ— ---
+    // --- ï¿½ï¿½ï¿½ï¿½ï¿½Í‚Åƒ_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý‚ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ---
     private IEnumerator BackwardSlowdown()
     {
         float originalSpeed = moveSpeed;
 
-        // Œ¸‘¬ŠJŽn
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
         moveSpeed *= backwardSlowFactor;
 
         yield return new WaitForSeconds(backwardSlowDuration);
 
-        // ’Êí‘¬“x‚É–ß‚·
+        // ï¿½Êí‘¬ï¿½xï¿½É–ß‚ï¿½
         moveSpeed = originalSpeed;
     }
 }
