@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d8fdf074c46ea6b448fcfb8353cca44d
+guid: 14d45cf34de625742abd9a44f2dca71f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 300
+  spritePixelsToUnits: 200
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -127,19 +127,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe89d63f083deeb48b0a066add1fe360
-      internalID: 212220846
+      spriteID: 6bf812b188472d9438000d744202431a
+      internalID: 1136797757
       vertices: []
       indices: 
       edges: []
@@ -148,20 +148,20 @@ TextureImporter:
       name: backstep_1
       rect:
         serializedVersion: 2
-        x: 1372
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 2356
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 013f610ef4c667741b5e769e5f5e4f3f
-      internalID: -1455740593
+      spriteID: 867927dc38726d646a2dbf98c85d1034
+      internalID: -1918192551
       vertices: []
       indices: 
       edges: []
@@ -170,20 +170,20 @@ TextureImporter:
       name: backstep_2
       rect:
         serializedVersion: 2
-        x: 2744
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 4690
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fbcf9c8dba39ec49992ba8c857c2d8a
-      internalID: 870736064
+      spriteID: 98d46ada2599f9842915e30f8750a4f0
+      internalID: -303058131
       vertices: []
       indices: 
       edges: []
@@ -192,20 +192,20 @@ TextureImporter:
       name: backstep_3
       rect:
         serializedVersion: 2
-        x: 4116
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 7039
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0901f3e6cc54b944ab458309f643273b
-      internalID: -585771983
+      spriteID: 9ae70aa07fb1d2649b40a7c54c791e6b
+      internalID: -292216669
       vertices: []
       indices: 
       edges: []
@@ -214,20 +214,20 @@ TextureImporter:
       name: backstep_4
       rect:
         serializedVersion: 2
-        x: 5488
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 9390
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b45224aa665386e4d809a79f71860af7
-      internalID: -1680408529
+      spriteID: 215f1ff129e053245a8a03ead416b9c4
+      internalID: -658567084
       vertices: []
       indices: 
       edges: []
@@ -236,20 +236,20 @@ TextureImporter:
       name: backstep_5
       rect:
         serializedVersion: 2
-        x: 6860
+        x: 0
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4f64f0901d6c7d4983dd8760bd0f594
-      internalID: 1462341334
+      spriteID: 8830268093f5679409a91b11043c5869
+      internalID: 1048617449
       vertices: []
       indices: 
       edges: []
@@ -258,20 +258,20 @@ TextureImporter:
       name: backstep_6
       rect:
         serializedVersion: 2
-        x: 8232
+        x: 4681
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a2eaf489cdbf4f46b00f68258ce6ba5
-      internalID: -582568769
+      spriteID: a9d859d6ab3a64e478d014eba7163b6d
+      internalID: 1573488761
       vertices: []
       indices: 
       edges: []
@@ -280,20 +280,20 @@ TextureImporter:
       name: backstep_7
       rect:
         serializedVersion: 2
-        x: 9604
+        x: 2341
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61e39f2ee5b2e3b438e25838bc50e81c
-      internalID: 94644140
+      spriteID: 96945a610dd085449bbfdcfb9a1b4a30
+      internalID: 578848177
       vertices: []
       indices: 
       edges: []
@@ -302,20 +302,42 @@ TextureImporter:
       name: backstep_8
       rect:
         serializedVersion: 2
-        x: 10976
+        x: 9383
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf5c2cc9dc3ff5c4f89668fb42b3ab5a
-      internalID: 74884158
+      spriteID: 7f2b38a4672b43b42ac7124868954a86
+      internalID: 819630905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backstep_9
+      rect:
+        serializedVersion: 2
+        x: 7032
+        y: 0
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c587775d265cde14fb2a68fdb0e1d9d7
+      internalID: -261270082
       vertices: []
       indices: 
       edges: []
@@ -334,17 +356,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":1.0},"gridSpriteSize":{"x":1372.0,"y":2480.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":2.0},"gridSpriteSize":{"x":1955.0,"y":2837.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      backstep_0: 212220846
-      backstep_1: -1455740593
-      backstep_2: 870736064
-      backstep_3: -585771983
-      backstep_4: -1680408529
-      backstep_5: 1462341334
-      backstep_6: -582568769
-      backstep_7: 94644140
-      backstep_8: 74884158
+      backstep_0: 1136797757
+      backstep_1: -1918192551
+      backstep_10: 2049771054
+      backstep_11: -486610237
+      backstep_2: -303058131
+      backstep_3: -292216669
+      backstep_4: -658567084
+      backstep_5: 1048617449
+      backstep_6: 1573488761
+      backstep_7: 578848177
+      backstep_8: 819630905
+      backstep_9: -261270082
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
