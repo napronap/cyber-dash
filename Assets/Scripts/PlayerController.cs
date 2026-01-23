@@ -1,8 +1,9 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 using System;
 using System.Collections;
+using Unity.Android.Gradle.Manifest;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,10 +23,14 @@ public class PlayerController : MonoBehaviour
     private float _initialMovingSpeed;
     private bool isDashing;
     private bool isRunning;
+    private bool isJumping;
     private bool isGrounded;
     private bool canDash;
     private bool dashStarted = false;
     private bool willDash = false;
+    private bool isDashBackwards = false;
+    private bool isDashUp = false;
+    private bool isDashAnim = false;
 
     private void Awake()
     {
@@ -50,10 +55,11 @@ public class PlayerController : MonoBehaviour
         Jump();
     }
 
-    private void Jump()
+    public void Jump()
     {
         if (isGrounded)
         {
+            isJumping = true;
             Vector2 inputVector = GameInput.Instance.GetMovementVector();
 
             if (Mathf.Abs(inputVector.x) > 0.1f)
@@ -93,6 +99,19 @@ public class PlayerController : MonoBehaviour
 
         bool longDash = isRight || (!hasHorizontalInput && isUp);
 
+        if (!longDash)
+        {
+            isDashBackwards = true;
+        }
+        else if (isUp)
+        {
+            isDashUp = true;
+        }
+        else
+        {
+            isDashAnim = true;
+        }
+
         movingSpeed *= longDash ? dashSpeed : dashSpeed / 2f;
         trailRenderer.emitting = true;
         yield return new WaitForSeconds(dashTime);
@@ -103,6 +122,10 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(dashCooldownTime);
         isDashing = false;
+        isDashBackwards = false;
+        isDashUp = false;
+        isDashAnim = false;
+
     }
 
     void FixedUpdate()
@@ -111,6 +134,16 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = CheckIsGrounded();
         CheckDash();
+
+       
+        if (isJumping && rb.linearVelocity.y <= 0 && isGrounded)
+        {
+            isJumping = false;
+        }
+
+       
+        Vector2 inputVector = GameInput.Instance.GetMovementVector();
+        isRunning = Mathf.Abs(inputVector.x) > 0.1f || Mathf.Abs(inputVector.y) > 0.1f;
     }
 
     private bool CheckIsGrounded()
@@ -149,6 +182,28 @@ public class PlayerController : MonoBehaviour
     {
         return isRunning;
     }
+
+    public bool IsJumping()
+    {
+        return isJumping;
+    }
+
+    // アニメーションのための変数だけです
+    public bool IsDashing()
+    {
+        return isDashAnim;
+    }
+
+    public bool IsDashBackwards()
+    {
+        return isDashBackwards;
+    }
+
+    public bool IsDashUp()
+    {
+        return isDashUp;
+    }
+
 
     public Vector3 GetPlayerScreenPosition()
     {
