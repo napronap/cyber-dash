@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d8fdf074c46ea6b448fcfb8353cca44d
+guid: 38a0d5d9e863875448199e94a61756b7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,199 +123,221 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: backstep_0
+      name: DashBack_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 070a6c6fb70deec4c8be95516c1b9f3d
+      internalID: 1531702817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DashBack_1
+      rect:
+        serializedVersion: 2
+        x: 2341
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49d0c0837e568bf4e993d85c82b266a9
+      internalID: -547976979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DashBack_2
+      rect:
+        serializedVersion: 2
+        x: 4683
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 479b7954afd1fee489621fa950ded1a0
+      internalID: -1205170557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DashBack_3
+      rect:
+        serializedVersion: 2
+        x: 7018
+        y: 2830
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 858a62dc2247b624faf33ef6f5ac1ac0
+      internalID: -1907772218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DashBack_4
+      rect:
+        serializedVersion: 2
+        x: 9355
+        y: 2837
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efa6151021277b7499b77267ade2fe5e
+      internalID: 841372291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DashBack_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe89d63f083deeb48b0a066add1fe360
-      internalID: 212220846
+      spriteID: 2e1d02dcecb1a9c42967e9299fbf9bf2
+      internalID: -211886905
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: backstep_1
+      name: DashBack_7
       rect:
         serializedVersion: 2
-        x: 1372
+        x: 2341
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 013f610ef4c667741b5e769e5f5e4f3f
-      internalID: -1455740593
+      spriteID: 3b15416031a8b95439dce9703ee5f419
+      internalID: 1131564952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: backstep_2
+      name: DashBack_8
       rect:
         serializedVersion: 2
-        x: 2744
+        x: 4683
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fbcf9c8dba39ec49992ba8c857c2d8a
-      internalID: 870736064
+      spriteID: c40a9f83e3177a542b9e19231b2f1360
+      internalID: 2048780185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: backstep_3
+      name: DashBack_9
       rect:
         serializedVersion: 2
-        x: 4116
+        x: 9355
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0901f3e6cc54b944ab458309f643273b
-      internalID: -585771983
+      spriteID: a25c8b710b70e174f9e02dd8e8a3317a
+      internalID: 1031716479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: backstep_4
+      name: DashBack_10
       rect:
         serializedVersion: 2
-        x: 5488
+        x: 7022
         y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2340
+        height: 2837
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b45224aa665386e4d809a79f71860af7
-      internalID: -1680408529
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: backstep_5
-      rect:
-        serializedVersion: 2
-        x: 6860
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f4f64f0901d6c7d4983dd8760bd0f594
-      internalID: 1462341334
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: backstep_6
-      rect:
-        serializedVersion: 2
-        x: 8232
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a2eaf489cdbf4f46b00f68258ce6ba5
-      internalID: -582568769
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: backstep_7
-      rect:
-        serializedVersion: 2
-        x: 9604
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 61e39f2ee5b2e3b438e25838bc50e81c
-      internalID: 94644140
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: backstep_8
-      rect:
-        serializedVersion: 2
-        x: 10976
-        y: 0
-        width: 1372
-        height: 2480
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cf5c2cc9dc3ff5c4f89668fb42b3ab5a
-      internalID: 74884158
+      spriteID: 6ac84debe97855a428be02edd9e746db
+      internalID: 1824793495
       vertices: []
       indices: 
       edges: []
@@ -334,17 +356,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":1.0},"gridSpriteSize":{"x":1372.0,"y":2480.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":2.0},"gridSpriteSize":{"x":1955.0,"y":2837.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.20000000298023225},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      backstep_0: 212220846
-      backstep_1: -1455740593
-      backstep_2: 870736064
-      backstep_3: -585771983
-      backstep_4: -1680408529
-      backstep_5: 1462341334
-      backstep_6: -582568769
-      backstep_7: 94644140
-      backstep_8: 74884158
+      DashBack_0: 1531702817
+      DashBack_1: -547976979
+      DashBack_10: 1824793495
+      DashBack_11: 1016821556
+      DashBack_2: -1205170557
+      DashBack_3: -1907772218
+      DashBack_4: 841372291
+      DashBack_5: 1901213844
+      DashBack_6: -211886905
+      DashBack_7: 1131564952
+      DashBack_8: 2048780185
+      DashBack_9: 1031716479
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
