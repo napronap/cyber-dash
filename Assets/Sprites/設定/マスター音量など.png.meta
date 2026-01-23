@@ -126,13 +126,13 @@ TextureImporter:
       name: Hero_Idle_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 96
+        x: 205
+        y: 341
+        width: 178
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 8, z: 0, w: 12}
       customData: 
       outline: []
       physicsShape: []

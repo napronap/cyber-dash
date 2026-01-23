@@ -29,6 +29,7 @@ public class PauseUI : MonoBehaviour
         else
             UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
     }
+
     public void QuitGame()
     {
         Application.Quit();
