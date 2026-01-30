@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
+using System.Collections.Generic;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageABLE
 {
     public int maxHP = 3;
     public int currentHP;
@@ -10,10 +12,34 @@ public class PlayerHealth : MonoBehaviour
     private bool invulnerable = false;
     private bool isDead = false;
 
+    public UnityEvent<int, int> OnHealthChanged = new UnityEvent<int, int>();
+
+    // 偙偙傪Inspector偱愝掕
+    [SerializeField] private Transform heartsRoot; // 擟堄: 僴乕僩恊
+    [SerializeField] private List<GameObject> heartObjects = new List<GameObject>(); // 擟堄: 僴乕僩屄暿嶲徠乮屻傠偑嵟屻偵徚偊傞乯
+
     void Start()
     {
         currentHP = Mathf.Max(0, maxHP);
         sr = GetComponent<SpriteRenderer>();
+
+        // heartObjects枹巜掕側傜heartsRoot捈壓偺巕傪帺摦廂廤
+        if (heartObjects.Count == 0 && heartsRoot != null)
+        {
+            heartObjects = new List<GameObject>(heartsRoot.childCount);
+            for (int i = 0; i < heartsRoot.childCount; i++)
+            {
+                heartObjects.Add(heartsRoot.GetChild(i).gameObject);
+            }
+        }
+
+        // 幚嵺偺僴乕僩悢偵崌傢偣偰弶婜HP傪僋儔儞僾
+        if (heartObjects.Count > 0)
+        {
+            currentHP = Mathf.Min(currentHP, heartObjects.Count);
+        }
+
+        OnHealthChanged.Invoke(currentHP, maxHP);
     }
 
     public void TakeDamage(int amount)
@@ -22,14 +48,23 @@ public class PlayerHealth : MonoBehaviour
         if (invulnerable) return;
         if (amount <= 0) return;
 
+        int oldHP = currentHP;
         currentHP = Mathf.Max(0, currentHP - amount);
 
-        // 命中反馈（可在死亡时跳过）
-        if (currentHP > 0)
+        // 尭彮暘偩偗僴乕僩傪枛旜偐傜嶍彍
+        int lost = Mathf.Max(0, oldHP - currentHP);
+        if (lost > 0)
+        {
+            RemoveHearts(lost);
+        }
+
+        if (currentHP > 0 && currentHP < oldHP)
         {
             StartCoroutine(Invulnerability());
             StartCoroutine(FlashHit());
         }
+
+        OnHealthChanged.Invoke(currentHP, maxHP);
 
         if (currentHP <= 0)
         {
@@ -37,12 +72,19 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    // Enemyneko 梡乮float乯
+    void IDamageABLE.TakeDamage(float amount)
+    {
+        int dmg = Mathf.FloorToInt(amount);
+        TakeDamage(dmg);
+    }
+
     private IEnumerator Invulnerability()
     {
         invulnerable = true;
         yield return new WaitForSeconds(1f);
         invulnerable = false;
-    }
+    }   
 
     private IEnumerator FlashHit()
     {
@@ -60,7 +102,6 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("Player died");
 
-        // 停止输入与移动
         var rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -75,13 +116,35 @@ public class PlayerHealth : MonoBehaviour
             col.enabled = false;
         }
 
-        // 可选：隐藏角色外观
         if (sr != null)
         {
             sr.enabled = false;
         }
 
-        // 立即销毁玩家（或根据需要改为重载场景/复活流程）
         Destroy(gameObject);
+    }
+
+    // 枛旜乮儕僗僩屻曽乯偐傜傾僋僥傿僽側僴乕僩傪桪愭揑偵嶍彍
+    private void RemoveHearts(int count)
+    {
+        if (count <= 0) return;
+
+        int removed = 0;
+        for (int i = heartObjects.Count - 1; i >= 0 && removed < count; i--)
+        {
+            var h = heartObjects[i];
+            if (h == null)
+            {
+                heartObjects.RemoveAt(i);
+                continue;
+            }
+
+            if (h.activeInHierarchy)
+            {
+                Destroy(h);
+                heartObjects.RemoveAt(i);
+                removed++;
+            }
+        }
     }
 }
