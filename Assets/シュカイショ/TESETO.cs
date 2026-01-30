@@ -111,7 +111,7 @@ public class TESETO : MonoBehaviour
         ApplyEnemyDamage(collision.collider);
     }
 
-    // ½öµ±Íæ¼ÒÖ÷ÌåÅö×²ÌåÓë Tag=Enemy ½Ó´¥Ê±¿Û 1 µãÉúÃüÖµ£»ºöÂÔ PlayerAttack ×ÓÅö×²Ìå´¥·¢
+    // ½öµ±Íæ¼ÒÖ÷ÌåÅö×²ÌåÓETag=Enemy ½Ó´¥Ê±¿Û 1 µãÉúÃEµ£»ºöÂÔ PlayerAttack ×ÓÅö×²Ìå´¥·¢
     private void ApplyEnemyDamage(Collider2D col)
     {
         if (col == null) return;
@@ -121,7 +121,7 @@ public class TESETO : MonoBehaviour
         var bodyCollider = GetComponent<Collider2D>();
         if (bodyCollider == null) return;
 
-        // Ö»ÓĞÖ÷ÌåÅö×²ÌåÓëµĞÈË·¢Éú½Ó´¥Ê±²Å½áËãÉËº¦
+        // Ö»ÓĞÖ÷ÌåÅö×²ÌåÓEĞÈË·¢Éú½Ó´¥Ê±²Å½áËãÉËº¦
         if (!bodyCollider.IsTouching(col)) return;
 
         var hp = GetComponent<PlayerHealth>();
