@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
@@ -15,9 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashTime = 0.2f;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private float dashCooldownTime = 30.0f;
-    [SerializeField] private float jumpForce = 1000f;
-    [SerializeField] private float jumpTime = 0.2f;
+    [SerializeField] private float jumpForce = 20f;
+    //[SerializeField] private float jumpTime = 0.2f;
     [SerializeField] private float groundLevel = -4f;
+    [SerializeField] private float gravityScale = 3f;
+    [SerializeField] private float verticalDashMultiplier = 0.3f;
 
     private Rigidbody2D rb;
     private float _initialMovingSpeed;
@@ -31,12 +32,16 @@ public class PlayerController : MonoBehaviour
     private bool isDashBackwards = false;
     private bool isDashUp = false;
     private bool isDashAnim = false;
+    private bool jumpPressed = false;
+    private bool canJump = true;
+    private bool jumpCooldown = false;
 
     private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         _initialMovingSpeed = movingSpeed;
+        rb.gravityScale = gravityScale;
     }
 
     private void Start()
@@ -52,26 +57,40 @@ public class PlayerController : MonoBehaviour
 
     private void GameInput_OnPlayerJump(object sender, EventArgs e)
     {
-        Jump();
+        if (canJump && !jumpCooldown)
+        {
+            jumpPressed = true;
+        }
     }
 
     public void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && canJump && !jumpCooldown)
         {
             isJumping = true;
+            canJump = false;
+            jumpCooldown = true;
             Vector2 inputVector = GameInput.Instance.GetMovementVector();
 
+            float horizontalMultiplier = 0f;
             if (Mathf.Abs(inputVector.x) > 0.1f)
             {
-                Vector2 jumpDirection = new Vector2(inputVector.x * 0.7f, 1f).normalized;
-                rb.AddForce(jumpDirection * jumpForce * 7);
+                horizontalMultiplier = inputVector.x * 0.3f;
             }
-            else
-            {
-                rb.AddForce(Vector2.up * jumpForce * 7);
-            }
+
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.AddForce(new Vector2(horizontalMultiplier * jumpForce, jumpForce), ForceMode2D.Impulse);
+            jumpPressed = false;
+
+            //StartCoroutine(JumpCooldownRoutine());
+            //canJump = true;
         }
+    }
+
+    private IEnumerator JumpCooldownRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        jumpCooldown = false;
     }
 
     private void Dash()
@@ -114,7 +133,14 @@ public class PlayerController : MonoBehaviour
 
         movingSpeed *= longDash ? dashSpeed : dashSpeed / 2f;
         trailRenderer.emitting = true;
-        yield return new WaitForSeconds(dashTime);
+
+        float dashTimer = 0f;
+        while (dashTimer < dashTime)
+        {
+            dashTimer += Time.deltaTime;
+            yield return null;
+        }
+
         willDash = false;
 
         trailRenderer.emitting = false;
@@ -125,22 +151,30 @@ public class PlayerController : MonoBehaviour
         isDashBackwards = false;
         isDashUp = false;
         isDashAnim = false;
-
     }
 
     void FixedUpdate()
     {
+        Debug.Log(isGrounded);
+        Debug.Log(rb.linearVelocityY);
         HandleMovement();
 
         isGrounded = CheckIsGrounded();
         CheckDash();
 
-
-        if (isJumping && rb.linearVelocity.y <= 0 && isGrounded)
+        if (isGrounded)
         {
+            canJump = true;
             isJumping = false;
+            jumpCooldown = false;
         }
 
+        if (jumpPressed && isGrounded && canJump && !jumpCooldown)
+        {
+            Jump();
+        }
+
+        jumpPressed = false;
 
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
         isRunning = Mathf.Abs(inputVector.x) > 0.1f || Mathf.Abs(inputVector.y) > 0.1f;
@@ -148,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
     private bool CheckIsGrounded()
     {
-        return transform.position.y < groundLevel;
+        return transform.position.y <= groundLevel + 0.1f && Mathf.Abs(rb.linearVelocity.y) < 0.01f;
     }
 
     private void CheckDash()
@@ -171,11 +205,24 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
 
-        float vy = willDash ? inputVector.y : 0f;
-        Vector2 cleanedVector = new Vector2(inputVector.x, vy).normalized;
+        if (willDash)
+        {
+            float dashX = inputVector.x;
+            float dashY = inputVector.y * verticalDashMultiplier;
 
-        var speed = cleanedVector * movingSpeed;
-        rb.linearVelocity = speed;
+            Vector2 dashDirection = new Vector2(dashX, dashY).normalized;
+            if (dashDirection.magnitude < 0.1f)
+            {
+                dashDirection = Vector2.right;
+            }
+
+            rb.linearVelocity = dashDirection * movingSpeed;
+        }
+        else
+        {
+            Vector2 movement = new Vector2(inputVector.x * movingSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = movement;
+        }
     }
 
     public bool IsRunning()
@@ -188,7 +235,6 @@ public class PlayerController : MonoBehaviour
         return isJumping;
     }
 
-    // アニメーションのための変数だけです
     public bool IsDashing()
     {
         return isDashAnim;
@@ -203,7 +249,6 @@ public class PlayerController : MonoBehaviour
     {
         return isDashUp;
     }
-
 
     public Vector3 GetPlayerScreenPosition()
     {
