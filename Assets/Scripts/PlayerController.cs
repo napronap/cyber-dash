@@ -18,9 +18,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 1000f;
     [SerializeField] private float jumpTime = 0.2f;
     [SerializeField] private float groundLevel = -4f;
+    [SerializeField] private AudioClip dashSoundClip;
 
     private Rigidbody2D rb;
     private float _initialMovingSpeed;
+    private AudioSource audioSource;
     private bool isDashing;
     private bool isRunning;
     private bool isJumping;
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         _initialMovingSpeed = movingSpeed;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -87,6 +90,12 @@ public class PlayerController : MonoBehaviour
         willDash = true;
         isDashing = true;
         dashStarted = true;
+
+        // Воспроизводим звук dash
+        if (audioSource && dashSoundClip)
+        {
+            audioSource.PlayOneShot(dashSoundClip);
+        }
 
         Vector2 inputVector = GameInput.Instance.GetMovementVector();
 
