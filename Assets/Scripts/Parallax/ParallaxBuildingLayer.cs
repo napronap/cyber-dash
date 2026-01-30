@@ -11,8 +11,14 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
     public string sortingLayer;
     public float spawnHeight = 0f;
     public float spriteScale = 1f;
+    public bool shouldPrefill = true;
 
     private float timer;
+
+    void Start()
+    {
+        if (shouldPrefill) PrefillBuildings();
+    }
 
     protected override void Tick(float dt)
     {
@@ -57,8 +63,6 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
         // spawn
         float spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x + sr.bounds.extents.x;
 
-        // for whatever reason 0 is the exact height of the current street placeholder
-        //何故かわからないけど、y=0でピッタリ道の上にいちさせる。。。
         go.transform.position = new Vector3(spawnX, spawnHeight, 0);
         go.transform.SetParent(transform);
     }
@@ -77,6 +81,33 @@ public class ParallaxBuildingsLayer : ParallaxLayerBase
 
             if (child.position.x < leftEdgeX)
                 Destroy(child.gameObject);
+        }
+    }
+
+    void PrefillBuildings()
+    {
+        if (spriteList == null || spriteList.Length == 0 || Camera.main == null)
+            return;
+
+        float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x;
+        float rightEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x;
+        float x = leftEdgeX;
+
+        while (x < rightEdgeX)
+        {
+            Sprite selectedSprite = spriteList[Random.Range(0, spriteList.Length)];
+            GameObject go = new GameObject($"Building_{selectedSprite.name}", typeof(SpriteRenderer));
+            SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+            sr.sprite = selectedSprite;
+            sr.sortingLayerName = sortingLayer;
+            Transform tr = go.GetComponent<Transform>();
+            tr.localScale = new Vector3(spriteScale, spriteScale, spriteScale);
+
+            float halfWidth = sr.bounds.extents.x;
+            x += halfWidth;
+            go.transform.position = new Vector3(x, spawnHeight, 0);
+            go.transform.SetParent(transform);
+            x += halfWidth;
         }
     }
 }
