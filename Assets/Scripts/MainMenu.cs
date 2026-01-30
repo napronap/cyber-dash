@@ -7,21 +7,33 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("Scene_Game");
+        if (SceneFadeManager.I != null)
+            SceneFadeManager.I.FadeToScene("Scene_Game");
+        else
+            SceneManager.LoadScene("Scene_Game");
     }
 
     public void Options()
     {
-        SceneManager.LoadScene("Options"); // <-- scene name here
+        if (SceneFadeManager.I != null)
+            SceneFadeManager.I.FadeToScene("Options");
+        else
+            SceneManager.LoadScene("Options"); // <-- scene name here
     }
 
     public void Credits()
     {
-        SceneManager.LoadScene("Credits"); // <-- scene name here
+        if (SceneFadeManager.I != null)
+            SceneFadeManager.I.FadeToScene("Credits");
+        else
+            SceneManager.LoadScene("Credits"); // <-- scene name here
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void QuitGame()
     {
-        SceneManager.LoadScene("Quit"); // <-- scene name here
+        if (SceneFadeManager.I != null)
+            SceneFadeManager.I.FadeToScene("Quit");
+        else
+            SceneManager.LoadScene("Quit"); // <-- scene name here
     }
 }
