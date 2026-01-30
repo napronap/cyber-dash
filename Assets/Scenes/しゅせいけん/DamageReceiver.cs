@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DamageReceiver : MonoBehaviour
 {
-    [Header("°ó¶¨Ä¿±ê£¨¿ÉÑ¡£¬²»ÌîÔò×Ô¶¯ÔÚ¸¸²ã²éÕÒ£©")]
+    [Header("°ó¶¨Ä¿±ê£¨¿ÉÑ¡£¬²»Ìûğò×Ô¶¯ÔÚ¸¸²ã²éÕÒ£©")]
     [SerializeField] private FishUFO fishUFO;
 
     [Header("Í¨ÓÃ»÷É±Ä¿±ê£¨¿ÉÑ¡£©£º·¢ËÍ KillByDamage ÏûÏûÏ¢")]
@@ -21,10 +21,10 @@ public class DamageReceiver : MonoBehaviour
             }
         }
 
-        // ÈôÎ´ÏÔÊ½Ö¸¶¨ killTarget£¬ÔòÄ¬ÈÏÊ¹ÓÃ×ÔÉí»ò¸¸¼¶ÉÏµÄ¿ÉÓÃÄ¿±ê
+        // ÈôÎ´ÏÔÊ½Ö¸¶¨ killTarget£¬ÔòÄ¬ÈÏÊ¹ÓÃ×ÔÉú×ò¸¸¼¶ÉÏµÄ¿ÉÓÃÄ¿±E
         if (killTarget == null)
         {
-            // ³¢ÊÔ°ó¶¨µ½×ÔÉí»ò¸¸¼¶µÄÈÎÒâ½Å±¾£¬ÒÔ±¸ÓÃ SendMessage
+            // ³¢ÊÔ°ó¶¨µ½×ÔÉú×ò¸¸¼¶µÄÈÎÒâ½Å±¾£¬ÒÔ±¸ÓÃ SendMessage
             killTarget = GetComponent<MonoBehaviour>();
             if (killTarget == null)
             {
@@ -33,14 +33,14 @@ public class DamageReceiver : MonoBehaviour
         }
     }
 
-    // ÆÕÍ¨ÉËº¦£ºÓÉ¾ßÌåÄ¿±ê¶¨ÒåËÀÍö
+    // ÆÕÍ¨ÉËº¦£ºÓÉ¾ßÌåÄ¿±E¨ÒåËÀÍE
     public void TakeDamage(int amount)
     {
         if (_dead) return;
         Kill();
     }
 
-    // ¾ø¶ÔÖÂÃü£¨ÀıÈçDashAttackÃüÖĞ£©
+    // ¾ø¶ÔÖÂÃE¨ÀıÈçDashAttackÃEĞ£©
     public void TakeFatalDamage()
     {
         if (_dead) return;
@@ -61,12 +61,12 @@ public class DamageReceiver : MonoBehaviour
         // Í¨ÓÃÄ¿±ê£º·¢ËÍ KillByDamage ÏûÏ¢£¨Èô´æÔÚ£©
         if (killTarget != null)
         {
-            // Ê¹ÓÃ SendMessage µ÷ÓÃÄ¿±êÉÏµÄ KillByDamage ·½·¨£¨ÈôÊµÏÖ£©
+            // Ê¹ÓÃ SendMessage µ÷ÓÃÄ¿±EÏµÄ KillByDamage ·½·¨£¨ÈôÊµÏÖ£©
             killTarget.SendMessage("KillByDamage", SendMessageOptions.DontRequireReceiver);
             return;
         }
 
-        // ÎŞ°ó¶¨Ä¿±ê£ºÖ±½ÓÏú»Ù×ÔÉí
+        // ÎŞ°ó¶¨Ä¿±ê£ºÖ±½ÓÏú»Ù×ÔÉE
         Destroy(gameObject);
     }
 }

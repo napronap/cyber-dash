@@ -3,7 +3,9 @@ using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 using System;
 using System.Collections;
-using Unity.Android.Gradle.Manifest;
+#if UNITY_ANDROID
+    // Android 相关代码
+#endif
 
 public class PlayerController : MonoBehaviour
 {
