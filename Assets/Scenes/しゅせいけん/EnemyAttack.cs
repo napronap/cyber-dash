@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class EnemyAttackZone : MonoBehaviour
 {
-    [SerializeField, Tooltip("对玩家造成的伤害")]
+    [SerializeField, Tooltip("锟斤拷锟斤拷锟斤拷锟缴碉拷锟剿猴拷")]
     public int damageToPlayer = 1;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 优先在命中对象本层找 PlayerHealth；如果没有，则在其父层查找
+        // 锟斤拷锟斤拷锟斤拷锟斤拷锟叫讹拷锟襟本诧拷锟斤拷 PlayerHealth锟斤拷锟斤拷锟矫伙拷校锟斤拷锟斤拷锟斤拷涓革拷锟斤拷锟斤拷
         var player = other.GetComponent<PlayerHealth>();
         if (player == null)
         {

@@ -14,16 +14,16 @@ public class PlayerHealth : MonoBehaviour, IDamageABLE
 
     public UnityEvent<int, int> OnHealthChanged = new UnityEvent<int, int>();
 
-    // ‚±‚±‚ğInspector‚Åİ’è
-    [SerializeField] private Transform heartsRoot; // ”CˆÓ: ƒn[ƒge
-    [SerializeField] private List<GameObject> heartObjects = new List<GameObject>(); // ”CˆÓ: ƒn[ƒgŒÂ•ÊQÆiŒã‚ë‚ªÅŒã‚ÉÁ‚¦‚éj
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Inspectorï¿½Åİ’ï¿½
+    [SerializeField] private Transform heartsRoot; // ï¿½Cï¿½ï¿½: ï¿½nï¿½[ï¿½gï¿½e
+    [SerializeField] private List<GameObject> heartObjects = new List<GameObject>(); // ï¿½Cï¿½ï¿½: ï¿½nï¿½[ï¿½gï¿½Â•ÊQï¿½Æiï¿½ï¿½ë‚ªï¿½ÅŒï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½j
 
     void Start()
     {
         currentHP = Mathf.Max(0, maxHP);
-        sr = GetComponent<SpriteRenderer>();
+        sr = transform.Find("PlayerVisual").GetComponent<SpriteRenderer>();
 
-        // heartObjects–¢w’è‚È‚çheartsRoot’¼‰º‚Ìq‚ğ©“®ûW
+        // heartObjectsï¿½ï¿½ï¿½wï¿½ï¿½È‚ï¿½heartsRootï¿½ï¿½ï¿½ï¿½ï¿½Ìqï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
         if (heartObjects.Count == 0 && heartsRoot != null)
         {
             heartObjects = new List<GameObject>(heartsRoot.childCount);
@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour, IDamageABLE
             }
         }
 
-        // ÀÛ‚Ìƒn[ƒg”‚É‡‚í‚¹‚Ä‰ŠúHP‚ğƒNƒ‰ƒ“ƒv
+        // ï¿½ï¿½ï¿½Û‚Ìƒnï¿½[ï¿½gï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½Äï¿½ï¿½ï¿½HPï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½v
         if (heartObjects.Count > 0)
         {
             currentHP = Mathf.Min(currentHP, heartObjects.Count);
@@ -51,7 +51,7 @@ public class PlayerHealth : MonoBehaviour, IDamageABLE
         int oldHP = currentHP;
         currentHP = Mathf.Max(0, currentHP - amount);
 
-        // Œ¸­•ª‚¾‚¯ƒn[ƒg‚ğ––”ö‚©‚çíœ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½gï¿½ğ––”ï¿½ï¿½ï¿½ï¿½ï¿½íœ
         int lost = Mathf.Max(0, oldHP - currentHP);
         if (lost > 0)
         {
@@ -72,7 +72,7 @@ public class PlayerHealth : MonoBehaviour, IDamageABLE
         }
     }
 
-    // Enemyneko —pifloatj
+    // Enemyneko ï¿½pï¿½ifloatï¿½j
     void IDamageABLE.TakeDamage(float amount)
     {
         int dmg = Mathf.FloorToInt(amount);
@@ -121,10 +121,32 @@ public class PlayerHealth : MonoBehaviour, IDamageABLE
             sr.enabled = false;
         }
 
+
+        ParallaxLayerBase[] layers = FindObjectsByType<ParallaxLayerBase>(FindObjectsSortMode.None);
+        EnemySpawnerKaisho[] spawners = FindObjectsByType<EnemySpawnerKaisho>(FindObjectsSortMode.None);
+        enemyKaisho[] enemies = FindObjectsByType<enemyKaisho>(FindObjectsSortMode.None);
+
+        for (var i = 0; i < layers.Length; i++)
+        {
+            layers[i].toggleActive(false);
+        }
+
+        for (var i = 0; i < spawners.Length; i++)
+        {
+            spawners[i].StopSpawning();
+            spawners[i].StopAllCoroutines();
+        }
+
+        for (var i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].SetMoveSpeed(0f);
+            enemies[i].StopAllCoroutines();
+        }
+
         Destroy(gameObject);
     }
 
-    // ––”öiƒŠƒXƒgŒã•ûj‚©‚çƒAƒNƒeƒBƒu‚Èƒn[ƒg‚ğ—Dæ“I‚Éíœ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½Èƒnï¿½[ï¿½gï¿½ï¿½Dï¿½ï¿½Iï¿½Éíœ
     private void RemoveHearts(int count)
     {
         if (count <= 0) return;

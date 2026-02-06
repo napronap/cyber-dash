@@ -14,8 +14,14 @@ public abstract class ParallaxLayerBase : MonoBehaviour
         Tick(Time.deltaTime);
     }
 
-    public virtual void toggleActive()
+    public virtual void toggleActive(bool? nextState = null)
     {
+        if (nextState != null)
+        {
+            isActive = (bool)nextState;
+            return;
+        }
+
         isActive = !isActive;
     }
 

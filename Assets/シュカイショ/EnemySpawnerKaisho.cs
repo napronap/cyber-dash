@@ -65,6 +65,7 @@ public class EnemySpawnerKaisho : MonoBehaviour
 
     public void StopSpawning()
     {
+        Debug.Log("stop spawner");
         if (loop != null)
         {
             StopCoroutine(loop);

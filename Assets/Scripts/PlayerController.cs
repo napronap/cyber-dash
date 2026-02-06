@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 1000f;
     [SerializeField] private float jumpTime = 0.2f;
     [SerializeField] private float groundLevel = -4f;
+    [SerializeField] private float attackRotationBase = 90f;
 
     private Rigidbody2D rb;
     private float _initialMovingSpeed;
@@ -31,12 +32,19 @@ public class PlayerController : MonoBehaviour
     private bool isDashBackwards = false;
     private bool isDashUp = false;
     private bool isDashAnim = false;
+    private bool canJump = true;
+
+    private CapsuleCollider2D attackCollider;
+    private Transform attackColliderParent;
 
     private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         _initialMovingSpeed = movingSpeed;
+
+        attackColliderParent = transform.Find("PlayerAttack");
+        attackCollider = attackColliderParent.GetComponent<CapsuleCollider2D>();
     }
 
     private void Start()
@@ -57,8 +65,9 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && canJump)
         {
+            canJump = false;
             isJumping = true;
             Vector2 inputVector = GameInput.Instance.GetMovementVector();
 
@@ -133,16 +142,34 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
 
         isGrounded = CheckIsGrounded();
+        if (isGrounded)
+        {
+            canJump = true;
+        }
         CheckDash();
 
-       
+        Vector2 inputVector = GameInput.Instance.GetMovementVector();
+        if (inputVector.sqrMagnitude > 0.001f)
+        {
+            float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
+            float snapped = Mathf.Round(angle / 45f) * 45f;
+            float z = attackRotationBase + snapped;
+            attackColliderParent.localRotation = Quaternion.AngleAxis(z, Vector3.forward);
+        }
+        else
+        {
+            attackColliderParent.localRotation = Quaternion.AngleAxis(attackRotationBase, Vector3.forward);
+        }
+
+
+
+
         if (isJumping && rb.linearVelocity.y <= 0 && isGrounded)
         {
             isJumping = false;
         }
 
-       
-        Vector2 inputVector = GameInput.Instance.GetMovementVector();
+
         isRunning = Mathf.Abs(inputVector.x) > 0.1f || Mathf.Abs(inputVector.y) > 0.1f;
     }
 
