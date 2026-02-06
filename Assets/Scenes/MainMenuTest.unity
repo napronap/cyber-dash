@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSFX
   uiSource: {fileID: 1071247219}
-  hoverClip: {fileID: 8300000, guid: e7c0b6b2638f02f4397639a2baf3a2d7, type: 3}
+  hoverClip: {fileID: 0}
   clickClip: {fileID: 8300000, guid: 03698c7ff9eeea449b1ea44599d62522, type: 3}
 --- !u!1 &407811512
 GameObject:
@@ -1748,7 +1748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSFX
   uiSource: {fileID: 1071247219}
-  hoverClip: {fileID: 8300000, guid: e7c0b6b2638f02f4397639a2baf3a2d7, type: 3}
+  hoverClip: {fileID: 0}
   clickClip: {fileID: 8300000, guid: 03698c7ff9eeea449b1ea44599d62522, type: 3}
 --- !u!1 &875285874
 GameObject:
@@ -1914,7 +1914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSFX
   uiSource: {fileID: 1071247219}
-  hoverClip: {fileID: 8300000, guid: e7c0b6b2638f02f4397639a2baf3a2d7, type: 3}
+  hoverClip: {fileID: 0}
   clickClip: {fileID: 8300000, guid: 03698c7ff9eeea449b1ea44599d62522, type: 3}
 --- !u!1 &931470380
 GameObject:
@@ -3125,7 +3125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSFX
   uiSource: {fileID: 1071247219}
-  hoverClip: {fileID: 8300000, guid: e7c0b6b2638f02f4397639a2baf3a2d7, type: 3}
+  hoverClip: {fileID: 0}
   clickClip: {fileID: 8300000, guid: 03698c7ff9eeea449b1ea44599d62522, type: 3}
 --- !u!1 &1573895500
 GameObject:
