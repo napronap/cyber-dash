@@ -121,6 +121,13 @@ public class EnemySpawnerKaisho : MonoBehaviour
 
         var go = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
 
+        // Ensure spawned enemy has a Dynamic Rigidbody2D so movement via linearVelocity works
+        var spawnedRb = go.GetComponent<Rigidbody2D>();
+        if (spawnedRb != null && spawnedRb.bodyType != RigidbodyType2D.Dynamic)
+        {
+            spawnedRb.bodyType = RigidbodyType2D.Dynamic;
+        }
+
         // 传递方向（如果敌人支持 SetInitialDirection）
         var octo = go.GetComponent<tonderutekiタコ>();
         if (octo != null)

@@ -7,10 +7,10 @@ public class Gorilla : MonoBehaviour
     public enum State { Wander, Attack, Recover, Dead }
 
     [Header("Stats")]
-    [SerializeField] private int maxHp = 30;
+    [SerializeField] private int maxHp = 2; // 需要两次击中才会死亡
 
     [Header("Movement")]
-    [SerializeField, Tooltip("持续向左的移动速度（世界单位/秒）")] private float moveSpeed = 1.5f;
+    [SerializeField, Tooltip("持续向左的移动速度（世界单位/秒）")] private float moveSpeed = 2.2f; // 稍微提升移动速度
     [SerializeField, Tooltip("游荡水平幅度（世界单位，已弃用）")] private float roamX = 1.5f;
     [SerializeField, Tooltip("游荡垂直幅度（世界单位）")] private float roamY = 0.3f;
     [SerializeField, Tooltip("游荡速度（影响频率，已弃用）")] private float wanderSpeed = 1f;
@@ -40,6 +40,12 @@ public class Gorilla : MonoBehaviour
     [Header("Offscreen")]
     [SerializeField, Tooltip("离开屏幕左侧多少距离后销毁（世界单位）")] private float offscreenMargin = 0.1f;
 
+    [Header("Audio")]
+    [SerializeField, Tooltip("行动/攻击 音效（可循环用于走路）")] private AudioClip sfxAction;
+    [SerializeField, Tooltip("受击 音效")] private AudioClip sfxHit;
+    [SerializeField, Tooltip("死亡 音效")] private AudioClip sfxDeath;
+    [SerializeField, Tooltip("是否将 action 音效循环播放（用于走路）")] private bool loopActionSound = false;
+
     private Rigidbody2D rb;
     private Vector2 startPos;
     private int currentHp;
@@ -50,6 +56,7 @@ public class Gorilla : MonoBehaviour
 
     private bool _hasBeenVisible = false;
 
+    private AudioSource _sfxSource;
     private System.Collections.IEnumerator _currentAnimCo;
 
     void Awake()
@@ -70,6 +77,17 @@ public class Gorilla : MonoBehaviour
         if (attackCollider != null) { attackCollider.isTrigger = true; attackCollider.enabled = false; }
 
         attackTimer = attackInterval;
+
+        if (!TryGetComponent<AudioSource>(out _sfxSource))
+        {
+            // Add one only if none exists
+            _sfxSource = gameObject.AddComponent<AudioSource>();
+        }
+        if (_sfxSource != null)
+        {
+            _sfxSource.playOnAwake = false;
+            _sfxSource.loop = false;
+        }
     }
 
     void Start()
@@ -78,6 +96,16 @@ public class Gorilla : MonoBehaviour
         {
             spriteRenderer.sprite = walkFrames[0];
             PlayFrames(walkFrames, loop: true);
+        }
+
+        if (loopActionSound && sfxAction != null)
+        {
+            if (_sfxSource != null)
+            {
+                _sfxSource.clip = sfxAction;
+                _sfxSource.loop = true;
+                _sfxSource.Play();
+            }
         }
     }
 
@@ -158,6 +186,12 @@ public class Gorilla : MonoBehaviour
         // 停止移动
         rb.linearVelocity = Vector2.zero;
 
+        // 播放攻击音效
+        if (_sfxSource != null && sfxAction != null && !loopActionSound)
+        {
+            _sfxSource.PlayOneShot(sfxAction);
+        }
+
         // 播放攻击帧（非循环）并在中间启用攻击碰撞
         if (attackFrames != null && attackFrames.Length > 0)
         {
@@ -208,7 +242,7 @@ public class Gorilla : MonoBehaviour
         // 玩家触碰头部 -> 对敌人造成伤害
         if (headCollider != null && headCollider.IsTouching(other))
         {
-            TakeDamage(10); // 玩家踩头造成的伤害量
+            TakeDamage(1); // 玩家踩头造成的伤害量，改为 1
             return;
         }
 
@@ -236,6 +270,13 @@ public class Gorilla : MonoBehaviour
     {
         if (dmg <= 0) return;
         currentHp -= dmg;
+
+        // 受击音效
+        if (_sfxSource != null && sfxHit != null)
+        {
+            _sfxSource.PlayOneShot(sfxHit);
+        }
+
         if (currentHp <= 0)
         {
             HandleDeath();
@@ -254,7 +295,15 @@ public class Gorilla : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            rb.isKinematic = true;
+            // stop any looping action sound
+            if (_sfxSource != null && _sfxSource.isPlaying && loopActionSound)
+                _sfxSource.Stop();
+
+            // play death sfx
+            if (_sfxSource != null && sfxDeath != null)
+                _sfxSource.PlayOneShot(sfxDeath);
+
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
 
         var cols = GetComponentsInChildren<Collider2D>();

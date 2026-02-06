@@ -274,6 +274,9 @@ MonoBehaviour:
   - {fileID: -1338607004064115524, guid: d8fa6591d7b2d62468b0efa2be0b76b8, type: 3}
   frameDuration: 0.1
   spriteRenderer: {fileID: 0}
+  sfxAction: {fileID: 8300000, guid: 85f57513ced1ae04998a8edb106cf420, type: 3}
+  sfxHit: {fileID: 0}
+  sfxDeath: {fileID: 8300000, guid: 83733a47840c91740b0e36cf7b434ea1, type: 3}
 --- !u!61 &7126911329020120881
 BoxCollider2D:
   m_ObjectHideFlags: 0

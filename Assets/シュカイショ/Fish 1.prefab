@@ -201,6 +201,10 @@ MonoBehaviour:
   frameDuration: 0.1
   spriteRenderer: {fileID: 0}
   deathDestroyDelay: 1
+  sfxAction: {fileID: 8300000, guid: 68278cebd661cf44f9ed16e5adff449a, type: 3}
+  sfxHit: {fileID: 8300000, guid: d22cea86c2b35fe48b448dc744147070, type: 3}
+  sfxDeath: {fileID: 8300000, guid: d5102e39fead1074ab07989d8f2ae050, type: 3}
+  loopActionSound: 0
 --- !u!114 &5219031290986031415
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -441,3 +441,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  sfxAction: {fileID: 8300000, guid: b2bcc435f3f3b0440a3704a73c38e988, type: 3}
+  sfxHit: {fileID: 0}
+  sfxDeath: {fileID: 8300000, guid: d22cea86c2b35fe48b448dc744147070, type: 3}
+  loopActionSound: 0

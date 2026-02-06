@@ -34,6 +34,12 @@ public class FishUFO : MonoBehaviour
     [SerializeField, Tooltip("若未配置死亡帧，则按此延时销毁（秒）")]
     private float deathDestroyDelay = 1.0f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip sfxAction;
+    [SerializeField] private AudioClip sfxHit;
+    [SerializeField] private AudioClip sfxDeath;
+    [SerializeField] private bool loopActionSound = false;
+
     private Rigidbody2D rb;
     private int direction; // 1=up, -1=down
 
@@ -44,6 +50,8 @@ public class FishUFO : MonoBehaviour
     private System.Collections.IEnumerator _moveLoopCo;
     private System.Collections.IEnumerator _deathCo;
     private bool _isDead;
+
+    private AudioSource _sfxSource;
 
     void Awake()
     {
@@ -66,16 +74,34 @@ public class FishUFO : MonoBehaviour
             else if (deathFrames != null && deathFrames.Length > 0)
                 spriteRenderer.sprite = deathFrames[0];
         }
+
+        if (!TryGetComponent<AudioSource>(out _sfxSource))
+        {
+            _sfxSource = gameObject.AddComponent<AudioSource>();
+        }
+        if (_sfxSource != null)
+        {
+            _sfxSource.playOnAwake = false;
+            _sfxSource.loop = false;
+        }
     }
 
     void OnEnable()
     {
         StartMoveLoop();
+        if (loopActionSound && sfxAction != null && _sfxSource != null)
+        {
+            _sfxSource.clip = sfxAction;
+            _sfxSource.loop = true;
+            _sfxSource.Play();
+        }
     }
 
     void OnDisable()
     {
         StopMoveLoop();
+        if (_sfxSource != null && _sfxSource.isPlaying && _sfxSource.clip == sfxAction)
+            _sfxSource.Stop();
     }
 
     void Update()
@@ -146,6 +172,12 @@ public class FishUFO : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         StopMoveLoop();
 
+        if (_sfxSource != null)
+        {
+            if (_sfxSource.isPlaying && _sfxSource.clip == sfxAction) _sfxSource.Stop();
+            if (sfxDeath != null) _sfxSource.PlayOneShot(sfxDeath);
+        }
+
         if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
         {
             if (_deathCo != null) StopCoroutine(_deathCo);
@@ -155,6 +187,15 @@ public class FishUFO : MonoBehaviour
         else
         {
             Destroy(gameObject, Mathf.Max(0.01f, deathDestroyDelay));
+        }
+    }
+
+    // For external damage handlers to play hit sound
+    public void PlayHitSfx()
+    {
+        if (_sfxSource != null && sfxHit != null)
+        {
+            _sfxSource.PlayOneShot(sfxHit);
         }
     }
 

@@ -40,10 +40,15 @@ public class Enemyneko : enemyKaisho
     private Sprite[] attackFrames;
     [SerializeField, Tooltip("死亡帧序列（顺序播放一次）")]
     private Sprite[] deathFrames;
-    [SerializeField, Tooltip("每帧持续时间（秒）")]
+    [SerializeField, Tooltip("每帧持续时间（秒)")]
     private float frameDuration = 0.1f;
     [SerializeField, Tooltip("播放动画的 SpriteRenderer")]
     private SpriteRenderer spriteRenderer;
+
+    [Header("Audio")]
+    [SerializeField, Tooltip("挥击开始/动作 音效")] private AudioClip sfxAction;
+    [SerializeField, Tooltip("命中/受击 音效")] private AudioClip sfxHit;
+    [SerializeField, Tooltip("死亡 音效")] private AudioClip sfxDeath;
 
     // 状态
     private bool _isSwiping;
@@ -60,6 +65,8 @@ public class Enemyneko : enemyKaisho
     private System.Collections.IEnumerator _currentAnimCo;
     private bool _isPlayingAttackCycle;
     private bool _isDying;
+
+    private AudioSource _sfxSource;
 
     private void OnEnable()
     {
@@ -96,6 +103,11 @@ public class Enemyneko : enemyKaisho
 
         _baseZ = GetLocalZ(leftHand);
         _nextSwipeTime = Time.time + swipeInterval;
+
+        // audio source
+        _sfxSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
+        _sfxSource.playOnAwake = false;
+        _sfxSource.loop = false;
     }
 
     private void OnValidate()
@@ -193,6 +205,8 @@ public class Enemyneko : enemyKaisho
     {
         if (_isSwiping || leftHand == null) return;
         _isSwiping = true;
+        // play action sfx
+        if (_sfxSource != null && sfxAction != null) _sfxSource.PlayOneShot(sfxAction);
         StartCoroutine(SwipeRoutine());
     }
 
@@ -257,6 +271,9 @@ public class Enemyneko : enemyKaisho
             var dmg = hits[i].GetComponent<IDamageABLE>();
             if (dmg != null) dmg.TakeDamage(damage);
         }
+
+        // play hit sfx
+        if (_sfxSource != null && sfxHit != null) _sfxSource.PlayOneShot(sfxHit);
     }
 
     // 供 DamageReceiver 调用的死亡入口
@@ -281,7 +298,7 @@ public class Enemyneko : enemyKaisho
         {
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
         var cols = GetComponentsInChildren<Collider2D>();
         for (int i = 0; i < cols.Length; i++)
@@ -293,6 +310,9 @@ public class Enemyneko : enemyKaisho
         {
             SetLocalZ(leftHand, _baseZ);
         }
+
+        // play death sfx
+        if (_sfxSource != null && sfxDeath != null) _sfxSource.PlayOneShot(sfxDeath);
 
         if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
         {

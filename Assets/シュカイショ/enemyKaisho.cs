@@ -34,6 +34,8 @@ public class enemyKaisho : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         CurrentHealth = maxHealth;
         _hasEnteredView = false;
+
+        // (No change to Rigidbody2D.bodyType here to avoid altering prefab setup.)
     }
 
     void Update()

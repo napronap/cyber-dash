@@ -37,6 +37,16 @@ public class tonderutekiタコ : enemyKaisho
     [SerializeField, Tooltip("アニメ再生対象の `SpriteRenderer`")]
     private SpriteRenderer spriteRenderer;
 
+    [Header("音声")]
+    [SerializeField, Tooltip("スワイプヒット時の SE")]
+    private AudioClip swipeHitSfx;
+    [SerializeField, Tooltip("敵破壊時の SE")]
+    private AudioClip destroySfx;
+    [SerializeField, Tooltip("死亡時の SE")]
+    private AudioClip deathSfx;
+    [SerializeField, Tooltip("音源の `Transform`（自動取得も可）")]
+    private Transform sfxSource;
+
     private bool _isSwiping;
     private float _weaponBaseZ;
     private bool _isDying;
@@ -56,6 +66,11 @@ public class tonderutekiタコ : enemyKaisho
         if (spriteRenderer == null)
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        if (sfxSource == null)
+        {
+            sfxSource = transform;
         }
 
         // 初期表示
@@ -211,6 +226,12 @@ public class tonderutekiタコ : enemyKaisho
                 Destroy(hitCol.gameObject);
             }
         }
+
+        // スワイプヒット音
+        if (sfxSource != null && swipeHitSfx != null)
+        {
+            AudioSource.PlayClipAtPoint(swipeHitSfx, sfxSource.position);
+        }
     }
 
     // 死亡処理：アニメ再生後に破棄
@@ -228,7 +249,7 @@ public class tonderutekiタコ : enemyKaisho
         {
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Static;
         }
         var cols = GetComponentsInChildren<Collider2D>();
         for (int i = 0; i < cols.Length; i++)
@@ -268,6 +289,12 @@ public class tonderutekiタコ : enemyKaisho
         }
 
         Destroy(gameObject);
+
+        // 死亡音
+        if (sfxSource != null && deathSfx != null)
+        {
+            AudioSource.PlayClipAtPoint(deathSfx, sfxSource.position);
+        }
     }
 
     // フレーム再生の共通処理

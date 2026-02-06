@@ -55,18 +55,21 @@ public class Bee : MonoBehaviour
     private float deathDestroyDelay = 2f;
 
     [Header("Death Falling (死亡下落效果)")]
-    [SerializeField, Tooltip("死亡下落模式：Gravity=开启重力；ConstantVelocity=常速向下")]
+    [SerializeField, Tooltip("死亡下落模式：Gravity=开启重力；ConstantVelocity=常速向下")] 
     private DeathFallMode deathFallMode = DeathFallMode.Gravity;
-    [SerializeField, Tooltip("死亡时的重力缩放（仅 Gravity 模式）")]
-    private float deathGravityScale = 2.0f;
-    [SerializeField, Tooltip("死亡时常量下落速度（仅 ConstantVelocity 模式，负值向下）")]
-    private float deathFallSpeedY = -4.0f;
+    [SerializeField, Tooltip("死亡时的重力缩放（仅 Gravity 模式）")] private float deathGravityScale = 2.0f;
+    [SerializeField, Tooltip("死亡时常量下落速度（仅 ConstantVelocity 模式，负值向下）")] private float deathFallSpeedY = -4.0f;
 
     [Header("Ground (地面碰撞)")]
-    [SerializeField, Tooltip("主体碰撞体（非触发，用于与地面发生物理碰撞）。若为空将自动取自身 Collider2D")]
+    [SerializeField, Tooltip("主体碰撞体（非触发，用于与地面发生物理碰撞）。若为空将自动取自身 Collider2D")] 
     private Collider2D bodyCollider;
-    [SerializeField, Tooltip("地面图层（用于限制攻击/死亡时穿地）")]
-    private LayerMask groundLayers = ~0;
+    [SerializeField, Tooltip("地面图层（用于限制攻击/死亡时穿地）")] private LayerMask groundLayers = ~0;
+
+    [Header("Audio")]
+    [SerializeField, Tooltip("行动/攻击 音效（用于走路或攻击）")] private AudioClip sfxAction;
+    [SerializeField, Tooltip("受击 音效")] private AudioClip sfxHit;
+    [SerializeField, Tooltip("死亡 音效")] private AudioClip sfxDeath;
+    [SerializeField, Tooltip("是否将 action 音效循环播放（用于游荡）")] private bool loopActionSound = false;
 
     private State state = State.Wander;
     private Rigidbody2D rb;
@@ -78,6 +81,8 @@ public class Bee : MonoBehaviour
     private System.Collections.IEnumerator _currentAttackCo;
     private System.Collections.IEnumerator _currentMoveCo;
     private bool _isPlayingAttackCycle;
+
+    private AudioSource _sfxSource;
 
     void Awake()
     {
@@ -116,6 +121,16 @@ public class Bee : MonoBehaviour
                 spriteRenderer.sprite = moveFrames[0];
             else if (attackFrames != null && attackFrames.Length > 0)
                 spriteRenderer.sprite = attackFrames[0];
+        }
+
+        if (!TryGetComponent<AudioSource>(out _sfxSource))
+        {
+            _sfxSource = gameObject.AddComponent<AudioSource>();
+        }
+        if (_sfxSource != null)
+        {
+            _sfxSource.playOnAwake = false;
+            _sfxSource.loop = false;
         }
     }
 
@@ -275,6 +290,8 @@ public class Bee : MonoBehaviour
         {
             if (other.CompareTag("PlayerAttack"))
             {
+                // play hit sfx
+                if (_sfxSource != null && sfxHit != null) _sfxSource.PlayOneShot(sfxHit);
                 Die();
             }
             return;
@@ -341,6 +358,9 @@ public class Bee : MonoBehaviour
         StopMoveLoop();
         StopAttackAnimIfAny();
 
+        // play death sfx
+        if (_sfxSource != null && sfxDeath != null) _sfxSource.PlayOneShot(sfxDeath);
+
         if (spriteRenderer != null && deathFrames != null && deathFrames.Length > 0)
         {
             StartCoroutine(DeathRoutine());
@@ -357,6 +377,14 @@ public class Bee : MonoBehaviour
         StopMoveLoop();
         _currentMoveCo = MoveLoop();
         StartCoroutine(_currentMoveCo);
+
+        // start action loop sound
+        if (loopActionSound && _sfxSource != null && sfxAction != null)
+        {
+            _sfxSource.clip = sfxAction;
+            _sfxSource.loop = true;
+            _sfxSource.Play();
+        }
     }
 
     private void StopMoveLoop()
@@ -365,6 +393,13 @@ public class Bee : MonoBehaviour
         {
             StopCoroutine(_currentMoveCo);
             _currentMoveCo = null;
+        }
+
+        if (loopActionSound && _sfxSource != null && _sfxSource.isPlaying)
+        {
+            _sfxSource.Stop();
+            _sfxSource.clip = null;
+            _sfxSource.loop = false;
         }
     }
 
@@ -388,6 +423,12 @@ public class Bee : MonoBehaviour
         _currentAttackCo = AttackCycleOnce();
         _isPlayingAttackCycle = true;
         StartCoroutine(_currentAttackCo);
+
+        // play action sound for attack if not looping
+        if (!loopActionSound && _sfxSource != null && sfxAction != null)
+        {
+            _sfxSource.PlayOneShot(sfxAction);
+        }
     }
 
     private void StopAttackAnimIfAny()
