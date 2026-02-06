@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -5,89 +6,282 @@ using UnityEngine;
 public class TESETO : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField, Tooltip("…•½ˆÚ“®‘¬“x")]
+    [SerializeField, Tooltip("E½E½E½E½E½E½?E½E½E½x")]
     private float moveSpeed = 4f;
-    [SerializeField, Tooltip("ƒWƒƒƒ“ƒv—Í")]
+    [SerializeField, Tooltip("E½E½?E½Í“xE½i?E½u??E½E½E½E½E½xE½j")]
     private float jumpForce = 6f;
-    [SerializeField, Tooltip("‹ó’†‘€ì‚ÌŒø‚«‹ï‡(0-1)")]
+    [SerializeField, Tooltip("E½ó’EE½E½E½IE½e?(0-1)")]
     private float airControl = 0.6f;
 
     [Header("Facing")]
-    [SerializeField, Tooltip("”½“]‚Ég‚¤ SpriteRendereri–¢İ’è‚È‚ç©“®æ“¾j")]
+    [SerializeField, Tooltip("E½E½?E½p SpriteRendererE½iE½E½?E½u?E½E½??E½E½j")]
     private SpriteRenderer spriteRenderer;
 
     [Header("Ground Check")]
-    [SerializeField, Tooltip("’n–Ê”»’è—p‚Ì Transformi–¢İ’è‚Í–{‘Ì‚Ì­‚µ‰ºj")]
+    [SerializeField, Tooltip("E½nE½Ê”ï¿½E½E½p TransformE½iE½E½?E½u?E½pE½{E½E½E½cE½E½E½E½E½j")]
     private Transform groundCheck;
-    [SerializeField, Tooltip("’n–Ê”»’è”¼Œa"), Min(0.01f)]
+    [SerializeField, Tooltip("E½nE½Ê”ï¿½E½è”¼E½a"), Min(0.01f)]
     private float groundCheckRadius = 0.12f;
-    [SerializeField, Tooltip("’n–ÊƒŒƒCƒ„[")]
+    [SerializeField, Tooltip("E½nE½E½?")]
     private LayerMask groundLayers = ~0;
 
-    // “à•”
+    [Header("Frame Animation (E½E½E½E½?E½E½?E½E½?)")]
+    [SerializeField, Tooltip("E½z??E½iE½z?E½j")]
+    private Sprite[] runFrames;
+    [SerializeField, Tooltip("E½@E½E½?E½iE½z?E½j")]
+    private Sprite[] backFrames;
+    [SerializeField, Tooltip("E½U??E½iE½dE½E½E½êŸï¿½j")]
+    private Sprite[] attackFrames;
+    [SerializeField, Tooltip("E½E½?E½U??E½iE½dE½E½E½êŸï¿½j")]
+    private Sprite[] jumpAttackFrames;
+    [SerializeField, Tooltip("E½E½E½S?E½iE½dE½E½E½êŸï¿½j")]
+    private Sprite[] deathFrames;
+
+    [Header("Frame Duration (sec) - Per Animation")]
+    [SerializeField, Tooltip("å¥”è·‘åŠ¨ç”»æ¯å¸§æ—¶é—´Eˆç§’ï¼E)]
+    private float runFrameDuration = 0.1f;
+    [SerializeField, Tooltip("åé€€åŠ¨ç”»æ¯å¸§æ—¶é—´Eˆç§’ï¼E)]
+    private float backFrameDuration = 0.1f;
+    [SerializeField, Tooltip("æ”»å‡»åŠ¨ç”»æ¯å¸§æ—¶é—´Eˆç§’ï¼E)]
+    private float attackFrameDuration = 0.06f;
+    [SerializeField, Tooltip("è·³è·E”»å‡»åŠ¨ç”»æ¯å¸§æ—¶é—´Eˆç§’ï¼E)]
+    private float jumpAttackFrameDuration = 0.06f;
+    [SerializeField, Tooltip("æ­»äº¡åŠ¨ç”»æ¯å¸§æ—¶é—´Eˆç§’ï¼E)]
+    private float deathFrameDuration = 0.08f;
+
+    [Header("Visual Size Normalize")]
+    [SerializeField, Tooltip("ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã®è¦‹ãŸç›®ã‚µã‚¤ã‚ºå·®ã‚’ã‚¹ã‚±ãƒ¼ãƒ«è£œæ­£ã§å¸åã™ã‚E)]
+    private bool normalizeVisualSize = true;
+
+    [SerializeField, Tooltip("åŸºæº–ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆï¼ˆæœªæŒE®šãªã‚ErunFrames[0] ãªã©ã‹ã‚‰è‡ªå‹•å–å¾—ï¼E)]
+    private Sprite referenceSprite;
+
+    [Header("Action Settings")]
+    [SerializeField, Tooltip("E½U??E½E½E½E½?E½E½E½?")]
+    private bool lockMoveWhileAttacking = true;
+
+    [SerializeField, Tooltip("E½U?E½E½E½E½pE½G?E½E½iE½E½?E½CE½s?E½u?E½E½E½d?E½E½j")]
+    private Collider2D attackHitbox;
+    [SerializeField, Tooltip("E½U?E½E½???E½iE½bE½jE½C0 ?E½gE½p?E½E½??")]
+    private float attackActiveTime = 0f;
+
     private Rigidbody2D rb;
+    private Collider2D bodyCollider;
+
     private float inputX;
-    private bool jumpPressed;
     private bool isGrounded;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool isAttacking;
+    private bool isDead;
+
+    private IEnumerator _animCo;
+    private AnimState _animState = AnimState.Idle;
+
+    // è¦‹ãŸç›®ã ã‘ã‚’è£œæ­£ã™ã‚‹ãŸã‚ã€SpriteRenderer å´ã®åŸºæº–ã‚¹ã‚±ãƒ¼ãƒ«ã‚’ä¿æŒ
+    private Vector3 _baseVisualLocalScale;
+    private Vector2 _refWorldSize;
+
+    private enum AnimState
+    {
+        Idle,
+        Run,
+        Back,
+        Attack,
+        JumpAttack,
+        Die
+    }
+
     void Start()
     {
-        // QÆæ“¾
         rb = GetComponent<Rigidbody2D>();
+        bodyCollider = GetComponent<Collider2D>();
+
         if (spriteRenderer == null)
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // “ü—Íæ“¾
-        inputX = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
-        if (Input.GetButtonDown("Jump"))
+        if (spriteRenderer != null)
         {
-            jumpPressed = true;
+            _baseVisualLocalScale = spriteRenderer.transform.localScale;
+        }
+        else
+        {
+            _baseVisualLocalScale = Vector3.one;
         }
 
-        // Œü‚«”½“]iŒ©‚½–Ú‚Ì‚İj
+        if (referenceSprite == null)
+        {
+            referenceSprite = GetFirstAvailableFrame();
+        }
+
+        if (referenceSprite != null)
+        {
+            var s = referenceSprite.bounds.size;
+            _refWorldSize = new Vector2(Mathf.Max(0.0001f, s.x), Mathf.Max(0.0001f, s.y));
+        }
+        else
+        {
+            _refWorldSize = new Vector2(1f, 1f);
+        }
+
+        if (spriteRenderer != null)
+        {
+            var first = GetFirstAvailableFrame();
+            if (first != null)
+            {
+                SetSprite(first);
+            }
+        }
+
+        if (attackHitbox != null)
+        {
+            attackHitbox.isTrigger = true;
+            attackHitbox.enabled = false;
+        }
+    }
+
+    void Update()
+    {
+        if (isDead) return;
+
+        bool pressA = Input.GetKey(KeyCode.A);
+        bool pressD = Input.GetKey(KeyCode.D);
+
+        inputX = 0f;
+        if (pressA) inputX = -1f;
+        else if (pressD) inputX = 1f;
+
+        // è¦‹ãŸç›®ã®å‘ãåè»¢EEpriteRenderer å´ã®ã¿EE
         if (spriteRenderer != null && Mathf.Abs(inputX) > 0.01f)
         {
             var ls = spriteRenderer.transform.localScale;
             ls.x = Mathf.Abs(ls.x) * (inputX >= 0 ? 1f : -1f);
             spriteRenderer.transform.localScale = ls;
         }
+
+        if (!isAttacking)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartAttack();
+            }
+            else if (Input.GetKeyDown(KeyCode.J))
+            {
+                StartJumpAttack();
+            }
+        }
+
+        if (!isAttacking)
+        {
+            if (inputX > 0.01f)
+                SetLoopAnim(AnimState.Run, runFrames, runFrameDuration);
+            else if (inputX < -0.01f)
+                SetLoopAnim(AnimState.Back, backFrames, backFrameDuration);
+            else
+                SetIdle();
+        }
     }
 
     void FixedUpdate()
     {
-        // ’n–Ê”»’è
+        if (isDead) return;
+
         isGrounded = IsGrounded();
 
-        // ‰¡ˆÚ“®i’nã‚Íƒtƒ‹A‹ó’†‚Í airControlj
+        if (lockMoveWhileAttacking && isAttacking)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            return;
+        }
+
         float targetVx = inputX * moveSpeed;
         float control = isGrounded ? 1f : Mathf.Clamp01(airControl);
 
         Vector2 v = rb.linearVelocity;
-        float accel = moveSpeed * 5f; // “K“x‚È‰Á‘¬
+        float accel = moveSpeed * 5f;
         v.x = Mathf.MoveTowards(v.x, targetVx, accel * control * Time.fixedDeltaTime);
+        rb.linearVelocity = v;
+    }
 
-        // ƒWƒƒƒ“ƒv
-        if (jumpPressed && isGrounded)
+    private void StartAttack()
+    {
+        isAttacking = true;
+        SetOneShotAnim(AnimState.Attack, attackFrames, attackFrameDuration, onDone: () =>
         {
+            isAttacking = false;
+            _animState = AnimState.Idle;
+        });
+
+        StartCoroutine(AttackHitboxRoutine());
+    }
+
+    private void StartJumpAttack()
+    {
+        isAttacking = true;
+
+        if (isGrounded)
+        {
+            var v = rb.linearVelocity;
             v.y = jumpForce;
+            rb.linearVelocity = v;
         }
 
-        rb.linearVelocity = v;
-        jumpPressed = false;
+        SetOneShotAnim(AnimState.JumpAttack, jumpAttackFrames, jumpAttackFrameDuration, onDone: () =>
+        {
+            isAttacking = false;
+            _animState = AnimState.Idle;
+        });
+
+        StartCoroutine(AttackHitboxRoutine());
+    }
+
+    private IEnumerator AttackHitboxRoutine()
+    {
+        if (attackHitbox == null) yield break;
+
+        float duration = attackActiveTime;
+        if (duration <= 0f)
+        {
+            Sprite[] frames = (_animState == AnimState.JumpAttack) ? jumpAttackFrames : attackFrames;
+            float durPerFrame = (_animState == AnimState.JumpAttack) ? jumpAttackFrameDuration : attackFrameDuration;
+            duration = GetFramesDuration(frames, durPerFrame);
+        }
+        duration = Mathf.Max(0.05f, duration);
+
+        attackHitbox.enabled = true;
+        yield return new WaitForSeconds(duration);
+        attackHitbox.enabled = false;
+    }
+
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        isAttacking = false;
+
+        StopAllCoroutines();
+        StopAnimCoroutine();
+
+        if (attackHitbox != null) attackHitbox.enabled = false;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.isKinematic = true;
+        }
+
+        if (bodyCollider != null) bodyCollider.enabled = false;
+
+        SetOneShotAnim(AnimState.Die, deathFrames, deathFrameDuration, onDone: () => { });
     }
 
     private bool IsGrounded()
     {
         Vector2 origin = (groundCheck != null)
-            ? groundCheck.position
-            : transform.position + Vector3.down * 0.1f;
+            ? (Vector2)groundCheck.position
+            : (Vector2)transform.position + Vector2.down * 0.1f;
 
         Collider2D hit = Physics2D.OverlapCircle(origin, groundCheckRadius, groundLayers);
         return hit != null;
@@ -111,23 +305,170 @@ public class TESETO : MonoBehaviour
         ApplyEnemyDamage(collision.collider);
     }
 
-    // ½öµ±Íæ¼ÒÖ÷ÌåÅö×²ÌåÓë Tag=Enemy ½Ó´¥Ê±¿Û 1 µãÉúÃüÖµ£»ºöÂÔ PlayerAttack ×ÓÅö×²Ìå´¥·¢
+<<<<<<< Updated upstream
+    // ½öµ±Íæ¼ÒÖ÷ÌåÅö×²ÌåÓETag=Enemy ½Ó´¥Ê±¿Û 1 µãÉúÃEµ£»ºöÂÔ PlayerAttack ×ÓÅö×²Ìå´¥·¢
+=======
+>>>>>>> Stashed changes
     private void ApplyEnemyDamage(Collider2D col)
     {
+        if (isDead) return;
         if (col == null) return;
         if (!col.CompareTag("Enemy")) return;
 
+<<<<<<< Updated upstream
         // È¡Íæ¼ÒÖ÷ÌåÅö×²Ìå£¨¹ÒÔÚÍ¬Ò» GameObject ÉÏµÄ Collider2D£©
         var bodyCollider = GetComponent<Collider2D>();
         if (bodyCollider == null) return;
 
-        // Ö»ÓĞÖ÷ÌåÅö×²ÌåÓëµĞÈË·¢Éú½Ó´¥Ê±²Å½áËãÉËº¦
+        // Ö»ÓĞÖ÷ÌåÅö×²ÌåÓEĞÈË·¢Éú½Ó´¥Ê±²Å½áËãÉËº¦
         if (!bodyCollider.IsTouching(col)) return;
+=======
+        var body = GetComponent<Collider2D>();
+        if (body == null) return;
+        if (!body.IsTouching(col)) return;
+>>>>>>> Stashed changes
 
         var hp = GetComponent<PlayerHealth>();
         if (hp != null)
         {
             hp.TakeDamage(1);
         }
+    }
+
+    private void SetIdle()
+    {
+        if (_animState == AnimState.Idle) return;
+        _animState = AnimState.Idle;
+        StopAnimCoroutine();
+
+        if (spriteRenderer != null)
+        {
+            var first = GetFirstAvailableFrame();
+            if (first != null) SetSprite(first);
+        }
+    }
+
+    private void SetLoopAnim(AnimState state, Sprite[] frames, float frameDur)
+    {
+        if (spriteRenderer == null) return;
+        if (frames == null || frames.Length == 0) return;
+        if (_animState == state) return;
+
+        _animState = state;
+        PlayFrames(frames, loop: true, frameDur: frameDur, onDone: null);
+    }
+
+    private void SetOneShotAnim(AnimState state, Sprite[] frames, float frameDur, System.Action onDone)
+    {
+        if (spriteRenderer == null)
+        {
+            onDone?.Invoke();
+            return;
+        }
+
+        _animState = state;
+
+        if (frames == null || frames.Length == 0)
+        {
+            onDone?.Invoke();
+            return;
+        }
+
+        PlayFrames(frames, loop: false, frameDur: frameDur, onDone: onDone);
+    }
+
+    private void PlayFrames(Sprite[] frames, bool loop, float frameDur, System.Action onDone)
+    {
+        if (spriteRenderer == null || frames == null || frames.Length == 0)
+        {
+            onDone?.Invoke();
+            return;
+        }
+
+        StopAnimCoroutine();
+        _animCo = FramePlayer(frames, loop, frameDur, onDone);
+        StartCoroutine(_animCo);
+    }
+
+    private IEnumerator FramePlayer(Sprite[] frames, bool loop, float frameDur, System.Action onDone)
+    {
+        int index = 0;
+        float dur = Mathf.Max(0.01f, frameDur);
+
+        while (true)
+        {
+            if (spriteRenderer != null)
+            {
+                SetSprite(frames[index]);
+            }
+
+            yield return new WaitForSeconds(dur);
+
+            index++;
+            if (index >= frames.Length)
+            {
+                if (loop)
+                {
+                    index = 0;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        onDone?.Invoke();
+    }
+
+    private void StopAnimCoroutine()
+    {
+        if (_animCo != null)
+        {
+            StopCoroutine(_animCo);
+            _animCo = null;
+        }
+    }
+
+    private Sprite GetFirstAvailableFrame()
+    {
+        if (runFrames != null && runFrames.Length > 0) return runFrames[0];
+        if (backFrames != null && backFrames.Length > 0) return backFrames[0];
+        if (attackFrames != null && attackFrames.Length > 0) return attackFrames[0];
+        if (jumpAttackFrames != null && jumpAttackFrames.Length > 0) return jumpAttackFrames[0];
+        if (deathFrames != null && deathFrames.Length > 0) return deathFrames[0];
+        return null;
+    }
+
+    private static float GetFramesDuration(Sprite[] frames, float frameDur)
+    {
+        if (frames == null || frames.Length == 0) return 0f;
+        return frames.Length * Mathf.Max(0.01f, frameDur);
+    }
+
+    private void SetSprite(Sprite sprite)
+    {
+        spriteRenderer.sprite = sprite;
+        ApplyVisualScaleForSprite(sprite);
+    }
+
+    private void ApplyVisualScaleForSprite(Sprite sprite)
+    {
+        if (!normalizeVisualSize) return;
+        if (spriteRenderer == null) return;
+        if (sprite == null) return;
+
+        var size = sprite.bounds.size;
+        float sy = Mathf.Max(0.0001f, size.y);
+        float mul = _refWorldSize.y / sy;
+
+        // åè»¢Eˆç¬¦å·E‰ãEä»ŠãEè¦‹ãŸç›®ã‚¹ã‚±ãƒ¼ãƒ«ã® x ã‚’ç¶­æŒã—ãŸã„ã®ã§ã€ç¬¦å·ã ã‘æ®‹ã—ã¦çµ¶å¯¾å€¤ã‚’è£œæ­£
+        float signX = Mathf.Sign(spriteRenderer.transform.localScale.x);
+        if (signX == 0f) signX = 1f;
+
+        spriteRenderer.transform.localScale = new Vector3(
+            Mathf.Abs(_baseVisualLocalScale.x) * mul * signX,
+            _baseVisualLocalScale.y * mul,
+            _baseVisualLocalScale.z);
     }
 }

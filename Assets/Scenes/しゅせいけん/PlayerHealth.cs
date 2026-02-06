@@ -24,7 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
         currentHP = Mathf.Max(0, currentHP - amount);
 
-        // ÃüÖĞ·´À¡£¨¿ÉÔÚËÀÍöÊ±Ìø¹ı£©
+        // ÃEĞ·´À¡£¨¿ÉÔÚËÀÍöÊ±Ìø¹ı£©
         if (currentHP > 0)
         {
             StartCoroutine(Invulnerability());
@@ -60,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("Player died");
 
-        // Í£Ö¹ÊäÈëÓëÒÆ¶¯
+        // Í£Ö¹ÊäÈEEÆ¶¯
         var rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -81,7 +81,8 @@ public class PlayerHealth : MonoBehaviour
             sr.enabled = false;
         }
 
-        // Á¢¼´Ïú»ÙÍæ¼Ò£¨»ò¸ù¾İĞèÒª¸ÄÎªÖØÔØ³¡¾°/¸´»îÁ÷³Ì£©
+        // Á¢¼´Ïú»ÙÍæ¼Ò£¨»ò¸ù¾İĞèÒª¸ÄÎªÖØÔØ³¡¾°/¸´»ûİ÷³Ì£©
         Destroy(gameObject);
+        GetComponent<TESETO>()?.Die();
     }
 }

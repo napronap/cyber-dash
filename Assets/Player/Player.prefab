@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1486671837431247180}
   - component: {fileID: 7396168364596759955}
-  - component: {fileID: 9168213506594895841}
   - component: {fileID: 2366649671922462667}
   m_Layer: 0
   m_Name: Player
@@ -62,43 +61,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &9168213506594895841
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2172687965113554848}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.027432833, y: 0.2421717}
-  m_Size: {x: 0.5642962, y: 0.21733734}
-  m_Direction: 1
 --- !u!114 &2366649671922462667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +80,7 @@ MonoBehaviour:
   dashCooldownTime: 0.25
   jumpForce: 1000
   jumpTime: 0.2
+  groundLevel: -4
 --- !u!1 &8454386618806033250
 GameObject:
   m_ObjectHideFlags: 0

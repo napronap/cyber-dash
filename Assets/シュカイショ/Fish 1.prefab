@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8214343428665036723}
   - component: {fileID: 7036668511244438832}
   - component: {fileID: 5219031290986031415}
-  m_Layer: 3
+  m_Layer: 12
   m_Name: Fish 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1879758649
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 2812535350254557667, guid: 804013a563604214ba1666153e4d493a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -227,9 +227,9 @@ GameObject:
   - component: {fileID: 4521692388749898031}
   - component: {fileID: 9030559471346047070}
   - component: {fileID: 2971427431818917445}
-  m_Layer: 3
+  m_Layer: 12
   m_Name: Life
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,8 +293,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1879758649
+  m_SortingLayer: 8
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 7869787481798506625}
   - component: {fileID: 5266845027865294502}
   - component: {fileID: 6748851462616180095}
-  m_Layer: 3
+  m_Layer: 12
   m_Name: attack
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -449,8 +449,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1879758649
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}

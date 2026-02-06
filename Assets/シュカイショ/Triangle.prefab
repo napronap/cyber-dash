@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 4483727360540277212}
   - component: {fileID: 1543777444448714061}
   - component: {fileID: 8745543800642736686}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Triangle
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -218,8 +218,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1879758649
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 76188475c7ffd704a94f194b16f2423c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -326,6 +326,23 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  runFrames:
+  - {fileID: -1550068665, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: 2102625264, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: 927426723, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: 1120513662, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: 1043370745, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: 1697229661, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: -1032852169, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  - {fileID: -970945136, guid: 211318f2aaac92a499b1630ffe771dd8, type: 3}
+  backFrames: []
+  attackFrames: []
+  jumpAttackFrames: []
+  deathFrames: []
+  frameDuration: 0.1
+  lockMoveWhileAttacking: 1
+  attackHitbox: {fileID: 0}
+  attackActiveTime: 0
 --- !u!114 &8745543800642736686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,3 +357,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHP: 10
   currentHP: 0
+<<<<<<< Updated upstream
+=======
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  heartsRoot: {fileID: 0}
+  heartObjects: []
+--- !u!1001 &8631882799609363155
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1411907666511518585}
+    m_Modifications:
+    - target: {fileID: 3671262377597880174, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_Name
+      value: PlayerAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671262377597880174, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.529
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609353084542658373, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 4096
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+--- !u!4 &4784244588873127963 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3868476318393508552, guid: 9e9f3e4b95edcda449f422fea932b1e2, type: 3}
+  m_PrefabInstance: {fileID: 8631882799609363155}
+  m_PrefabAsset: {fileID: 0}
+>>>>>>> Stashed changes

@@ -25,6 +25,12 @@ public class EnemySpawnerKaisho : MonoBehaviour
     [SerializeField, Tooltip("画面外に出すためのX方向オフセット(例:0.05)")]
     private float horizontalViewportOffset = 0.05f;
 
+    [Header("Spawn Inside Viewport")]
+    [SerializeField, Tooltip("画面内の端から生成して外周コライダーに引っかかるのを回避する")]
+    private bool spawnInsideViewport = true;
+    [SerializeField, Range(0f, 0.2f), Tooltip("画面内に入れる余白(0.02 推奨)")]
+    private float insideViewportMargin = 0.02f;
+
     [Header("Timing")]
     [SerializeField, Tooltip("ランダム間隔を使うか")]
     private bool useRandomInterval = false;
@@ -50,6 +56,7 @@ public class EnemySpawnerKaisho : MonoBehaviour
         if (maxViewportY < minViewportY) maxViewportY = minViewportY;
         if (useRandomInterval && maxInterval < minInterval) maxInterval = minInterval;
         horizontalViewportOffset = Mathf.Max(0f, horizontalViewportOffset);
+        insideViewportMargin = Mathf.Clamp(insideViewportMargin, 0f, 0.49f);
         startDelay = Mathf.Max(0f, startDelay);
     }
 
@@ -102,16 +109,28 @@ public class EnemySpawnerKaisho : MonoBehaviour
 
         // 选择生成侧并决定方向
         int sideDir = 0;
-        switch (sideMode)   
+        switch (sideMode)
         {
             case SpawnSideMode.Left: sideDir = 1; break;   // 左外→向右
             case SpawnSideMode.Right: sideDir = -1; break; // 右外→向左
             case SpawnSideMode.Random: sideDir = (Random.value < 0.5f) ? 1 : -1; break;
         }
 
-        float vx = sideDir == 1
-            ? -horizontalViewportOffset
-            : 1f + horizontalViewportOffset;
+        float vx;
+        if (spawnInsideViewport)
+        {
+            // 画面内端に固定（外周コライダーを回避）
+            vx = sideDir == 1
+                ? insideViewportMargin
+                : 1f - insideViewportMargin;
+        }
+        else
+        {
+            // 画面外に出してから侵入させる
+            vx = sideDir == 1
+                ? -horizontalViewportOffset
+                : 1f + horizontalViewportOffset;
+        }
 
         float vy = Random.Range(minViewportY, maxViewportY);
 
@@ -127,6 +146,5 @@ public class EnemySpawnerKaisho : MonoBehaviour
         {
             octo.SetInitialDirection(sideDir);
         }
-        
     }
 }
