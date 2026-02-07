@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class DamageReceiver : MonoBehaviour
 {
-    [Header("°ó¶¨Ä¿±ê£¨¿ÉÑ¡£¬²»ÌîÔò×Ô¶¯ÔÚ¸¸²ã²éÕÒ£©")]
+    [Header("ï¿½ï¿½Ä¿ï¿½ê£¨ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½")]
     [SerializeField] private FishUFO fishUFO;
 
-    [Header("Í¨ÓÃ»÷É±Ä¿±ê£¨¿ÉÑ¡£©£º·¢ËÍ KillByDamage ÏûÏûÏ¢")]
+    [Header("Í¨ï¿½Ã»ï¿½É±Ä¿ï¿½ê£¨ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ KillByDamage ï¿½ï¿½ï¿½ï¿½Ï¢")]
     [SerializeField] private MonoBehaviour killTarget;
 
     private bool _dead;
@@ -21,10 +21,10 @@ public class DamageReceiver : MonoBehaviour
             }
         }
 
-        // ÈôÎ´ÏÔÊ½Ö¸¶¨ killTarget£¬ÔòÄ¬ÈÏÊ¹ÓÃ×ÔÉí»ò¸¸¼¶ÉÏµÄ¿ÉÓÃÄ¿±ê
+        // ï¿½ï¿½Î´ï¿½ï¿½Ê½Ö¸ï¿½ï¿½ killTargetï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò¸¸¼ï¿½ï¿½ÏµÄ¿ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
         if (killTarget == null)
         {
-            // ³¢ÊÔ°ó¶¨µ½×ÔÉí»ò¸¸¼¶µÄÈÎÒâ½Å±¾£¬ÒÔ±¸ÓÃ SendMessage
+            // ï¿½ï¿½ï¿½Ô°ó¶¨µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò¸¸¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ SendMessage
             killTarget = GetComponent<MonoBehaviour>();
             if (killTarget == null)
             {
@@ -33,14 +33,14 @@ public class DamageReceiver : MonoBehaviour
         }
     }
 
-    // ÆÕÍ¨ÉËº¦£ºÓÉ¾ßÌåÄ¿±ê¶¨ÒåËÀÍö
+    // ï¿½ï¿½Í¨ï¿½Ëºï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ä¿ï¿½ê¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void TakeDamage(int amount)
     {
         if (_dead) return;
         Kill();
     }
 
-    // ¾ø¶ÔÖÂÃü£¨ÀıÈçDashAttackÃüÖĞ£©
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½DashAttackï¿½ï¿½ï¿½Ğ£ï¿½
     public void TakeFatalDamage()
     {
         if (_dead) return;
@@ -51,22 +51,22 @@ public class DamageReceiver : MonoBehaviour
     {
         _dead = true;
 
-        // FishUFO ÌØ»¯£º²¥·ÅËÀÍö¶¯»­
+        // FishUFO ï¿½Ø»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (fishUFO != null)
         {
             fishUFO.PlayDeathAnimation();
             return;
         }
 
-        // Í¨ÓÃÄ¿±ê£º·¢ËÍ KillByDamage ÏûÏ¢£¨Èô´æÔÚ£©
+        // Í¨ï¿½ï¿½Ä¿ï¿½ê£ºï¿½ï¿½ï¿½ï¿½ KillByDamage ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½
         if (killTarget != null)
         {
-            // Ê¹ÓÃ SendMessage µ÷ÓÃÄ¿±êÉÏµÄ KillByDamage ·½·¨£¨ÈôÊµÏÖ£©
+            // Ê¹ï¿½ï¿½ SendMessage ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ïµï¿½ KillByDamage ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ö£ï¿½
             killTarget.SendMessage("KillByDamage", SendMessageOptions.DontRequireReceiver);
             return;
         }
 
-        // ÎŞ°ó¶¨Ä¿±ê£ºÖ±½ÓÏú»Ù×ÔÉí
+        
         Destroy(gameObject);
     }
 }

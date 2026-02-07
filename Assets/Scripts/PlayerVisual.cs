@@ -7,8 +7,6 @@ public class PlayerVisual : MonoBehaviour
     private const string IS_RUN = "IsRun";
     private const string IS_JUMP = "IsJump";
     private const string IS_DASH = "IsDash";
-    private const string IS_DASHUP = "IsDashUp";
-    private const string IS_DASHBACK = "IsDashBack";
     private const string IS_DIE = "IsDie";
 
     private void Awake()
@@ -19,11 +17,11 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
-        animator.SetBool(IS_RUN, PlayerController.Instance.IsRunning());
-        animator.SetBool(IS_JUMP, PlayerController.Instance.IsJumping());
-        animator.SetBool(IS_DASH, PlayerController.Instance.IsDashing());
-        animator.SetBool(IS_DASHUP, PlayerController.Instance.IsDashUp());
-        animator.SetBool(IS_DASHBACK, PlayerController.Instance.IsDashBackwards());
+        animator.SetBool(IS_RUN, WorkingPlayerController.Instance.IsRunning());
+        animator.SetBool(IS_JUMP, WorkingPlayerController.Instance.IsJumping());
+        animator.SetBool(IS_DASH, WorkingPlayerController.Instance.IsDashing());
+        animator.SetInteger("DashType", (int)WorkingPlayerController.Instance.GetDashType());
+        // animator.SetBool(IS_DIE, WorkingPlayerController.Instance.IsDashing());
     }
 }
 
