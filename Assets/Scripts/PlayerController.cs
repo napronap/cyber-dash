@@ -5,9 +5,9 @@ using System;
 using System.Collections;
 using Unity.Android.Gradle.Manifest;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController2 : MonoBehaviour
 {
-    public static PlayerController Instance { get; private set; }
+    public static PlayerController2 Instance { get; private set; }
 
     [SerializeField] private float movingSpeed = 5f;
     [Header("Dash Settings")]
