@@ -288,7 +288,11 @@ public class Bee : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            other.gameObject.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
+            var player = other.GetComponentInParent<PlayerHealth>();
+            if (player != null)
+            {
+                player.TryTakeDamage(other, attackDamage);
+            }
         }
     }
 
