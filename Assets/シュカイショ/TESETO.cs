@@ -653,7 +653,7 @@ public class TESETO : MonoBehaviour
         };
 
         ApplySpriteScale(scale);
-        StartFrames(frames, loop: true, keepLastFrame: false, customFrameDuration: frameDuration);
+        StartFrames(frames, loop: true, keepLastFrame: false, customFrameDuration: frameDuration, oneShot: OneShotAnim.None);
     }
 
     private void PlayOnce(Sprite[] frames, bool keepLastFrame = false, float? customFrameDuration = null, OneShotAnim oneShot = OneShotAnim.None)
@@ -671,20 +671,20 @@ public class TESETO : MonoBehaviour
         };
 
         ApplySpriteScale(scale);
-        StartFrames(frames, loop: false, keepLastFrame: keepLastFrame, customFrameDuration: customFrameDuration);
+        StartFrames(frames, loop: false, keepLastFrame: keepLastFrame, customFrameDuration: customFrameDuration, oneShot: oneShot);
     }
 
-    private void StartFrames(Sprite[] frames, bool loop, bool keepLastFrame, float? customFrameDuration)
+    private void StartFrames(Sprite[] frames, bool loop, bool keepLastFrame, float? customFrameDuration, OneShotAnim oneShot)
     {
         if (spriteRenderer == null || frames == null || frames.Length == 0) return;
 
         StopCurrentAnimation();
 
-        _animCo = FrameRoutine(frames, loop, keepLastFrame, customFrameDuration);
+        _animCo = FrameRoutine(frames, loop, keepLastFrame, customFrameDuration, oneShot);
         StartCoroutine(_animCo);
     }
 
-    private System.Collections.IEnumerator FrameRoutine(Sprite[] frames, bool loop, bool keepLastFrame, float? customFrameDuration)
+    private System.Collections.IEnumerator FrameRoutine(Sprite[] frames, bool loop, bool keepLastFrame, float? customFrameDuration, OneShotAnim oneShot)
     {
         float dur = Mathf.Max(0.01f, customFrameDuration ?? frameDuration);
 
@@ -734,6 +734,12 @@ public class TESETO : MonoBehaviour
             }
 
             if (_isDead)
+            {
+                _animCo = null;
+                yield break;
+            }
+
+            if (oneShot == OneShotAnim.Death)
             {
                 _animCo = null;
                 yield break;
