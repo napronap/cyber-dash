@@ -1,0 +1,570 @@
+fileFormatVersion: 2
+guid: dbd3295ff8eb642408021841bff61f27
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1935612160037763146
+    second: d647c01c13adef6f 1_0
+  - first:
+      213: -4203422713824492834
+    second: d647c01c13adef6f 1_1
+  - first:
+      213: -7963524645045959890
+    second: d647c01c13adef6f 1_2
+  - first:
+      213: -4674283746383412826
+    second: d647c01c13adef6f 1_3
+  - first:
+      213: 4666510257615949792
+    second: d647c01c13adef6f 1_4
+  - first:
+      213: 572244549552029083
+    second: d647c01c13adef6f 1_5
+  - first:
+      213: 8931815299384740316
+    second: d647c01c13adef6f 1_6
+  - first:
+      213: -8672216654768083300
+    second: d647c01c13adef6f 1_7
+  - first:
+      213: -1320850012347810263
+    second: d647c01c13adef6f 1_8
+  - first:
+      213: -8993812039465245674
+    second: d647c01c13adef6f 1_9
+  - first:
+      213: -7306173925948153472
+    second: d647c01c13adef6f 1_10
+  - first:
+      213: -6246696067311611900
+    second: d647c01c13adef6f 1_11
+  - first:
+      213: 3396843849621131531
+    second: d647c01c13adef6f 1_12
+  - first:
+      213: -2791059562200420330
+    second: d647c01c13adef6f 1_13
+  - first:
+      213: -4759179048237918821
+    second: d647c01c13adef6f 1_14
+  - first:
+      213: -8269613794657660418
+    second: d647c01c13adef6f 1_15
+  - first:
+      213: 2117366179120498944
+    second: d647c01c13adef6f 1_16
+  - first:
+      213: 8935801929971526835
+    second: d647c01c13adef6f 1_17
+  - first:
+      213: -6486260708418199713
+    second: d647c01c13adef6f 1_18
+  - first:
+      213: 363301512859685601
+    second: d647c01c13adef6f 1_19
+  - first:
+      213: 2940321093389180810
+    second: d647c01c13adef6f 1_20
+  - first:
+      213: 8483389084272115072
+    second: d647c01c13adef6f 1_21
+  - first:
+      213: 9000703267232635439
+    second: d647c01c13adef6f 1_22
+  - first:
+      213: -1325210309539780727
+    second: d647c01c13adef6f 1_23
+  - first:
+      213: 5588622317362864172
+    second: d647c01c13adef6f 1_24
+  - first:
+      213: -576495125543607290
+    second: d647c01c13adef6f 1_25
+  - first:
+      213: 7965316231394943817
+    second: d647c01c13adef6f 1_26
+  - first:
+      213: -2395015438587960206
+    second: d647c01c13adef6f 1_27
+  - first:
+      213: 7363119974103168714
+    second: d647c01c13adef6f 1_28
+  - first:
+      213: -3691755212997376452
+    second: d647c01c13adef6f 1_29
+  - first:
+      213: 4422465599654459215
+    second: d647c01c13adef6f 1_30
+  - first:
+      213: -8707773633903896461
+    second: d647c01c13adef6f 1_31
+  - first:
+      213: -1688247831821521182
+    second: d647c01c13adef6f 1_32
+  - first:
+      213: 8965483060273099607
+    second: d647c01c13adef6f 1_33
+  - first:
+      213: -1334987274648991702
+    second: d647c01c13adef6f 1_34
+  - first:
+      213: -2625203821067882038
+    second: d647c01c13adef6f 1_35
+  - first:
+      213: 7367997324042289020
+    second: d647c01c13adef6f 1_36
+  - first:
+      213: 539383854887309416
+    second: d647c01c13adef6f 1_37
+  - first:
+      213: 3092537028843059861
+    second: d647c01c13adef6f 1_38
+  - first:
+      213: 8348330922334313838
+    second: d647c01c13adef6f 1_39
+  - first:
+      213: 1866383918207263940
+    second: d647c01c13adef6f 1_40
+  - first:
+      213: 6724163855420881129
+    second: d647c01c13adef6f 1_41
+  - first:
+      213: -5372130989694560238
+    second: d647c01c13adef6f 1_42
+  - first:
+      213: -908220223192365148
+    second: d647c01c13adef6f 1_43
+  - first:
+      213: -4771812583479497933
+    second: d647c01c13adef6f 1_44
+  - first:
+      213: 60829598769050228
+    second: d647c01c13adef6f 1_45
+  - first:
+      213: 8760343391990269446
+    second: d647c01c13adef6f 1_46
+  - first:
+      213: -1038571435937527199
+    second: d647c01c13adef6f 1_47
+  - first:
+      213: 5477543594935006878
+    second: d647c01c13adef6f 1_48
+  - first:
+      213: 6982415339906941969
+    second: d647c01c13adef6f 1_49
+  - first:
+      213: 8529614968982246252
+    second: d647c01c13adef6f 1_50
+  - first:
+      213: -1893706759271501574
+    second: d647c01c13adef6f 1_51
+  - first:
+      213: 5612916289543962453
+    second: d647c01c13adef6f 1_52
+  - first:
+      213: 4778332461199291463
+    second: d647c01c13adef6f 1_53
+  - first:
+      213: 5465152076957061673
+    second: d647c01c13adef6f 1_54
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 550
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ufo_die_6
+      rect:
+        serializedVersion: 2
+        x: 2126
+        y: 121
+        width: 1596
+        height: 870
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a483af5110dacda10800000000000000
+      internalID: 1935612160037763146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_1
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 2541
+        width: 1596
+        height: 799
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6103618ad1a2449d0800000000000000
+      internalID: -2791059562200420330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_2
+      rect:
+        serializedVersion: 2
+        x: 2116
+        y: 2511
+        width: 1627
+        height: 819
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b951c4feedff3fdb0800000000000000
+      internalID: -4759179048237918821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_3
+      rect:
+        serializedVersion: 2
+        x: 3944
+        y: 2487
+        width: 1650
+        height: 795
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef192cb611e6c3d80800000000000000
+      internalID: -8269613794657660418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_4
+      rect:
+        serializedVersion: 2
+        x: 5875
+        y: 2523
+        width: 1655
+        height: 773
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00947e55255626d10800000000000000
+      internalID: 2117366179120498944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_die_1
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 1247
+        width: 1595
+        height: 801
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ee647baa832298e0800000000000000
+      internalID: -1688247831821521182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_die_2
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 1133
+        width: 1596
+        height: 915
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7533c57975bcb6c70800000000000000
+      internalID: 8965483060273099607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_die_3
+      rect:
+        serializedVersion: 2
+        x: 3976
+        y: 1179
+        width: 1596
+        height: 868
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2841e2952c297de0800000000000000
+      internalID: -1334987274648991702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_die_4
+      rect:
+        serializedVersion: 2
+        x: 5895
+        y: 1184
+        width: 1596
+        height: 863
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1304e9807619bd0800000000000000
+      internalID: -2625203821067882038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ufo_die_5
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 121
+        width: 1596
+        height: 870
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 860932c12c64c7700800000000000000
+      internalID: 539383854887309416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3cecae87b0176d04ab9b572a08e8b2d8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      d647c01c13adef6f 1_1: -4203422713824492834
+      d647c01c13adef6f 1_10: -7306173925948153472
+      d647c01c13adef6f 1_11: -6246696067311611900
+      d647c01c13adef6f 1_12: 3396843849621131531
+      d647c01c13adef6f 1_17: 8935801929971526835
+      d647c01c13adef6f 1_18: -6486260708418199713
+      d647c01c13adef6f 1_19: 363301512859685601
+      d647c01c13adef6f 1_2: -7963524645045959890
+      d647c01c13adef6f 1_20: 2940321093389180810
+      d647c01c13adef6f 1_21: 8483389084272115072
+      d647c01c13adef6f 1_22: 9000703267232635439
+      d647c01c13adef6f 1_23: -1325210309539780727
+      d647c01c13adef6f 1_24: 5588622317362864172
+      d647c01c13adef6f 1_25: -576495125543607290
+      d647c01c13adef6f 1_26: 7965316231394943817
+      d647c01c13adef6f 1_27: -2395015438587960206
+      d647c01c13adef6f 1_28: 7363119974103168714
+      d647c01c13adef6f 1_29: -3691755212997376452
+      d647c01c13adef6f 1_3: -4674283746383412826
+      d647c01c13adef6f 1_30: 4422465599654459215
+      d647c01c13adef6f 1_31: -8707773633903896461
+      d647c01c13adef6f 1_36: 7367997324042289020
+      d647c01c13adef6f 1_38: 3092537028843059861
+      d647c01c13adef6f 1_39: 8348330922334313838
+      d647c01c13adef6f 1_4: 4666510257615949792
+      d647c01c13adef6f 1_40: 1866383918207263940
+      d647c01c13adef6f 1_41: 6724163855420881129
+      d647c01c13adef6f 1_42: -5372130989694560238
+      d647c01c13adef6f 1_43: -908220223192365148
+      d647c01c13adef6f 1_44: -4771812583479497933
+      d647c01c13adef6f 1_45: 60829598769050228
+      d647c01c13adef6f 1_46: 8760343391990269446
+      d647c01c13adef6f 1_47: -1038571435937527199
+      d647c01c13adef6f 1_48: 5477543594935006878
+      d647c01c13adef6f 1_49: 6982415339906941969
+      d647c01c13adef6f 1_5: 572244549552029083
+      d647c01c13adef6f 1_50: 8529614968982246252
+      d647c01c13adef6f 1_51: -1893706759271501574
+      d647c01c13adef6f 1_52: 5612916289543962453
+      d647c01c13adef6f 1_53: 4778332461199291463
+      d647c01c13adef6f 1_54: 5465152076957061673
+      d647c01c13adef6f 1_6: 8931815299384740316
+      d647c01c13adef6f 1_7: -8672216654768083300
+      d647c01c13adef6f 1_8: -1320850012347810263
+      d647c01c13adef6f 1_9: -8993812039465245674
+      ufo_1: -2791059562200420330
+      ufo_2: -4759179048237918821
+      ufo_3: -8269613794657660418
+      ufo_4: 2117366179120498944
+      ufo_die_1: -1688247831821521182
+      ufo_die_2: 8965483060273099607
+      ufo_die_3: -1334987274648991702
+      ufo_die_4: -2625203821067882038
+      ufo_die_5: 539383854887309416
+      ufo_die_6: 1935612160037763146
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

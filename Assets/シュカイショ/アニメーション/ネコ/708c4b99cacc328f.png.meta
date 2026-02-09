@@ -99,7 +99,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 500
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -161,7 +161,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 708c4b99cacc328f_0
+      name: neko_jump_1
       rect:
         serializedVersion: 2
         x: 247
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_1
+      name: neko_jump_2
       rect:
         serializedVersion: 2
         x: 1638
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_2
+      name: neko_jump_3
       rect:
         serializedVersion: 2
         x: 3305
@@ -227,10 +227,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_3
+      name: neko_jump_4
       rect:
         serializedVersion: 2
-        x: 4840
+        x: 4857
         y: 1785
         width: 1480
         height: 1483
@@ -249,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_4
+      name: neko_jump_5
       rect:
         serializedVersion: 2
         x: 6424
@@ -271,7 +271,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_5
+      name: neko_jump_6
       rect:
         serializedVersion: 2
         x: 8135
@@ -293,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_7
+      name: neko_jump_7
       rect:
         serializedVersion: 2
         x: 9704
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_8
+      name: neko_jump_8
       rect:
         serializedVersion: 2
         x: 11291
@@ -337,7 +337,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_9
+      name: neko_jump_9
       rect:
         serializedVersion: 2
         x: 12806
@@ -359,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_10
+      name: neko_die_1
       rect:
         serializedVersion: 2
         x: 282
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_11
+      name: neko_die_2
       rect:
         serializedVersion: 2
         x: 1860
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_12
+      name: neko_die_3
       rect:
         serializedVersion: 2
         x: 3482
@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_13
+      name: neko_die_4
       rect:
         serializedVersion: 2
         x: 5043
@@ -447,7 +447,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_14
+      name: neko_die_5
       rect:
         serializedVersion: 2
         x: 6632
@@ -469,7 +469,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_15
+      name: neko_die_6
       rect:
         serializedVersion: 2
         x: 8196
@@ -491,7 +491,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 708c4b99cacc328f_16
+      name: neko_die_7
       rect:
         serializedVersion: 2
         x: 9798
@@ -526,23 +526,23 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      708c4b99cacc328f_0: 3600183624469181417
-      708c4b99cacc328f_1: 8923473851679652555
-      708c4b99cacc328f_10: -3805506078418992809
-      708c4b99cacc328f_11: 4509303742407746947
-      708c4b99cacc328f_12: 476970678985421065
-      708c4b99cacc328f_13: 3677860355941853052
-      708c4b99cacc328f_14: 2676033248637317392
-      708c4b99cacc328f_15: -5651447399632101585
-      708c4b99cacc328f_16: -1338607004064115524
-      708c4b99cacc328f_2: -5465761938870343038
-      708c4b99cacc328f_3: -60823481055739711
-      708c4b99cacc328f_4: 5407613000288665206
-      708c4b99cacc328f_5: 8845903901050647992
       708c4b99cacc328f_6: 6198522185155179962
-      708c4b99cacc328f_7: -4590131320025696378
-      708c4b99cacc328f_8: -8856945667201706336
-      708c4b99cacc328f_9: -8502387148204289263
+      neko_die_1: -3805506078418992809
+      neko_die_2: 4509303742407746947
+      neko_die_3: 476970678985421065
+      neko_die_4: 3677860355941853052
+      neko_die_5: 2676033248637317392
+      neko_die_6: -5651447399632101585
+      neko_die_7: -1338607004064115524
+      neko_jump_1: 3600183624469181417
+      neko_jump_2: 8923473851679652555
+      neko_jump_3: -5465761938870343038
+      neko_jump_4: -60823481055739711
+      neko_jump_5: 5407613000288665206
+      neko_jump_6: 8845903901050647992
+      neko_jump_7: -4590131320025696378
+      neko_jump_8: -8856945667201706336
+      neko_jump_9: -8502387148204289263
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

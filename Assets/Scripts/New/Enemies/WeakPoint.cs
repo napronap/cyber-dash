@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class EnemyWeakPoint : MonoBehaviour
 {
-    private EnemyTako enemy;
+    private IDamageable enemy;
 
     private void Awake()
     {
-        enemy = GetComponentInParent<EnemyTako>();
+        enemy = GetComponentInParent<IDamageable>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (enemy == null) return;
+
         if (other.CompareTag("PlayerAttack"))
         {
             enemy.Die();

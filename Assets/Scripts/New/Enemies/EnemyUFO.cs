@@ -1,26 +1,41 @@
 using UnityEngine;
 
-public class EnemyTako : MonoBehaviour, IDamageable
+public class EnemyUFO : MonoBehaviour, IDamageable
 {
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float waveAmplitude = 1.0f; // qué tan alto sube/baja
+    [SerializeField] private float waveFrequency = 2.0f; // qué tan rápido oscila
 
     private Rigidbody2D rb;
     private bool isDead = false;
     private Animator animator;
     private EnemyScore enemyScore;
 
+    private float startY;
+    private float timeOffset;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         enemyScore = GetComponent<EnemyScore>();
+
+        startY = transform.position.y;
+        timeOffset = Random.Range(0f, 10f); // para que no todos sincronicen
     }
 
     private void FixedUpdate()
     {
         if (isDead) return;
 
-        rb.linearVelocity = new Vector2(-moveSpeed, 0f);
+        // avanzar a la izquierda
+        float x = rb.position.x - moveSpeed * Time.fixedDeltaTime;
+
+        // movimiento sinusoidal en Y
+        float y = startY + Mathf.Sin(Time.time * waveFrequency + timeOffset) * waveAmplitude;
+
+        rb.MovePosition(new Vector2(x, y));
 
         // despawn on left edge
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -29,6 +44,7 @@ public class EnemyTako : MonoBehaviour, IDamageable
         if (transform.position.x < leftEdgeX)
             Destroy(gameObject);
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -40,12 +56,10 @@ public class EnemyTako : MonoBehaviour, IDamageable
         }
     }
 
-
     public void OnDeathAnimationEnd()
     {
         Destroy(gameObject);
     }
-
 
     public void Die()
     {
@@ -56,14 +70,11 @@ public class EnemyTako : MonoBehaviour, IDamageable
         rb.linearVelocity = Vector2.zero;
 
         HitStop.Do(0.05f);
-        // screen shake on enemy death AND player damage feels too much
-        // so I'm commenting this one here
-        // ScreenShake.Shake(0.12f, 0.06f);
 
         int pts = (enemyScore != null) ? enemyScore.Points : 0;
-        if (ScoreManager.Instance != null) ScoreManager.Instance.Add(pts);
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.Add(pts);
 
         animator.SetBool("IsDead", true);
     }
-
 }

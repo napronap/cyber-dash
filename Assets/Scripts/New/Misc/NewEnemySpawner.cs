@@ -3,8 +3,16 @@ using System.Collections;
 
 public class NewEnemySpawner : MonoBehaviour
 {
-    [Header("Prefabs")]
-    [SerializeField] private GameObject[] enemyPrefabs;
+    [System.Serializable]
+    public struct EnemySpawnData
+    {
+        public GameObject prefab;
+        public float minY;
+        public float maxY;
+    }
+
+    [Header("Enemies")]
+    [SerializeField] private EnemySpawnData[] enemies;
 
     [Header("Spawn Rules")]
     [SerializeField] private int maxAlive = 3;
@@ -12,7 +20,6 @@ public class NewEnemySpawner : MonoBehaviour
 
     [Header("Spawn Position")]
     [SerializeField] private float spawnXOffset = 1.5f;
-    [SerializeField] private float spawnY = -3.5f;
 
     private int aliveCount = 0;
 
@@ -25,7 +32,7 @@ public class NewEnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            if (enemyPrefabs != null && enemyPrefabs.Length > 0 && aliveCount < maxAlive)
+            if (enemies != null && enemies.Length > 0 && aliveCount < maxAlive)
             {
                 SpawnOne();
             }
@@ -36,13 +43,15 @@ public class NewEnemySpawner : MonoBehaviour
 
     private void SpawnOne()
     {
-        var prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        if (prefab == null) return;
+        var data = enemies[Random.Range(0, enemies.Length)];
+        if (data.prefab == null) return;
 
         float x = GetRightEdgeWorldX() + spawnXOffset;
-        Vector3 pos = new Vector3(x, spawnY, 0f);
+        float y = Random.Range(data.minY, data.maxY);
 
-        GameObject enemy = Instantiate(prefab, pos, Quaternion.identity);
+        Vector3 pos = new Vector3(x, y, 0f);
+
+        GameObject enemy = Instantiate(data.prefab, pos, Quaternion.identity);
         aliveCount++;
 
         enemy.AddComponent<AutoDespawnNotify>().Init(this);
