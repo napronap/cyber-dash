@@ -4,7 +4,6 @@ public class PlayerVisual : MonoBehaviour
 {
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private const string IS_RUN = "IsRun";
     private const string IS_JUMP = "IsJump";
     private const string IS_DASH = "IsDash";
     private const string IS_DIE = "IsDie";
@@ -17,7 +16,6 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
-        animator.SetBool(IS_RUN, WorkingPlayerController.Instance.IsRunning());
         animator.SetBool(IS_JUMP, WorkingPlayerController.Instance.IsJumping());
         animator.SetBool(IS_DASH, WorkingPlayerController.Instance.IsDashing());
         animator.SetInteger("DashType", (int)WorkingPlayerController.Instance.GetDashType());

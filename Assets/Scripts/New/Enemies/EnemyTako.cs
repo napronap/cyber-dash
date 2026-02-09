@@ -1,0 +1,52 @@
+using UnityEngine;
+
+public class EnemyTako : MonoBehaviour
+{
+    [SerializeField] private float moveSpeed = 2f;
+
+    private Rigidbody2D rb;
+    private bool isDead = false;
+    private Animator animator;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (isDead) return;
+
+        rb.linearVelocity = new Vector2(-moveSpeed, 0f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isDead) return;
+
+        if (collision.collider.CompareTag("Player"))
+        {
+            // TODO: Player.TakeDamage(1);
+            Debug.Log("Player hit by enemy body");
+        }
+    }
+
+    public void OnDeathAnimationEnd()
+    {
+        Destroy(gameObject);
+    }
+
+
+    public void Die()
+    {
+        if (isDead) return;
+
+        isDead = true;
+
+        rb.linearVelocity = Vector2.zero;
+
+        animator.SetBool("IsDead", true);
+    }
+
+}

@@ -133,7 +133,6 @@ public class WorkingPlayerController : MonoBehaviour
     // --------------------------------------------------
     // ANIMATOR FLAGS
     // --------------------------------------------------
-    public bool IsRunning() => Mathf.Abs(rb.linearVelocity.x) > 0.1f;
     public bool IsJumping() => !isGrounded;
     public bool IsDashing() => isDashing;
     public DashType GetDashType() => currentDash;
