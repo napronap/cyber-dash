@@ -703,23 +703,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 746543574356973692, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: maxHP
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3559855502065521225, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.217753
+      value: 5.8479333
       objectReference: {fileID: 0}
     - target: {fileID: 3559855502065521225, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.4070213
+      value: 2.615393
       objectReference: {fileID: 0}
     - target: {fileID: 3559855502065521225, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1833
+      value: 1.999
       objectReference: {fileID: 0}
     - target: {fileID: 3559855502065521225, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.447
+      value: 4.051
       objectReference: {fileID: 0}
     - target: {fileID: 4595204023727845360, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_Name
@@ -747,7 +747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6960931313316139307, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.50469565
+      value: 0.4900299
       objectReference: {fileID: 0}
     - target: {fileID: 6960931313316139307, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalScale.y
@@ -755,7 +755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6960931313316139307, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.252
+      value: -3.3062
       objectReference: {fileID: 0}
     - target: {fileID: 6960931313316139307, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -818,12 +818,16 @@ PrefabInstance:
       value: 0.0833
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
+      propertyPath: backHopUpForce
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: backSpriteScale.x
-      value: 0.9
+      value: 0.91
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: backSpriteScale.y
-      value: 0.9
+      value: 0.91
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: jumpAttackUpForce
