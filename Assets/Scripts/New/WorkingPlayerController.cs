@@ -17,11 +17,21 @@ public class WorkingPlayerController : MonoBehaviour
     [SerializeField] private float dashLongMultiplier = 1f;
     [SerializeField] private float dashShortMultiplier = 0.6f;
 
+    [Header("Damage")]
+    [SerializeField] private int maxHp = 3;
+    [SerializeField] private float invulTime = 0.5f;
+    [SerializeField] private float hitKnockbackSpeed = 10f;
+    [SerializeField] private float hitKnockbackTime = 0.15f;
+
     private Rigidbody2D rb;
 
     private bool isGrounded = false;
     private bool isDashing = false;
     private bool airDashAvailable = true;
+    private bool isInvulnerable = false;
+    private bool isDead = false;
+
+    private int currentHp;
 
     public enum DashType
     {
@@ -37,6 +47,7 @@ public class WorkingPlayerController : MonoBehaviour
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
+        currentHp = maxHp;
     }
 
     private void Start()
@@ -47,6 +58,8 @@ public class WorkingPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead) return;
+
         if (!isDashing)
         {
             float x = GameInput.Instance.GetMovementVector().x;
@@ -59,8 +72,8 @@ public class WorkingPlayerController : MonoBehaviour
     // --------------------------------------------------
     private void Jump()
     {
-        if (!isGrounded || isDashing)
-            return;
+        if (isDead) return;
+        if (!isGrounded || isDashing) return;
 
         isGrounded = false;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
@@ -71,11 +84,9 @@ public class WorkingPlayerController : MonoBehaviour
     // --------------------------------------------------
     private void TryDash()
     {
-        if (isDashing)
-            return;
-
-        if (!isGrounded && !airDashAvailable)
-            return;
+        if (isDead) return;
+        if (isDashing) return;
+        if (!isGrounded && !airDashAvailable) return;
 
         StartCoroutine(DashRoutine());
     }
@@ -111,12 +122,59 @@ public class WorkingPlayerController : MonoBehaviour
     }
 
     // --------------------------------------------------
+    // DAMAGE
+    // --------------------------------------------------
+    public void TakeDamage()
+    {
+        if (isDead) return;
+        if (isInvulnerable) return;
+
+        HitStop.Do(0.05f);
+        ScreenShake.Shake(0.15f, 0.08f);
+
+        currentHp--;
+
+        if (currentHp <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            StartCoroutine(DamageRoutine());
+        }
+    }
+
+    private IEnumerator DamageRoutine()
+    {
+        isInvulnerable = true;
+
+        // knockback hacia atrás
+        isDashing = true;
+        currentDash = DashType.Back;
+        rb.linearVelocity = Vector2.left * hitKnockbackSpeed;
+
+        yield return new WaitForSeconds(hitKnockbackTime);
+
+        isDashing = false;
+        currentDash = DashType.None;
+
+        yield return new WaitForSeconds(invulTime - hitKnockbackTime);
+
+        isInvulnerable = false;
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    // --------------------------------------------------
     // GROUND CHECK
     // --------------------------------------------------
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.collider.CompareTag("Ground"))
-            return;
+        if (!collision.collider.CompareTag("Ground")) return;
 
         isGrounded = true;
         airDashAvailable = true;
@@ -124,8 +182,7 @@ public class WorkingPlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (!collision.collider.CompareTag("Ground"))
-            return;
+        if (!collision.collider.CompareTag("Ground")) return;
 
         isGrounded = false;
     }
@@ -133,7 +190,9 @@ public class WorkingPlayerController : MonoBehaviour
     // --------------------------------------------------
     // ANIMATOR FLAGS
     // --------------------------------------------------
-    public bool IsJumping() => !isGrounded;
+    public bool IsJumping() => !isGrounded && !isDead;
     public bool IsDashing() => isDashing;
+    public bool IsDead() => isDead;
+    public bool IsInvulnerable() => isInvulnerable;
     public DashType GetDashType() => currentDash;
 }

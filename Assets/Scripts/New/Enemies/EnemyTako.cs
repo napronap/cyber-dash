@@ -27,10 +27,10 @@ public class EnemyTako : MonoBehaviour
 
         if (collision.collider.CompareTag("Player"))
         {
-            // TODO: Player.TakeDamage(1);
-            Debug.Log("Player hit by enemy body");
+            WorkingPlayerController.Instance.TakeDamage();
         }
     }
+
 
     public void OnDeathAnimationEnd()
     {
@@ -45,6 +45,9 @@ public class EnemyTako : MonoBehaviour
         isDead = true;
 
         rb.linearVelocity = Vector2.zero;
+
+        HitStop.Do(0.05f);
+        ScreenShake.Shake(0.12f, 0.06f);
 
         animator.SetBool("IsDead", true);
     }
