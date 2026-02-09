@@ -7,11 +7,13 @@ public class EnemyTako : MonoBehaviour
     private Rigidbody2D rb;
     private bool isDead = false;
     private Animator animator;
+    private EnemyScore enemyScore;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        enemyScore = GetComponent<EnemyScore>();
     }
 
     private void FixedUpdate()
@@ -23,7 +25,7 @@ public class EnemyTako : MonoBehaviour
         // despawn on left edge
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x - sr.bounds.extents.x;
-        
+
         if (transform.position.x < leftEdgeX)
             Destroy(gameObject);
     }
@@ -54,7 +56,12 @@ public class EnemyTako : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
 
         HitStop.Do(0.05f);
+        // screen shake on enemy death AND player damage feels too much
+        // so I'm commenting this one here
         // ScreenShake.Shake(0.12f, 0.06f);
+        
+        int pts = (enemyScore != null) ? enemyScore.Points : 0;
+        if (ScoreManager.Instance != null) ScoreManager.Instance.Add(pts);
 
         animator.SetBool("IsDead", true);
     }

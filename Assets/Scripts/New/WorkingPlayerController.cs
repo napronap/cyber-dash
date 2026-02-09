@@ -18,7 +18,7 @@ public class WorkingPlayerController : MonoBehaviour
     [SerializeField] private float dashShortMultiplier = 0.6f;
 
     [Header("Damage")]
-    [SerializeField] private int maxHp = 3;
+    [SerializeField] private int maxHp = 4;
     [SerializeField] private float invulTime = 0.5f;
     [SerializeField] private float hitKnockbackSpeed = 10f;
     [SerializeField] private float hitKnockbackTime = 0.15f;
@@ -42,6 +42,13 @@ public class WorkingPlayerController : MonoBehaviour
     }
 
     private DashType currentDash = DashType.None;
+
+    // --------------------------------------------------
+    // HUD HP GETTERS
+    // --------------------------------------------------
+    public int CurrentHP => currentHp;
+    public int MaxHP => maxHp;
+
 
     private void Awake()
     {
