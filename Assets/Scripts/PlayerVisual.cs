@@ -16,6 +16,14 @@ public class PlayerVisual : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-}
 
+    private void Update()
+    {
+        animator.SetBool(IS_RUN, PlayerController.Instance.IsRunning());
+        animator.SetBool(IS_JUMP, PlayerController.Instance.IsJumping());
+        animator.SetBool(IS_DASH, PlayerController.Instance.IsDashing());
+        animator.SetBool(IS_DASHUP, PlayerController.Instance.IsDashUp());
+        animator.SetBool(IS_DASHBACK, PlayerController.Instance.IsDashBackwards());
+    }
+}
 

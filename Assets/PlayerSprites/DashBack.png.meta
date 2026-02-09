@@ -119,19 +119,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -139,10 +126,10 @@ TextureImporter:
       name: backstep_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 328
+        x: 0
+        y: 0
         width: 1372
-        height: 2152
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,9 +149,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1372
-        y: 328
-        width: 1377
-        height: 2152
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,9 +171,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2744
-        y: 328
-        width: 1327
-        height: 2152
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,9 +193,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 4116
-        y: 328
-        width: 1365
-        height: 2152
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,9 +215,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 5488
-        y: 336
-        width: 1351
-        height: 2144
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,9 +237,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 6860
-        y: 307
-        width: 1366
-        height: 2173
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,10 +258,10 @@ TextureImporter:
       name: backstep_6
       rect:
         serializedVersion: 2
-        x: 8239
-        y: 321
-        width: 1353
-        height: 2159
+        x: 8232
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,9 +281,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 9604
-        y: 328
-        width: 1354
-        height: 2152
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -316,9 +303,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 10976
-        y: 336
-        width: 1380
-        height: 2144
+        y: 0
+        width: 1372
+        height: 2480
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
