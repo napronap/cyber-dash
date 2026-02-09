@@ -19,6 +19,13 @@ public class EnemyTako : MonoBehaviour
         if (isDead) return;
 
         rb.linearVelocity = new Vector2(-moveSpeed, 0f);
+
+        // despawn on left edge
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        float leftEdgeX = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x - sr.bounds.extents.x;
+        
+        if (transform.position.x < leftEdgeX)
+            Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,7 +54,7 @@ public class EnemyTako : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
 
         HitStop.Do(0.05f);
-        ScreenShake.Shake(0.12f, 0.06f);
+        // ScreenShake.Shake(0.12f, 0.06f);
 
         animator.SetBool("IsDead", true);
     }
