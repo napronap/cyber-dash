@@ -88,13 +88,10 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Idle (loop)")]
     private Sprite[] idleFrames;
 
-    [SerializeField, Tooltip("Running to the right (loop)")]
+    [SerializeField, Tooltip("Running (loop)")]
     private Sprite[] runFrames;
 
-    [SerializeField, Tooltip("Retreat/backward walk (loop). Used when holding A on ground.")]
-    private Sprite[] retreatFrames;
-
-    [SerializeField, Tooltip("Back hop/retreat frames (loop OK; will be used during back hop)")]
+    [SerializeField, Tooltip("Back hop frames (loop OK; will be used during back hop)")]
     private Sprite[] backFrames;
 
     [SerializeField, Tooltip("Jump (plays once)")]
@@ -162,9 +159,6 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Max time (seconds) between two A key presses to trigger back hop"), Min(0.01f)]
     private float doubleTapTime = 0.25f;
 
-    [SerializeField, Tooltip("Retreat speed multiplier when holding A (0-1 = slower, >1 = faster)"), Min(0f)]
-    private float retreatSpeedMultiplier = 0.7f;
-
     private Rigidbody2D rb;
     private float inputX;
     private bool jumpPressed;
@@ -198,8 +192,7 @@ public class TESETO : MonoBehaviour
     {
         None,
         Idle,
-        Run,
-        Back
+        Run
     }
 
     private enum OneShotAnim
@@ -362,6 +355,19 @@ public class TESETO : MonoBehaviour
             v.x = knockDir * Mathf.Abs(deathKnockbackSpeedX);
             v.y = Mathf.Max(v.y, deathKnockbackUpSpeedY);
             rb.linearVelocity = v;
+
+            if (fallToGroundOnDeath)
+            {
+                rb.isKinematic = false;
+                rb.gravityScale = Mathf.Max(_baseGravityScale, deathFallGravityScale);
+
+                if (stopHorizontalOnDeath)
+                {
+                    v = rb.linearVelocity;
+                    v.x = 0f;
+                    rb.linearVelocity = v;
+                }
+            }
         }
 
         _isActionLocked = true;
@@ -434,13 +440,7 @@ public class TESETO : MonoBehaviour
     {
         if (rb == null) return;
 
-        float speed = moveSpeed;
-        if (inputX < 0f)
-        {
-            speed *= Mathf.Max(0f, retreatSpeedMultiplier);
-        }
-
-        float targetVx = inputX * speed;
+        float targetVx = inputX * moveSpeed;
         float control = isGrounded ? 1f : Mathf.Clamp01(airControl);
 
         Vector2 v = rb.linearVelocity;
@@ -484,14 +484,7 @@ public class TESETO : MonoBehaviour
                 }
                 else if (Mathf.Abs(inputX) > 0.01f)
                 {
-                    if (inputX < 0f)
-                    {
-                        PlayLoop(LoopAnim.Back);
-                    }
-                    else
-                    {
-                        PlayLoop(LoopAnim.Run);
-                    }
+                    PlayLoop(LoopAnim.Run);
                 }
                 else
                 {
@@ -655,14 +648,12 @@ public class TESETO : MonoBehaviour
         Sprite[] frames = loop switch
         {
             LoopAnim.Run => runFrames,
-            LoopAnim.Back => (retreatFrames != null && retreatFrames.Length > 0) ? retreatFrames : runFrames,
             _ => idleFrames,
         };
 
         Vector2 scale = loop switch
         {
             LoopAnim.Run => runSpriteScale,
-            LoopAnim.Back => runSpriteScale,
             _ => idleSpriteScale,
         };
 
