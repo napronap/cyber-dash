@@ -27,6 +27,9 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Duration of each frame for back hop animation (seconds); larger value = slower"), Min(0.01f)]
     private float backHopFrameDuration = 0.14f;
 
+    [SerializeField, Header("Back Hop Input"), Tooltip("Cooldown time (seconds) for Back Hop (A)"), Min(0f)]
+    private float backHopCooldown = 0.3f;
+
     [Header("Jump (K)")]
     [SerializeField, Tooltip("Cooldown time (seconds) for Jump (K)"), Min(0f)]
     private float jumpCooldown = 1f;
@@ -155,10 +158,6 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Jump Attack scale (X=width, Y=height)")]
     private Vector2 jumpAttackSpriteScale = Vector2.one;
 
-    [Header("Back Hop Input")]
-    [SerializeField, Tooltip("Max time (seconds) between two A key presses to trigger back hop"), Min(0.01f)]
-    private float doubleTapTime = 0.25f;
-
     private Rigidbody2D rb;
     private float inputX;
     private bool jumpPressed;
@@ -181,7 +180,7 @@ public class TESETO : MonoBehaviour
     private bool _isJumpAttackActive;
     private float _baseGravityScale;
 
-    private float _lastADownTime = -999f;
+    private float _nextBackHopTime;
     private float _nextJumpAttackTime;
 
     private float _nextJumpTime;
@@ -237,6 +236,7 @@ public class TESETO : MonoBehaviour
             _baseGravityScale = rb.gravityScale;
         }
 
+        _nextBackHopTime = Time.time;
         _nextJumpTime = Time.time;
 
         ApplyFixedFacing();
@@ -256,14 +256,10 @@ public class TESETO : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if (Time.time - _lastADownTime <= doubleTapTime)
+            if (Time.time >= _nextBackHopTime)
             {
                 TryBackHop();
-                _lastADownTime = -999f;
-            }
-            else
-            {
-                _lastADownTime = Time.time;
+                _nextBackHopTime = Time.time + Mathf.Max(0f, backHopCooldown);
             }
         }
 
@@ -382,7 +378,6 @@ public class TESETO : MonoBehaviour
         float x = 0f;
 
         if (Input.GetKey(KeyCode.D)) x += 1f;
-        if (Input.GetKey(KeyCode.A)) x -= 1f;
 
         inputX = Mathf.Clamp(x, -1f, 1f);
         ApplyFixedFacing();
