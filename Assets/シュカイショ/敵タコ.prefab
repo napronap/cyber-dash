@@ -331,9 +331,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1879758649
+  m_SortingLayer: 7
+  m_SortingOrder: 1
   m_Sprite: {fileID: 3811334129134616224, guid: 15f3c8756591ce6438e3ac76f5d6b0f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -418,6 +418,7 @@ MonoBehaviour:
   - {fileID: 234649207517512788, guid: 15f3c8756591ce6438e3ac76f5d6b0f7, type: 3}
   frameDuration: 0.1
   spriteRenderer: {fileID: 0}
+  swipeDamageToPlayer: 1
 --- !u!61 &6818217016557136634
 BoxCollider2D:
   m_ObjectHideFlags: 0

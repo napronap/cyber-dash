@@ -7,16 +7,10 @@ public class EnemyAttackZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 优先在命中对象本层找 PlayerHealth；如果没有，则在其父层查找
-        var player = other.GetComponent<PlayerHealth>();
-        if (player == null)
-        {
-            player = other.GetComponentInParent<PlayerHealth>();
-        }
-
+        var player = other.GetComponentInParent<PlayerHealth>();
         if (player != null)
         {
-            player.TakeDamage(damageToPlayer);
+            player.TryTakeDamage(other, damageToPlayer);
         }
     }
 
@@ -24,15 +18,11 @@ public class EnemyAttackZone : MonoBehaviour
     {
         if (collision == null || collision.collider == null) return;
 
-        var player = collision.collider.GetComponent<PlayerHealth>();
-        if (player == null)
-        {
-            player = collision.collider.GetComponentInParent<PlayerHealth>();
-        }
-
+        var hit = collision.collider;
+        var player = hit.GetComponentInParent<PlayerHealth>();
         if (player != null)
         {
-            player.TakeDamage(damageToPlayer);
+            player.TryTakeDamage(hit, damageToPlayer);
         }
     }
 }

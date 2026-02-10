@@ -37,6 +37,10 @@ public class tonderutekiタコ : enemyKaisho
     [SerializeField, Tooltip("アニメ再生対象の `SpriteRenderer`")]
     private SpriteRenderer spriteRenderer;
 
+    [Header("Damage")]
+    [SerializeField, Tooltip("Swipe 命中玩家时造成的伤害")]
+    private int swipeDamageToPlayer = 1;
+
     private bool _isSwiping;
     private float _weaponBaseZ;
     private bool _isDying;
@@ -208,7 +212,11 @@ public class tonderutekiタコ : enemyKaisho
                 if (hitCol == null) continue;
                 if (!string.IsNullOrEmpty(playerTag) && !hitCol.CompareTag(playerTag)) continue;
 
-                Destroy(hitCol.gameObject);
+                var playerHealth = hitCol.GetComponentInParent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(swipeDamageToPlayer);
+                }
             }
         }
     }

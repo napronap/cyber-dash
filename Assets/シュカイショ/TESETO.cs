@@ -36,8 +36,18 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Duration of each frame for back hop animation (seconds); larger value = slower"), Min(0.01f)]
     private float backHopFrameDuration = 0.14f;
 
+    [Header("Jump (K)")]
+    [SerializeField, Tooltip("Cooldown time (seconds) for Jump (K)"), Min(0f)]
+    private float jumpCooldown = 1f;
+
+    [SerializeField, Tooltip("Jump (K) upward force (initial Y velocity)"), Min(0.01f)]
+    private float jumpUpForceK = 6f;
+
+    [SerializeField, Tooltip("Jump (K) gravity scale while in air (bigger = faster falling)"), Min(0.01f)]
+    private float jumpGravityScaleK = 3f;
+
     [Header("Jump Attack (J)")]
-    [SerializeField, Tooltip("Jump attack upward force (initial Y velocity), Min(0.01f)")]
+    [SerializeField, Tooltip("Jump attack upward force (initial Y velocity)"), Min(0.01f)]
     private float jumpAttackUpForce = 6f;
 
     [SerializeField, Tooltip("Duration of each frame for jump attack animation (seconds); larger value = slower"), Min(0.01f)]
@@ -46,8 +56,14 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Extra gravity scale while jump-attacking (bigger = faster falling)"), Min(1f)]
     private float jumpAttackGravityScale = 3f;
 
+    [SerializeField, Tooltip("Cooldown time (seconds) for Jump Attack (J)"), Min(0f)]
+    private float jumpAttackCooldown = 1f;
+
     [SerializeField, Header("Fall Tuning"), Tooltip("Gravity multiplier while falling (y < 0). Bigger = faster fall"), Min(1f)]
-    private float fallGravityMultiplier = 2.5f;
+    private float fallGravityMultiplier = 8f;
+
+    [SerializeField, Tooltip("Max downward speed (terminal velocity). More negative = faster fall"), Min(0.01f)]
+    private float maxFallSpeed = 30f;
 
     [Header("Facing")]
 <<<<<<< HEAD
@@ -118,6 +134,10 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Layers considered as ground")]
     private LayerMask groundLayers = ~0;
 
+    [Header("Damage / Body")]
+    [SerializeField, Tooltip("Body collider used for taking damage. Only this collider will trigger PlayerHealth damage. If null, will use Collider2D on this GameObject.")]
+    private Collider2D bodyCollider;
+
     [Header("Attack Hitbox")]
     [SerializeField, Tooltip("Trigger collider for attacks (child Collider2D). Disabled by default, enable briefly during attack.")]
     private Collider2D attackHitbox;
@@ -141,14 +161,37 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Jump (plays once)")]
     private Sprite[] jumpFrames;
 
-    [SerializeField, Tooltip("Fall (loop)")]
-    private Sprite[] fallFrames;
-
     [SerializeField, Tooltip("Attack (plays once)")]
     private Sprite[] attackFrames;
 
     [SerializeField, Tooltip("Jump Attack (plays once)")]
     private Sprite[] jumpAttackFrames;
+
+    [Header("Death")]
+    [SerializeField, Tooltip("Death (plays once; keeps last frame)")]
+    private Sprite[] deathFrames;
+
+    [SerializeField, Tooltip("Duration of each frame for death animation (seconds)"), Min(0.01f)]
+    private float deathFrameDuration = 0.08f;
+
+    [SerializeField, Tooltip("Death scale (X=width, Y=height)")]
+    private Vector2 deathSpriteScale = Vector2.one;
+
+    [SerializeField, Tooltip("Death knockback X speed (world units/sec). Bigger = stronger"), Min(0f)]
+    private float deathKnockbackSpeedX = 2.5f;
+
+    [SerializeField, Tooltip("Optional upward speed on death (0 = none)"), Min(0f)]
+    private float deathKnockbackUpSpeedY = 0.5f;
+
+    [Header("Death Falling (Player)")]
+    [SerializeField, Tooltip("If true, when player dies in air, let the body fall to ground"), Min(0f)]
+    private bool fallToGroundOnDeath = true;
+
+    [SerializeField, Tooltip("Extra gravity scale while falling after death (bigger = faster falling)"), Min(0f)]
+    private float deathFallGravityScale = 3f;
+
+    [SerializeField, Tooltip("Stop horizontal movement on death")]
+    private bool stopHorizontalOnDeath = true;
 
     [Header("Frame Timing")]
     [SerializeField, Tooltip("Duration of each frame for normal actions (in seconds)")]
@@ -156,16 +199,6 @@ public class TESETO : MonoBehaviour
 
     [SerializeField, Tooltip("Duration of each frame for attacks (in seconds); smaller value = faster")]
     private float attackFrameDuration = 0.05f;
-
-    [SerializeField, Tooltip("Duration of each frame for fall animation (in seconds)")]
-    private float fallFrameDuration = 0.1f;
-
-    [Header("Air State (No Velocity)")]
-    [SerializeField, Tooltip("Tolerance for detecting no more upward movement while in air (world units)")]
-    private float fallDetectEpsilon = 0.001f;
-
-    [SerializeField, Tooltip("Velocity threshold to enter fall pose (y < -value). Bigger = later fall pose"), Min(0f)]
-    private float fallEnterVelocity = 0.05f;
 
     [Header("Per-Animation Sprite Scale")]
     [SerializeField, Tooltip("Idle scale (X=width, Y=height)")]
@@ -180,15 +213,19 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Jump scale (X=width, Y=height)")]
     private Vector2 jumpSpriteScale = Vector2.one;
 
-    [SerializeField, Tooltip("Fall scale (X=width, Y=height)")]
-    private Vector2 fallSpriteScale = Vector2.one;
-
     [SerializeField, Tooltip("Attack scale (X=width, Y=height)")]
     private Vector2 attackSpriteScale = Vector2.one;
 
     [SerializeField, Tooltip("Jump Attack scale (X=width, Y=height)")]
     private Vector2 jumpAttackSpriteScale = Vector2.one;
 >>>>>>> bcafac6eed285f17d0f550baf192ebe6ea97997c
+
+    [Header("Back Hop Input")]
+    [SerializeField, Tooltip("Max time (seconds) between two A key presses to trigger back hop"), Min(0.01f)]
+    private float doubleTapTime = 0.25f;
+
+    [SerializeField, Tooltip("Retreat speed multiplier when holding A (0-1 = slower, >1 = faster)"), Min(0f)]
+    private float retreatSpeedMultiplier = 0.7f;
 
     private Rigidbody2D rb;
     private Collider2D bodyCollider;
@@ -226,23 +263,31 @@ public class TESETO : MonoBehaviour
     private System.Collections.IEnumerator _animCo;
     private System.Collections.IEnumerator _hitboxCo;
 
-    private bool _isFallingPose;
+    private bool _airAnimFinished;
+
     private bool _jumpedThisAir;
     private float _lastAirY;
 
     private Vector3 _spriteBaseLocalScale;
     private System.Collections.IEnumerator _backHopCo;
 
+    private bool _isJumpKActive;
     private bool _isJumpAttackActive;
     private float _baseGravityScale;
+
+    private float _lastADownTime = -999f;
+    private float _nextJumpAttackTime;
+
+    private float _nextJumpTime;
+
+    private bool _isDead;
 
     private enum LoopAnim
     {
         None,
         Idle,
         Run,
-        Back,
-        Fall
+        Back
     }
 
     private enum OneShotAnim
@@ -251,7 +296,8 @@ public class TESETO : MonoBehaviour
         Jump,
         Attack,
         JumpAttack,
-        BackHop
+        BackHop,
+        Death
     }
 
     private LoopAnim _currentLoop = LoopAnim.None;
@@ -260,7 +306,15 @@ public class TESETO : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD
         bodyCollider = GetComponent<Collider2D>();
+=======
+
+        if (bodyCollider == null)
+        {
+            bodyCollider = GetComponent<Collider2D>();
+        }
+>>>>>>> 1f1912ee2bd7adf5a72e405c8011cda27e27f144
 
         if (spriteRenderer == null)
         {
@@ -287,20 +341,22 @@ public class TESETO : MonoBehaviour
             _baseGravityScale = rb.gravityScale;
         }
 
+        _nextJumpTime = Time.time;
+
         ApplyFixedFacing();
         PlayLoop(LoopAnim.Idle);
     }
 
     void Update()
     {
+        if (_isDead)
+        {
+            return;
+        }
+
         ReadMovementInput();
 
         UpdateGroundedState();
-
-        if (isGrounded)
-        {
-            ResetAirStateOnGround();
-        }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -318,11 +374,19 @@ public class TESETO : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
 >>>>>>> bcafac6eed285f17d0f550baf192ebe6ea97997c
         {
+<<<<<<< HEAD
             _baseVisualLocalScale = spriteRenderer.transform.localScale;
         }
         else
         {
             _baseVisualLocalScale = Vector3.one;
+=======
+            if (Time.time >= _nextJumpTime)
+            {
+                jumpPressed = true;
+                _nextJumpTime = Time.time + Mathf.Max(0f, jumpCooldown);
+            }
+>>>>>>> 1f1912ee2bd7adf5a72e405c8011cda27e27f144
         }
 
 <<<<<<< HEAD
@@ -405,17 +469,13 @@ public class TESETO : MonoBehaviour
             TryJumpAttack();
         }
 
-        if (!isGrounded && !_isActionLocked)
-        {
-            TryEnterFallingPose_ByVelocity();
-        }
-
         UpdateAnimationState();
 >>>>>>> bcafac6eed285f17d0f550baf192ebe6ea97997c
     }
 
     void FixedUpdate()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         if (isDead) return;
 
@@ -429,6 +489,13 @@ public class TESETO : MonoBehaviour
 
         float targetVx = inputX * moveSpeed;
 =======
+=======
+        if (_isDead)
+        {
+            return;
+        }
+
+>>>>>>> 1f1912ee2bd7adf5a72e405c8011cda27e27f144
         UpdateGroundedState();
 
         ApplyAirGravityTuning();
@@ -441,8 +508,6 @@ public class TESETO : MonoBehaviour
             {
                 PerformJump();
             }
-
-            rb.linearVelocity = rb.linearVelocity;
         }
 
         jumpPressed = false;
@@ -451,6 +516,52 @@ public class TESETO : MonoBehaviour
         {
             _lastAirY = Mathf.Max(_lastAirY, transform.position.y);
         }
+    }
+
+    public void PlayDeath()
+    {
+        if (_isDead) return;
+
+        _isDead = true;
+
+        jumpPressed = false;
+        attackPressed = false;
+        inputX = 0f;
+
+        if (_hitboxCo != null)
+        {
+            StopCoroutine(_hitboxCo);
+            _hitboxCo = null;
+        }
+
+        if (attackHitbox != null)
+        {
+            attackHitbox.enabled = false;
+        }
+
+        StopCurrentAnimation();
+
+        if (rb != null)
+        {
+            float faceSign = 1f;
+            if (spriteRenderer != null)
+            {
+                faceSign = Mathf.Sign(spriteRenderer.transform.localScale.x);
+                if (faceSign == 0f) faceSign = 1f;
+            }
+
+            float knockDir = -faceSign;
+            var v = rb.linearVelocity;
+            v.x = knockDir * Mathf.Abs(deathKnockbackSpeedX);
+            v.y = Mathf.Max(v.y, deathKnockbackUpSpeedY);
+            rb.linearVelocity = v;
+        }
+
+        _isActionLocked = true;
+        _currentLoop = LoopAnim.None;
+
+        ApplySpriteScale(deathSpriteScale);
+        PlayOnce(deathFrames, keepLastFrame: true, customFrameDuration: deathFrameDuration, oneShot: OneShotAnim.Death);
     }
 
     private void ReadMovementInput()
@@ -467,22 +578,11 @@ public class TESETO : MonoBehaviour
     private void UpdateGroundedState()
     {
         isGrounded = IsGrounded();
-    }
 
-    private void ResetAirStateOnGround()
-    {
-        _isFallingPose = false;
-        _jumpedThisAir = false;
-
-        if (_isJumpAttackActive && rb != null)
+        if (isGrounded)
         {
-            rb.gravityScale = _baseGravityScale;
+            _isJumpKActive = false;
             _isJumpAttackActive = false;
-        }
-
-        if (rb != null)
-        {
-            rb.gravityScale = _baseGravityScale;
         }
     }
 
@@ -503,12 +603,24 @@ public class TESETO : MonoBehaviour
             targetGravity = Mathf.Max(targetGravity, jumpAttackGravityScale);
         }
 
+        if (_isJumpKActive)
+        {
+            targetGravity = Mathf.Max(targetGravity, jumpGravityScaleK);
+        }
+
         if (rb.linearVelocity.y < 0f)
         {
             targetGravity = Mathf.Max(targetGravity, _baseGravityScale * fallGravityMultiplier);
         }
 
         rb.gravityScale = targetGravity;
+
+        Vector2 v = rb.linearVelocity;
+        if (v.y < -maxFallSpeed)
+        {
+            v.y = -maxFallSpeed;
+            rb.linearVelocity = v;
+        }
     }
 
     private void ApplyHorizontalMovement()
@@ -609,11 +721,14 @@ public class TESETO : MonoBehaviour
         if (rb == null) return;
 
         Vector2 v = rb.linearVelocity;
-        v.y = jumpForce;
+        v.y = Mathf.Max(v.y, Mathf.Max(0.01f, jumpUpForceK));
         rb.linearVelocity = v;
+
+        _isJumpKActive = true;
 
         _jumpedThisAir = true;
         _lastAirY = transform.position.y;
+        _airAnimFinished = false;
 
         if (!_isActionLocked)
         {
@@ -663,13 +778,15 @@ public class TESETO : MonoBehaviour
 
     private void TryJumpAttack()
     {
+        if (Time.time < _nextJumpAttackTime) return;
         if (_backHopCo != null) return;
         if (jumpAttackFrames == null || jumpAttackFrames.Length == 0) return;
         if (rb == null) return;
 
+        _nextJumpAttackTime = Time.time + Mathf.Max(0f, jumpAttackCooldown);
+
         StopCurrentAnimation();
 
-        _isFallingPose = false;
         _isActionLocked = false;
 
         Vector2 v = rb.linearVelocity;
@@ -753,50 +870,11 @@ public class TESETO : MonoBehaviour
         }
     }
 
-    private bool TryEnterFallingPose_NoVelocity()
-    {
-        if (_isFallingPose) return true;
-        if (fallFrames == null || fallFrames.Length == 0 || spriteRenderer == null) return false;
-
-        float y = transform.position.y;
-        if (y > _lastAirY + fallDetectEpsilon)
-        {
-            _lastAirY = y;
-            return false;
-        }
-
-        _isFallingPose = true;
-
-        StopCurrentAnimation();
-
-        _currentLoop = LoopAnim.None;
-        spriteRenderer.sprite = fallFrames[0];
-
-        ApplySpriteScale(fallSpriteScale);
-
-        return true;
-    }
-
-    private void TryEnterFallingPose_ByVelocity()
-    {
-        if (isGrounded) return;
-        if (fallFrames == null || fallFrames.Length == 0 || spriteRenderer == null) return;
-        if (rb == null) return;
-
-        if (rb.linearVelocity.y >= -fallEnterVelocity)
-        {
-            return;
-        }
-
-        PlayLoop(LoopAnim.Fall);
-    }
-
     private void EnsureAirAnim()
     {
-        if (_isFallingPose) return;
         if (jumpFrames == null || jumpFrames.Length == 0) return;
 
-        if (_currentLoop != LoopAnim.None)
+        if (_animCo == null)
         {
             PlayOnce(jumpFrames, keepLastFrame: true, customFrameDuration: frameDuration, oneShot: OneShotAnim.Jump);
         }
@@ -845,7 +923,6 @@ public class TESETO : MonoBehaviour
         {
             LoopAnim.Run => runFrames,
             LoopAnim.Back => (retreatFrames != null && retreatFrames.Length > 0) ? retreatFrames : runFrames,
-            LoopAnim.Fall => fallFrames,
             _ => idleFrames,
         };
 
@@ -853,18 +930,11 @@ public class TESETO : MonoBehaviour
         {
             LoopAnim.Run => runSpriteScale,
             LoopAnim.Back => runSpriteScale,
-            LoopAnim.Fall => fallSpriteScale,
             _ => idleSpriteScale,
         };
 
-        float dur = loop switch
-        {
-            LoopAnim.Fall => fallFrameDuration,
-            _ => frameDuration,
-        };
-
         ApplySpriteScale(scale);
-        StartFrames(frames, loop: true, keepLastFrame: false, customFrameDuration: dur);
+        StartFrames(frames, loop: true, keepLastFrame: false, customFrameDuration: frameDuration);
     }
 
     private void PlayOnce(Sprite[] frames, bool keepLastFrame = false, float? customFrameDuration = null, OneShotAnim oneShot = OneShotAnim.None)
@@ -877,6 +947,7 @@ public class TESETO : MonoBehaviour
             OneShotAnim.JumpAttack => jumpAttackSpriteScale,
             OneShotAnim.Jump => jumpSpriteScale,
             OneShotAnim.BackHop => backSpriteScale,
+            OneShotAnim.Death => deathSpriteScale,
             _ => Vector2.one,
         };
 
@@ -889,8 +960,6 @@ public class TESETO : MonoBehaviour
         if (spriteRenderer == null || frames == null || frames.Length == 0) return;
 
         StopCurrentAnimation();
-
-        _isFallingPose = false;
 
         _animCo = FrameRoutine(frames, loop, keepLastFrame, customFrameDuration);
         StartCoroutine(_animCo);
@@ -906,6 +975,8 @@ public class TESETO : MonoBehaviour
         }
 
         int i = 0;
+        float t = 0f;
+
         while (true)
         {
             if (spriteRenderer != null)
@@ -913,34 +984,47 @@ public class TESETO : MonoBehaviour
                 spriteRenderer.sprite = frames[i];
             }
 
-            yield return new WaitForSeconds(dur);
+            t = 0f;
+            while (t < dur)
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
 
             i++;
-            if (i >= frames.Length)
+            if (i < frames.Length)
             {
-                if (loop)
-                {
-                    i = 0;
-                    continue;
-                }
+                continue;
+            }
 
-                if (keepLastFrame && spriteRenderer != null)
-                {
-                    spriteRenderer.sprite = frames[frames.Length - 1];
-                }
+            if (loop)
+            {
+                i = 0;
+                continue;
+            }
 
-                if (_backHopCo != null)
-                {
-                    _animCo = null;
-                    yield break;
-                }
+            if (keepLastFrame && spriteRenderer != null)
+            {
+                spriteRenderer.sprite = frames[frames.Length - 1];
+            }
 
-                ApplySpriteScale(idleSpriteScale);
-
-                _isActionLocked = false;
+            if (_backHopCo != null)
+            {
                 _animCo = null;
                 yield break;
             }
+
+            if (_isDead)
+            {
+                _animCo = null;
+                yield break;
+            }
+
+            ApplySpriteScale(idleSpriteScale);
+
+            _isActionLocked = false;
+            _animCo = null;
+            yield break;
         }
     }
 
@@ -1012,6 +1096,7 @@ public class TESETO : MonoBehaviour
         if (!col.CompareTag("Enemy")) return;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         // 取玩家主体碰撞体（挂在同一 GameObject 上的 Collider2D）
         var bodyCollider = GetComponent<Collider2D>();
@@ -1029,6 +1114,23 @@ public class TESETO : MonoBehaviour
         if (body == null) return;
         if (!body.IsTouching(col)) return;
 >>>>>>> Stashed changes
+=======
+        if (bodyCollider == null)
+        {
+            bodyCollider = GetComponent<Collider2D>();
+            if (bodyCollider == null) return;
+        }
+
+        if (attackHitbox != null && attackHitbox.IsTouching(col))
+        {
+            return;
+        }
+
+        if (!bodyCollider.IsTouching(col))
+        {
+            return;
+        }
+>>>>>>> 1f1912ee2bd7adf5a72e405c8011cda27e27f144
 
         var hp = GetComponent<PlayerHealth>();
         if (hp != null)
@@ -1177,6 +1279,7 @@ public class TESETO : MonoBehaviour
 =======
     [SerializeField, Header("Collision"), Tooltip("If true, ignore physical collisions between Player and Enemy colliders")]
     private bool ignoreEnemyPhysicalCollision = true;
+<<<<<<< HEAD
 
     [SerializeField, Header("Back Hop Input"), Tooltip("Max time (seconds) between two A key presses to trigger back hop"), Min(0.01f)]
     private float doubleTapTime = 0.25f;
@@ -1186,4 +1289,6 @@ public class TESETO : MonoBehaviour
     [SerializeField, Tooltip("Retreat speed multiplier when holding A (0-1 = slower, >1 = faster)"), Min(0f)]
     private float retreatSpeedMultiplier = 0.7f;
 >>>>>>> bcafac6eed285f17d0f550baf192ebe6ea97997c
+=======
+>>>>>>> 1f1912ee2bd7adf5a72e405c8011cda27e27f144
 }
