@@ -4,8 +4,8 @@ public class EnemyUFO : MonoBehaviour, IDamageable
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float waveAmplitude = 1.0f; // qué tan alto sube/baja
-    [SerializeField] private float waveFrequency = 2.0f; // qué tan rápido oscila
+    [SerializeField] private float waveAmplitude = 1.0f;
+    [SerializeField] private float waveFrequency = 2.0f;
 
     private Rigidbody2D rb;
     private bool isDead = false;
@@ -14,6 +14,7 @@ public class EnemyUFO : MonoBehaviour, IDamageable
 
     private float startY;
     private float timeOffset;
+    private bool active = true;
 
     private void Awake()
     {
@@ -22,17 +23,15 @@ public class EnemyUFO : MonoBehaviour, IDamageable
         enemyScore = GetComponent<EnemyScore>();
 
         startY = transform.position.y;
-        timeOffset = Random.Range(0f, 10f); // para que no todos sincronicen
+        timeOffset = Random.Range(0f, 10f);
     }
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (!active || isDead) return;
 
-        // avanzar a la izquierda
         float x = rb.position.x - moveSpeed * Time.fixedDeltaTime;
 
-        // movimiento sinusoidal en Y
         float y = startY + Mathf.Sin(Time.time * waveFrequency + timeOffset) * waveAmplitude;
 
         rb.MovePosition(new Vector2(x, y));
@@ -76,5 +75,12 @@ public class EnemyUFO : MonoBehaviour, IDamageable
             ScoreManager.Instance.Add(pts);
 
         animator.SetBool("IsDead", true);
+    }
+
+    public void Freeze()
+    {
+        active = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 }

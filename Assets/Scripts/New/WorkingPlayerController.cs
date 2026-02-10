@@ -30,6 +30,7 @@ public class WorkingPlayerController : MonoBehaviour
     private bool airDashAvailable = true;
     private bool isInvulnerable = false;
     private bool isDead = false;
+    private bool isAttacking = false;
 
     private int currentHp;
 
@@ -101,6 +102,7 @@ public class WorkingPlayerController : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         isDashing = true;
+        isAttacking = true;
 
         if (!isGrounded)
             airDashAvailable = false;
@@ -125,6 +127,7 @@ public class WorkingPlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashTime);
 
         currentDash = DashType.None;
+        isAttacking = false;
         isDashing = false;
     }
 
@@ -155,7 +158,6 @@ public class WorkingPlayerController : MonoBehaviour
     {
         isInvulnerable = true;
 
-        // knockback hacia atrás
         isDashing = true;
         currentDash = DashType.Back;
         rb.linearVelocity = Vector2.left * hitKnockbackSpeed;
@@ -174,6 +176,28 @@ public class WorkingPlayerController : MonoBehaviour
     {
         isDead = true;
         rb.linearVelocity = Vector2.zero;
+
+        // this is supposed to stop enemies' movement etc but it doesn't seem to be working correctly?
+        Time.timeScale = 0f;
+
+        // absolutely disgusting way of freezing enemies and buildings and the enemy spawner but whatever I don't want to do it in a smart way
+        foreach (EnemyTako e in FindObjectsByType<EnemyTako>(FindObjectsSortMode.None))
+            e.Freeze();
+
+        foreach (EnemyBee e in FindObjectsByType<EnemyBee>(FindObjectsSortMode.None))
+            e.Freeze();
+
+        foreach (EnemyUFO e in FindObjectsByType<EnemyUFO>(FindObjectsSortMode.None))
+            e.Freeze();
+
+        foreach (ParallaxLayerBase p in FindObjectsByType<ParallaxLayerBase>(FindObjectsSortMode.None))
+            p.toggleActive();
+        
+        foreach (NewEnemySpawner es in FindObjectsByType<NewEnemySpawner>(FindObjectsSortMode.None))
+            es.setActive(false);
+
+
+        GameOverUI.Instance.Show();
     }
 
     // --------------------------------------------------
@@ -199,6 +223,7 @@ public class WorkingPlayerController : MonoBehaviour
     // --------------------------------------------------
     public bool IsJumping() => !isGrounded && !isDead;
     public bool IsDashing() => isDashing;
+    public bool IsAttacking() => isAttacking;
     public bool IsDead() => isDead;
     public bool IsInvulnerable() => isInvulnerable;
     public DashType GetDashType() => currentDash;

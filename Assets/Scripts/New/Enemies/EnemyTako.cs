@@ -8,6 +8,7 @@ public class EnemyTako : MonoBehaviour, IDamageable
     private bool isDead = false;
     private Animator animator;
     private EnemyScore enemyScore;
+    private bool active = true;
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class EnemyTako : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (!active || isDead) return;
 
         rb.linearVelocity = new Vector2(-moveSpeed, 0f);
 
@@ -64,6 +65,13 @@ public class EnemyTako : MonoBehaviour, IDamageable
         if (ScoreManager.Instance != null) ScoreManager.Instance.Add(pts);
 
         animator.SetBool("IsDead", true);
+    }
+
+    public void Freeze()
+    {
+        active = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
 }

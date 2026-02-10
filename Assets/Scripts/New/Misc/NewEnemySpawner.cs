@@ -23,6 +23,8 @@ public class NewEnemySpawner : MonoBehaviour
 
     private int aliveCount = 0;
 
+    private bool active = true;
+
     private void Start()
     {
         StartCoroutine(SpawnLoop());
@@ -30,7 +32,7 @@ public class NewEnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
-        while (true)
+        while (active)
         {
             if (enemies != null && enemies.Length > 0 && aliveCount < maxAlive)
             {
@@ -83,4 +85,6 @@ public class NewEnemySpawner : MonoBehaviour
                 spawner.NotifyEnemyDestroyed();
         }
     }
+
+    public void setActive(bool next) => active = next;
 }

@@ -15,7 +15,7 @@ public class PlayerAttackAim : MonoBehaviour
 
     private void Update()
     {
-        attackCollider.enabled = WorkingPlayerController.Instance.IsDashing();
+        attackCollider.enabled = WorkingPlayerController.Instance.IsAttacking();
         Vector2 input = GameInput.Instance.GetMovementVector();
 
         if (input.sqrMagnitude < 0.001f)

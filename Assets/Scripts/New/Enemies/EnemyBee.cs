@@ -24,6 +24,7 @@ public class EnemyBee : MonoBehaviour, IDamageable
     private float baseY;
     private float traveledX = 0f;
     private int zigDir = 1;
+    private bool active = true;
 
     private Coroutine attackCo;
 
@@ -38,26 +39,22 @@ public class EnemyBee : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (!active || isDead) return;
 
-        // Movimiento horizontal constante
         float dx = -moveSpeed * Time.fixedDeltaTime;
         traveledX += Mathf.Abs(dx);
 
-        // Cambio de zigzag + descenso progresivo
         if (traveledX >= zigZagLength)
         {
             traveledX = 0f;
             zigDir *= -1;
             baseY -= descendPerZig;
 
-            TriggerAttackAnim(); // ⬅ ataque en cada quiebre
+            TriggerAttackAnim();
         }
 
-        // Target vertical del zigzag
         float targetY = baseY + zigDir * zigZagHeight;
 
-        // Movimiento vertical suave
         float newY = Mathf.MoveTowards(
             rb.position.y,
             targetY,
@@ -66,7 +63,6 @@ public class EnemyBee : MonoBehaviour, IDamageable
 
         rb.MovePosition(new Vector2(rb.position.x + dx, newY));
 
-        // Despawn fuera de pantalla
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         float leftEdgeX =
             Camera.main.ViewportToWorldPoint(Vector3.zero).x - sr.bounds.extents.x;
@@ -124,5 +120,12 @@ public class EnemyBee : MonoBehaviour, IDamageable
     public void OnDeathAnimationEnd()
     {
         Destroy(gameObject);
+    }
+
+    public void Freeze()
+    {
+        active = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 }
