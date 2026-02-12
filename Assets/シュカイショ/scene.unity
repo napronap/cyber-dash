@@ -703,7 +703,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 746543574356973692, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: maxHP
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3559855502065521225, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: m_LocalScale.x
@@ -823,7 +823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: backHopCooldown
-      value: 0.25
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: backSpriteScale.x
@@ -871,7 +871,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: attackHitboxActiveTime
-      value: 0.08
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7381032298280122143, guid: 50e02cc200b5f8441b0f21cdd6a324bc, type: 3}
       propertyPath: deathFrames.Array.size
