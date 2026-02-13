@@ -4,16 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Ground
-  - Enemy
-  - enemy
-  - EnemyAttack
-  - PlayerAttack
+  - UIAudio
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Enemy
+  - 
   - Water
   - UI
   - Background
@@ -23,8 +19,8 @@ TagManager:
   - Building
   - Street
   - Character
-  - Enemy
-  - Screen Bounds
+  - 
+  - 
   - 
   - 
   - 
@@ -63,9 +59,6 @@ TagManager:
     locked: 0
   - name: Street
     uniqueID: 3270374387
-    locked: 0
-  - name: Street Foreground
-    uniqueID: 345263037
     locked: 0
   - name: Character
     uniqueID: 2415208647

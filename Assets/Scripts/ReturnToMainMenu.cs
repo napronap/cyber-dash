@@ -1,9 +1,15 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ReturnToMainMenu : MonoBehaviour
 {
-    public void GoToMainMenu()
+    public void YesGoToMainMenu()
     {
-       SceneFadeManager.I.FadeToScene("MainMenuTest");
+       GameFlowManager.I.YesReturnToMainMenu();
+    }
+
+    public void NoBackToPause()
+    {
+        GameFlowManager.I.NoReturnToPause();
     }
 }

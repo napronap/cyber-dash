@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenuTest.unity
     guid: d9eb3c72460e9614f94a749a60ceeee4
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SampleSceneCharacter.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
@@ -20,12 +20,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: c4748062658017044990ff30e84415f3
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/StartGameTest.unity
     guid: 1f2df165f03d83544b7267539b582e5c
   - enabled: 1
     path: Assets/Scenes/Scene_Game.unity
     guid: 72740259f09004942b7ef258c1cf6fdf
+  - enabled: 1
+    path: Assets/Scenes/Pause.unity
+    guid: b7d342c34bfdd2246ab2f7bf0d603d58
+  - enabled: 1
+    path: Assets/Scenes/ReturnToMain.unity
+    guid: e76ba7692c735394190e6b3b3520aca4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: ba0d980829538ea4cba354f09437bf9d, type: 3}
   m_UseUCBPForAssetBundles: 0
